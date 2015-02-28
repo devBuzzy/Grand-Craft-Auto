@@ -1,0 +1,10 @@
+name: GrandCraftAuto
+version: 1.0
+main: we.Heiden.gca.core.Main
+description: Do you wanna play GTA? You can do it now on Minecraft!
+author: Heiden Team
+
+commands:
+    test:
+        usage: /<command>
+        description: test!
