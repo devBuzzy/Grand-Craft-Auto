@@ -1,15 +1,20 @@
 package we.Heiden.gca.Misc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import we.Heiden.gca.Configs.PlayerConfig;
+import we.Heiden.gca.Functions.Bag;
 
 import com.aaomidi.hitslain.coins.engine.HSCoinsAPI;
 
@@ -21,6 +26,7 @@ public class Others {
 	public static final int SlotBag = 7;
 	public static final int SlotMoney = 8;
 	
+	public static List<Player> hasItems = new ArrayList<Player>();
 	
 	public static boolean isInt(Player p, String s, String type, boolean zero, boolean negative, boolean msg) {
 		try {
@@ -59,7 +65,12 @@ public class Others {
 	public static ItemStack getItem(Material mat, short data, String name, String... lore) {return getItem(mat, 1, data, name, lore);}
 	
 	
+	public static List<ItemStack> ItemList(Player p) {return Arrays.asList(ItemMoney(p), ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault());}
+	
+	
 	public static void items(Player p) {
+		new PlayerConfig(p);
+		clear(p);
 		PlayerInventory inv = p.getInventory();
 		int s1 = SlotPistol;
 		int s2 = SlotBag;
@@ -72,8 +83,47 @@ public class Others {
 		if (!inv.contains(ItemJobs())) if (inv.getItem(s3) == null) inv.setItem(s3, ItemJobs()); else inv.addItem(ItemJobs());
 		if (!inv.contains(ItemMoney(p))) if (inv.getItem(s4) == null) inv.setItem(s4, ItemMoney(p)); else inv.addItem(ItemMoney(p));
 		if (!inv.contains(ItemSettings())) if (inv.getItem(s5) == null) inv.setItem(s5, ItemSettings()); else inv.addItem(ItemSettings());
+		
+		for (int n = 0; n < inv.getSize(); n++) if (inv.getItem(n) == null) inv.setItem(n, ItemDefault());
+		hasItems.add(p);
+		if (!Bag.inventories.containsKey(p)) Bag.inventories.put(p, Bukkit.createInventory(null, 36, ChatColor.translateAlternateColorCodes('&', "&a&lPersonal Backpack")));
 	}
 	public static void items() {for (Player p : Bukkit.getOnlinePlayers()) items(p);}
+	public static void save() {for (Player p : Bukkit.getOnlinePlayers()) save(p);}
+	public static void load() {for (Player p : Bukkit.getOnlinePlayers()) load(p);}
+	
+	public static void save(Player p) {
+		PlayerConfig.load(p);
+		Inventory inv = Bag.inventories.get(p);
+		int n = 0;
+		if (inv != null) for (ItemStack i : inv) {
+			PlayerConfig.get().set("Temp.Bag." + n, i);
+			n++;
+		}
+		if (hasItems.contains(p)) PlayerConfig.get().set("Temp.hasItems", "true");
+		PlayerConfig.save();
+	}
+	
+	public static void load(Player p) {
+		PlayerConfig.load(p);
+		if (PlayerConfig.get().contains("Temp.hasItems")) hasItems.add(p);
+		if (PlayerConfig.get().contains("Temp.Bag")) {
+			Inventory inv = Bag.inventories.get(p);
+			for (String s : PlayerConfig.get().getConfigurationSection("Temp.Bag").getKeys(false)) {
+				int slot = Integer.parseInt(s);
+				inv.setItem(slot, PlayerConfig.get().getItemStack("Temp.Bag." + s));
+			}
+			Bag.inventories.put(p, inv);
+		}
+	}
+	
+	public static void clear(Player p) {
+		p.getInventory().clear();
+		p.getInventory().setHelmet(null);
+		p.getInventory().setChestplate(null);
+		p.getInventory().setLeggings(null);
+		p.getInventory().setBoots(null);
+	}
 	
 	public static ItemStack ItemMoney(Player p) {
 		int money = HSCoinsAPI.getPlayer(p).getBalance();
@@ -86,6 +136,7 @@ public class Others {
 	public static ItemStack ItemSettings() {return getItem(Material.COMPASS, "&f&lSettings", "Do you have lag?", "or just you don`t like", "   how some things look?", 
 			" I`ve a &fSolution &5&ofor &fYou", "", "&bJust click me");}
 	/*Gun shot particles, Gun Recharge Effect, Titles, Hotbar, Gun Zoom, Pet visibility, Extra detailed things [particles etc]*/
+	public static ItemStack ItemDefault() {return getItem(Material.STAINED_GLASS_PANE, (short) 7, "&a");}
 	
 	
 	public static ItemStack Pistol01() {return getItem(Material.INK_SACK, (short) 1, "&8&lM1911 &7&o(colt)", "Hey man, you`re on Los Angeles", "I think you will need this...");}

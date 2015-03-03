@@ -1,11 +1,16 @@
 package we.Heiden.gca.core;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import we.Heiden.gca.Events.EventsHandler;
+import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Misc.SettingsEnum;
 
 /**
  * ********************************************* <p>
@@ -20,9 +25,21 @@ import we.Heiden.gca.Misc.Others;
  **/
 public class Main extends JavaPlugin {
 
+	public static Plugin pl;
+	
 	public void onEnable() {
+		pl = this;
 		Others.items();
+		Others.load();
 		new EventsHandler(this);
+		new Timer5T().runTaskTimer(this, 20, 5);
+		Settings.configure();
+		for (Player p : Bukkit.getOnlinePlayers()) SettingsEnum.register(p);
+	}
+	
+	public void onDisable() {
+		Others.save();
+		pl = null;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String CommandLabel, String[] args) {

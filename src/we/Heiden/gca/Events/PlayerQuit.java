@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Misc.Others;
@@ -20,14 +20,13 @@ import we.Heiden.gca.Misc.Others;
  *           Heiden Team 2015 <p></b>
  * ********************************************* 
  **/
-public class PlayerJoin implements Listener {
+public class PlayerQuit implements Listener {
 	
-	public PlayerJoin(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
+	public PlayerQuit(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
 	
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e) {
+	public void onPlayerQuit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		Others.items(p);
-		Others.load(p);
+		Others.save(p);
 	}
 }

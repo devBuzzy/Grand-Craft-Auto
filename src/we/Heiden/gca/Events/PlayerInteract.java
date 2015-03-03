@@ -4,9 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import we.Heiden.gca.Functions.Bag;
+import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Misc.Others;
 
 /**
@@ -20,14 +23,18 @@ import we.Heiden.gca.Misc.Others;
  *           Heiden Team 2015 <p></b>
  * ********************************************* 
  **/
-public class PlayerJoin implements Listener {
+public class PlayerInteract implements Listener {
 	
-	public PlayerJoin(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
+	public PlayerInteract(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
 	
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e) {
+	public void onPlayerInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		Others.items(p);
-		Others.load(p);
+		if (e.getItem() != null) {
+			ItemStack bag = Others.ItemBag();
+			ItemStack settings = Others.ItemSettings();
+			if (e.getItem().equals(bag)) Bag.open(p);
+			else if (e.getItem().equals(settings)) Settings.display(p);
+		}
 	}
 }

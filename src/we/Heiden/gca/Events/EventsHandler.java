@@ -17,5 +17,9 @@ public class EventsHandler {
 
 	public EventsHandler(Plugin pl) {
 		new PlayerJoin(pl);
+		new InventoryClick(pl);
+		new PlayerDropItem(pl);
+		new PlayerInteract(pl);
+		new PlayerQuit(pl);
 	}
 }
