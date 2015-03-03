@@ -63,6 +63,13 @@ public class Others {
 	}
 	public static ItemStack getItem(Material mat, String name, String... lore) {return getItem(mat, 1, (short) 0, name, lore);}
 	public static ItemStack getItem(Material mat, short data, String name, String... lore) {return getItem(mat, 1, data, name, lore);}
+	public static ItemStack getItem(Material mat, int amount, short data, String name, List<String> lore) {
+		String s = "";
+		for (String l : lore) s += l + "gcaspltter";
+		return getItem(mat, amount, data, name, s.split("gcaspltter"));
+	}
+	public static ItemStack getItem(Material mat, short data, String name, List<String> lore) {return getItem(mat, 1, data, name ,lore);}
+	public static ItemStack getItem(Material mat, String name, List<String> lore) {return getItem(mat, 1, (short) 0, name ,lore);}
 	
 	
 	public static List<ItemStack> ItemList(Player p) {return Arrays.asList(ItemMoney(p), ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault());}

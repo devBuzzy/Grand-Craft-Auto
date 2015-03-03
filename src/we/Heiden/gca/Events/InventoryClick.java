@@ -26,6 +26,11 @@ public class InventoryClick implements Listener {
 	
 	public InventoryClick(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
 	
+	public static boolean contains(ItemStack[] list, ItemStack i) {
+		for (ItemStack is : list) if (is.equals(i)) return true;
+		return false;
+	}
+	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
@@ -39,7 +44,16 @@ public class InventoryClick implements Listener {
 				if (invn.equals(Settings.name())) {
 					if (e.getInventory().contains(c)) {
 						e.setCancelled(true);
-						if (Settings.greffectList.contains(c)) Settings.greffects(p);
+						if (!c.equals(Others.ItemDefault())) {
+							if (contains(Settings.gsparticles, c)) Settings.menu01(p);
+							else if (Settings.greffectList.contains(c)) Settings.menu02(p);
+							else if (contains(Settings.titles, c)) Settings.menu03(p);
+							else if (contains(Settings.hotbars, c)) Settings.menu04(p);
+							else if (Settings.gzoomList.contains(c)) Settings.menu05(p);	
+							else if (contains(Settings.pvisibilities, c)) Settings.menu06(p);
+							else if (contains(Settings.eparticles, c)) Settings.menu07(p);
+							else if (Settings.qualityList.contains(c)) Settings.menu08(p);
+						}
 					}
 				}
 			}

@@ -1,6 +1,7 @@
 package we.Heiden.gca.Functions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -128,14 +129,36 @@ public class Settings {
 	}
 
 	public static String name() {return ChatColor.translateAlternateColorCodes('&', "&f&lSettings");}
-	public static String greffectsName() {return ChatColor.translateAlternateColorCodes('&', "&bGun Recharge Effects");}
+	public static String menu01N() {return ChatColor.translateAlternateColorCodes('&', "&6Gun Shot Particles");}
+	public static String menu02N() {return ChatColor.translateAlternateColorCodes('&', "&bGun Recharge Effects");}
+	public static String menu03N() {return ChatColor.translateAlternateColorCodes('&', "&aTitles");}
+	public static String menu04N() {return ChatColor.translateAlternateColorCodes('&', "&9Hotbar Messages");}
+	public static String menu05N() {return ChatColor.translateAlternateColorCodes('&', "&eGun Zoom");}
+	public static String menu06N() {return ChatColor.translateAlternateColorCodes('&', "&dPet Visibility");}
+	public static String menu07N() {return ChatColor.translateAlternateColorCodes('&', "&fExtra Particles");}
+	public static String menu08N() {return ChatColor.translateAlternateColorCodes('&', "&cQuality");}
+	public static String[] menuNames = {menu01N(), menu02N(), menu03N(), menu04N(), menu05N(), menu06N(), menu07N(), menu08N()};
+
+	public static void menu01(Player p) {extraMenu(p, null, menu01N(), Others.getItem(Material.INK_SACK, (short) 1, 
+			menu01N() + " &d(&9%state%&d)", gspartic01.getItemMeta().getLore()), SettingsEnum.GUN_SHOT_PARTICLES.getValues());}
+	public static void menu02(Player p) {extraMenu(p, null, menu02N(), Others.getItem(Material.INK_SACK, (short) 2, 
+			menu02N() + " &d(&9%state%&d)", greffect.getItemMeta().getLore()), SettingsEnum.GUN_RECHARGE_EFFECT.getValues());}
+	public static void menu03(Player p) {extraMenu(p, null, menu03N(), Others.getItem(Material.PAPER, 
+			menu03N() + " &d(&9%state%&d)"), SettingsEnum.TITLES.getValues());}
+	public static void menu04(Player p) {extraMenu(p, null, menu04N(), Others.getItem(Material.COMPASS, 
+			menu04N() + " &d(&9%state%&d)", hotbar01.getItemMeta().getLore()), SettingsEnum.HOTBAR.getValues());}
+	public static void menu05(Player p) {extraMenu(p, Arrays.asList(1,2,3,4,5,7), menu05N(), Others.getItem(Material.INK_SACK, (short) 3, 
+			menu05N() + " &d(&9%state%&d)", gzoom01.getItemMeta().getLore()), SettingsEnum.GUN_ZOOM.getValues());}
+	public static void menu06(Player p) {extraMenu(p, null, menu06N(), Others.getItem(Material.MONSTER_EGG, (short) 95, 
+			menu06N() + " &d(&9%state%&d)"), SettingsEnum.PET_VISIBILITY.getValues());}
+	public static void menu07(Player p) {extraMenu(p, null, menu07N(), Others.getItem(Material.FIREWORK, 
+			menu07N() + " &d(&9%state%&d)", eparticles01.getItemMeta().getLore()), SettingsEnum.EXTRA_PARTICLES.getValues());}
+	public static void menu08(Player p) {extraMenu(p, null, menu08N(), Others.getItem(Material.WATCH, 
+			menu08N() + " &d(&9%state%&d)", quality.getItemMeta().getLore()), SettingsEnum.QUALITY.getValues());}
 	
-	public static void greffects(Player p) {extraMenu(p, null, greffectsName(),
-			Others.getItem(Material.INK_SACK, (short) 2, "&bGun Recharge Effects &d(&9%state%&d)", "Change animation when", "you recharge your guns"), "High", "Med", "Off");}
-	
-	public static void extraMenu(Player p, List<Integer> slot, String title, ItemStack i, String... values) {
+	public static void extraMenu(Player p, List<Integer> slot, String title, ItemStack i, List<String> values) {
 		Inventory inv = Bukkit.createInventory(null, 9, title);
-		int length = values.length;
+		int length = values.size();
 		List<Integer> slots = new ArrayList<Integer>();
 		if (slot == null) {
 			if (length/2*2 != length) {
@@ -152,9 +175,14 @@ public class Settings {
 			ItemStack is = i.clone();
 			is.setAmount(n);
 			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(im.getDisplayName().replace("%state%", values[n-1]));
+			im.setDisplayName(im.getDisplayName().replace("%state%", values.get(n-1)));
 			is.setItemMeta(im);
 			inv.setItem(s, is);
+			n++;
+		}
+		n = 0;
+		for (ItemStack is : inv) {
+			if (is == null) inv.setItem(n, Others.ItemDefault());
 			n++;
 		}
 		p.closeInventory();
