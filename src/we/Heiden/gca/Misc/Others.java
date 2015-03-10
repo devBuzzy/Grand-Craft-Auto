@@ -77,7 +77,7 @@ public class Others {
 	public static ItemStack getItem(Material mat, String name, List<String> lore) {return getItem(mat, 1, (short) 0, name ,lore);}
 	
 	
-	public static List<ItemStack> ItemList(Player p) {return Arrays.asList(ItemMoney(p), ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault());}
+	public static List<ItemStack> ItemList(Player p) {return Arrays.asList(/*ItemMoney(p),*/ ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault(), GearMax());}
 	
 	
 	public static void items(Player p) {

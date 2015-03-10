@@ -50,11 +50,12 @@ public class PlayerInteract implements Listener {
 			ItemStack gdown = Others.GearDown();
 			if (CarsMain.velocity.containsKey(p)) gdown.setAmount(CarsMain.velocity.get(p)-1);
 			
-			if (Others.ItemList(p).contains(c) || c.equals(gdown) || c.equals(gup) || c.equals(Others.GearMax())) e.setCancelled(true);
+			if (Others.ItemList(p).contains(c) || c.equals(gdown) || c.equals(gup)) e.setCancelled(true);
 			
 			if (c.equals(bag)) Bag.open(p);
 			else if (c.equals(settings)) Settings.display(p);
 			else if (c.equals(gup) || c.equals(Others.GearMax())) CarsMain.gearUp(p);
+			else if (c.equals(gdown)) CarsMain.gearDown(p);
 			else if (cars.containsKey(c)) {
 				if (e.getClickedBlock() == null) Messager.e1("You must click a block!");
 				else {

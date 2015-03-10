@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import we.Heiden.gca.Misc.ActionBar;
 import we.Heiden.gca.Misc.Messager;
 import we.Heiden.gca.Misc.Others;
 import we.Heiden.gca.core.Timer20T;
@@ -45,7 +46,7 @@ public class CarsMain {
 		spawnCar(p, car, loc);
 	}
 	
-	public static void updateGear(Player p) {Timer20T.actionBar.put(p, Messager.s("Actual Gear: &b&l" + velocity.get(p)).get(0));}
+	public static void updateGear(Player p) {Timer20T.actionBar.put(p, Messager.s("Actual Gear: &b&l" + velocity.get(p)).get(0)); ActionBar.sendMessage(p, Timer20T.actionBar.get(p));}
 	
 	public static void gearUp(Player p) {
 		Messager.load(p);
@@ -68,5 +69,26 @@ public class CarsMain {
 			p.getInventory().setItem(5, gdown);
 			p.updateInventory();
 		}
+	}
+	
+	public static void gearDown(Player p) {
+		Messager.load(p);
+		int gear = velocity.get(p);
+		int min = enums.get(p).getMin();
+		gear--;
+		
+		velocity.put(p, gear);
+		updateGear(p);
+		
+		ItemStack gup = Others.GearUp();
+		ItemStack gdown = Others.GearDown();
+		
+		if (gear == min) gdown = enums.get(p).getKey();
+		else gdown.setAmount(gear-1);
+		gup.setAmount(gear+1);
+		
+		p.getInventory().setItem(6, gup);
+		p.getInventory().setItem(5, gdown);
+		p.updateInventory();
 	}
 }
