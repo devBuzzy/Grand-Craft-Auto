@@ -21,5 +21,9 @@ public class EventsHandler {
 		new PlayerDropItem(pl);
 		new PlayerInteract(pl);
 		new PlayerQuit(pl);
+		new InventoryClose(pl);
+		new PlayerCommandPreproccess(pl);
+		new VehicleMove(pl);
+		new PlayerInteractEntity(pl);
 	}
 }

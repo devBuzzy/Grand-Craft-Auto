@@ -1,5 +1,7 @@
 package we.Heiden.gca.Events;
 
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Misc.SettingsEnum;
 
 /**
  * ********************************************* <p>
@@ -25,6 +28,8 @@ import we.Heiden.gca.Misc.Others;
 public class InventoryClick implements Listener {
 	
 	public InventoryClick(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
+	
+	public static HashMap<String, SettingsEnum> TitlesMap = new HashMap<String, SettingsEnum>();
 	
 	public static boolean contains(ItemStack[] list, ItemStack i) {
 		for (ItemStack is : list) if (is.equals(i)) return true;
@@ -53,6 +58,20 @@ public class InventoryClick implements Listener {
 							else if (contains(Settings.pvisibilities, c)) Settings.menu06(p);
 							else if (contains(Settings.eparticles, c)) Settings.menu07(p);
 							else if (Settings.qualityList.contains(c)) Settings.menu08(p);
+						}
+					}
+				} else if (Others.contains(Settings.menuNames, invn) && e.getInventory().contains(c)) {
+					e.setCancelled(true);
+					if (c.hasItemMeta()) for (String s : Settings.menuNames) {
+						if (c.getItemMeta().getDisplayName().startsWith(s)) {
+							for (String value : TitlesMap.get(invn).getValues())
+							if (c.getItemMeta().getDisplayName().equals(s + Settings.state().replace("%state%", value))) {
+								SettingsEnum.setPlayer(p);
+								TitlesMap.get(invn).setValue(value);
+								p.closeInventory();
+								break;
+							}
+							break;
 						}
 					}
 				}

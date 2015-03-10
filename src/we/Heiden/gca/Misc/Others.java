@@ -28,6 +28,11 @@ public class Others {
 	
 	public static List<Player> hasItems = new ArrayList<Player>();
 	
+	public static boolean contains(Object[] list, Object i) {
+		for (Object o : list) if (o.equals(i)) return true;
+		return false;
+	}
+	
 	public static boolean isInt(Player p, String s, String type, boolean zero, boolean negative, boolean msg) {
 		try {
 			int i = Integer.parseInt(s);
@@ -82,13 +87,13 @@ public class Others {
 		int s1 = SlotPistol;
 		int s2 = SlotBag;
 		int s3 = SlotJobs;
-		int s4 = SlotMoney;
+		/*int s4 = SlotMoney;*/
 		int s5 = SlotSettings;
 
 		if (!inv.contains(Pistol01())) if (inv.getItem(s1) == null) inv.setItem(s1, Pistol01()); else inv.addItem(Pistol01());
 		if (!inv.contains(ItemBag())) if (inv.getItem(s2) == null) inv.setItem(s2, ItemBag()); else inv.addItem(ItemBag());
 		if (!inv.contains(ItemJobs())) if (inv.getItem(s3) == null) inv.setItem(s3, ItemJobs()); else inv.addItem(ItemJobs());
-		if (!inv.contains(ItemMoney(p))) if (inv.getItem(s4) == null) inv.setItem(s4, ItemMoney(p)); else inv.addItem(ItemMoney(p));
+		/*if (!inv.contains(ItemMoney(p))) if (inv.getItem(s4) == null) inv.setItem(s4, ItemMoney(p)); else inv.addItem(ItemMoney(p));*/
 		if (!inv.contains(ItemSettings())) if (inv.getItem(s5) == null) inv.setItem(s5, ItemSettings()); else inv.addItem(ItemSettings());
 		
 		for (int n = 0; n < inv.getSize(); n++) if (inv.getItem(n) == null) inv.setItem(n, ItemDefault());
@@ -144,6 +149,10 @@ public class Others {
 			" I`ve a &fSolution &5&ofor &fYou", "", "&bJust click me");}
 	/*Gun shot particles, Gun Recharge Effect, Titles, Hotbar, Gun Zoom, Pet visibility, Extra detailed things [particles etc]*/
 	public static ItemStack ItemDefault() {return getItem(Material.STAINED_GLASS_PANE, (short) 7, "&a");}
+	
+	public static ItemStack GearUp() {return getItem(Material.BANNER, (short) 10, "&a&lGear Up");}
+	public static ItemStack GearDown() {return getItem(Material.BANNER, (short) 1, "&c&lGear Down");}
+	public static ItemStack GearMax() {return getItem(Material.BANNER, "&9&lMax Level Reached");}
 	
 	
 	public static ItemStack Pistol01() {return getItem(Material.INK_SACK, (short) 1, "&8&lM1911 &7&o(colt)", "Hey man, you`re on Los Angeles", "I think you will need this...");}

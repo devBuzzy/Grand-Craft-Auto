@@ -34,14 +34,14 @@ public enum SettingsEnum {
 	
 	public String getValue() {return options.get(p).get(this);}
 	
-	public void setDefault() throws Exception {
-		if (p == null) throw new NoSuchFieldException();
+	public void setDefault() throws IllegalStateException {
+		if (p == null) throw new IllegalStateException();
 		else options.get(p).put(this, this.getDefault());
 	}
 	
-	public void setValue(String value) throws IllegalArgumentException, NoSuchFieldException {
+	public void setValue(String value) throws IllegalArgumentException, IllegalStateException {
 		if (!values.contains(value)) throw new IllegalArgumentException();
-		else if (p == null) throw new NoSuchFieldException(); else options.get(p).put(this, value);
+		else if (p == null) throw new IllegalStateException(); else options.get(p).put(this, value);
 	}
 	
 	public static void register(Player p) {
@@ -49,8 +49,8 @@ public enum SettingsEnum {
 		for (SettingsEnum option : SettingsEnum.values()) hm.put(option, option.getDefault()); options.put(p, hm);
 	}
 	
-	public void restore(HashMap<SettingsEnum, String> dates) throws NoSuchFieldException {
-		if (p == null) throw new NoSuchFieldException();
+	public void restore(HashMap<SettingsEnum, String> dates) throws IllegalStateException {
+		if (p == null) throw new IllegalStateException();
 		else options.put(p, dates);
 	}
 	

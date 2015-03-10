@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import we.Heiden.gca.Events.InventoryClick;
 import we.Heiden.gca.Misc.Others;
 import we.Heiden.gca.Misc.SettingsEnum;
 
@@ -36,27 +37,34 @@ public class Settings {
 		qualityList = li;
 	}
 	
+	public static ItemStack replace(ItemStack i, String state) {
+		ItemMeta im = i.getItemMeta();
+		im.setDisplayName(im.getDisplayName().replace("%state%", state));
+		i.setItemMeta(im);
+		return i;
+	}
+	
 	public static ItemStack gspartic01 = Others.getItem(Material.INK_SACK, (short) 1, "&6Gun Shot Particles &2(&aOn&2)",
 			"Toggle Particles that", "follows every shot`s visibility");
 	public static ItemStack gspartic02 = Others.getItem(Material.INK_SACK, 2, (short) 1, "&6Gun Shot Particles &4(&cOff&4)", 
 			"Toggle Particles that", "follows every shot`s visibility");
 	
 	public static ItemStack greffect = Others.getItem(Material.INK_SACK, (short) 2, "&bGun Recharge Effect &5(&9%state%&5)", "Change animation when", "you recharge your guns");
-	public static ItemStack greffect01(String state) {return replace(greffect, state);}
+	public static ItemStack greffect01(String state) {return replace(greffect.clone(), state);}
 	
 	public static ItemStack titles01 = Others.getItem(Material.PAPER, "&aTitles &2(&aOn&2)");
 	public static ItemStack titles02 = Others.getItem(Material.PAPER, 2, (short) 0, "&aTitles &4(&cOff&4)");
 	
 	public static ItemStack hotbar01 = Others.getItem(Material.COMPASS, (short) 0,
 			"&9Hotbar Messages &2(&aOn&2)", "Toggle Hotbar Messages", "&4Warning: &fSome messages", "&fWill still being displayed");
-	public static ItemStack hotbar02 = Others.getItem(Material.COMPASS, 2, (short) 1, 
+	public static ItemStack hotbar02 = Others.getItem(Material.COMPASS, 2, (short) 0, 
 			"&9Hotbar Messages &4(&cOff&4)", "Toggle Hotbar Messages", "&4Warning: &fSome messages", "&fWill still being displayed");
 	
 	public static ItemStack gzoom01 = Others.getItem(Material.INK_SACK, (short) 3, 
 			"&eGun Zoom &2(&a%state%&2)", "Toggles Zoom when you", "use zoom on your guns", "&fWill not affect", "&fNight Vision");
 	public static ItemStack gzoom02 = Others.getItem(Material.INK_SACK, 2, (short) 3, 
 			"&eGun Zoom &4(&cOff&4)", "Toggles Zoom when you", "use zoom on your guns", "&fWill not affect", "&fNight Vision");
-	public static ItemStack gzoom03(String state) {return replace(gzoom01, state);}
+	public static ItemStack gzoom03(String state) {return replace(gzoom01.clone(), state);}
 	
 	public static ItemStack pvisibility01 = Others.getItem(Material.MONSTER_EGG, (short) 95, "&dPet Visibility &2(&aOn&2)");
 	public static ItemStack pvisibility02 = Others.getItem(Material.MONSTER_EGG, 2, (short) 95, "&dPet Visibility &4(&cOff&4)");
@@ -66,7 +74,7 @@ public class Settings {
 	
 	public static ItemStack quality = Others.getItem(Material.WATCH,
 			"&cQuality &5(&9%state%&5)", "Changes Quality of", "Resource Pack", "&cWarning: &fThis means", "&fDownloading another", "&fResource Pack!");
-	public static ItemStack quality01(String state) {return replace(quality, state);}
+	public static ItemStack quality01(String state) {return replace(quality.clone(), state);}
 	
 	public static ItemStack[] gsparticles = {gspartic01, gspartic02};
 	public static List<ItemStack> greffectList;
@@ -76,13 +84,20 @@ public class Settings {
 	public static ItemStack[] pvisibilities = {pvisibility01, pvisibility02};
 	public static ItemStack[] eparticles = {eparticles01, eparticles02};
 	public static List<ItemStack> qualityList;
-	
-	public static ItemStack replace(ItemStack i, String state) {
-		ItemMeta im = i.getItemMeta();
-		im.setDisplayName(im.getDisplayName().replace("%state%", state));
-		i.setItemMeta(im);
-		return i;
-	}
+
+	public static Inventory inv1 = extraMenu(null, menu01N(), Others.getItem(Material.INK_SACK, (short) 1, 
+			menu01N() + state(), gspartic01.getItemMeta().getLore()), SettingsEnum.GUN_SHOT_PARTICLES);
+	public static Inventory inv2 = extraMenu(null, menu02N(), Others.getItem(Material.INK_SACK, (short) 2, 
+			menu02N() + state(), greffect.getItemMeta().getLore()), SettingsEnum.GUN_RECHARGE_EFFECT);
+	public static Inventory inv3 = extraMenu(null, menu03N(), Others.getItem(Material.PAPER, menu03N() + state()), SettingsEnum.TITLES);
+	public static Inventory inv4 = extraMenu(null, menu04N(), Others.getItem(Material.COMPASS, menu04N() + state(), hotbar01.getItemMeta().getLore()), SettingsEnum.HOTBAR);
+	public static Inventory inv5 = extraMenu(Arrays.asList(1,2,3,4,5,7), menu05N(), Others.getItem(Material.INK_SACK, (short) 3, 
+			menu05N() + state(), gzoom01.getItemMeta().getLore()), SettingsEnum.GUN_ZOOM);
+	public static Inventory inv6 = extraMenu(null, menu06N(), Others.getItem(Material.MONSTER_EGG, (short) 95, menu06N() + state()), SettingsEnum.PET_VISIBILITY);
+	public static Inventory inv7 = extraMenu(null, menu07N(), Others.getItem(Material.FIREWORK, 
+			menu07N() + state(), eparticles01.getItemMeta().getLore()), SettingsEnum.EXTRA_PARTICLES);
+	public static Inventory inv8 = extraMenu(null, menu08N(), Others.getItem(Material.WATCH, 
+			menu08N() + state(), quality.getItemMeta().getLore()), SettingsEnum.QUALITY);
 	
 	public static void display(Player p) {
 		Inventory inv = Bukkit.createInventory(null, 18, name());
@@ -124,7 +139,6 @@ public class Settings {
 		inv.setItem(16, i07);
 		inv.setItem(8, i08);
 		
-		p.closeInventory();
 		p.openInventory(inv);
 	}
 
@@ -139,24 +153,20 @@ public class Settings {
 	public static String menu08N() {return ChatColor.translateAlternateColorCodes('&', "&cQuality");}
 	public static String[] menuNames = {menu01N(), menu02N(), menu03N(), menu04N(), menu05N(), menu06N(), menu07N(), menu08N()};
 
-	public static void menu01(Player p) {extraMenu(p, null, menu01N(), Others.getItem(Material.INK_SACK, (short) 1, 
-			menu01N() + " &d(&9%state%&d)", gspartic01.getItemMeta().getLore()), SettingsEnum.GUN_SHOT_PARTICLES.getValues());}
-	public static void menu02(Player p) {extraMenu(p, null, menu02N(), Others.getItem(Material.INK_SACK, (short) 2, 
-			menu02N() + " &d(&9%state%&d)", greffect.getItemMeta().getLore()), SettingsEnum.GUN_RECHARGE_EFFECT.getValues());}
-	public static void menu03(Player p) {extraMenu(p, null, menu03N(), Others.getItem(Material.PAPER, 
-			menu03N() + " &d(&9%state%&d)"), SettingsEnum.TITLES.getValues());}
-	public static void menu04(Player p) {extraMenu(p, null, menu04N(), Others.getItem(Material.COMPASS, 
-			menu04N() + " &d(&9%state%&d)", hotbar01.getItemMeta().getLore()), SettingsEnum.HOTBAR.getValues());}
-	public static void menu05(Player p) {extraMenu(p, Arrays.asList(1,2,3,4,5,7), menu05N(), Others.getItem(Material.INK_SACK, (short) 3, 
-			menu05N() + " &d(&9%state%&d)", gzoom01.getItemMeta().getLore()), SettingsEnum.GUN_ZOOM.getValues());}
-	public static void menu06(Player p) {extraMenu(p, null, menu06N(), Others.getItem(Material.MONSTER_EGG, (short) 95, 
-			menu06N() + " &d(&9%state%&d)"), SettingsEnum.PET_VISIBILITY.getValues());}
-	public static void menu07(Player p) {extraMenu(p, null, menu07N(), Others.getItem(Material.FIREWORK, 
-			menu07N() + " &d(&9%state%&d)", eparticles01.getItemMeta().getLore()), SettingsEnum.EXTRA_PARTICLES.getValues());}
-	public static void menu08(Player p) {extraMenu(p, null, menu08N(), Others.getItem(Material.WATCH, 
-			menu08N() + " &d(&9%state%&d)", quality.getItemMeta().getLore()), SettingsEnum.QUALITY.getValues());}
+	public static void menu01(Player p) {p.openInventory(inv1);}
+	public static void menu02(Player p) {p.openInventory(inv2);}
+	public static void menu03(Player p) {p.openInventory(inv3);}
+	public static void menu04(Player p) {p.openInventory(inv4);}
+	public static void menu05(Player p) {p.openInventory(inv5);}
+	public static void menu06(Player p) {p.openInventory(inv6);}
+	public static void menu07(Player p) {p.openInventory(inv7);}
+	public static void menu08(Player p) {p.openInventory(inv8);}
 	
-	public static void extraMenu(Player p, List<Integer> slot, String title, ItemStack i, List<String> values) {
+	public static String state() {return ChatColor.translateAlternateColorCodes('&', " &d(&9%state%&d)");}
+	
+	public static Inventory extraMenu(List<Integer> slot, String title, ItemStack i, SettingsEnum settings) {
+		if (!InventoryClick.TitlesMap.containsKey(title)) InventoryClick.TitlesMap.put(title, settings);
+		List<String> values = settings.getValues();
 		Inventory inv = Bukkit.createInventory(null, 9, title);
 		int length = values.size();
 		List<Integer> slots = new ArrayList<Integer>();
@@ -185,7 +195,6 @@ public class Settings {
 			if (is == null) inv.setItem(n, Others.ItemDefault());
 			n++;
 		}
-		p.closeInventory();
-		p.openInventory(inv);
+		return inv;
 	}
 }
