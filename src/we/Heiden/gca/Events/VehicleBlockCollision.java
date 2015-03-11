@@ -14,6 +14,7 @@ package we.Heiden.gca.Events;
 
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,12 +45,14 @@ public class VehicleBlockCollision implements Listener{
     public void VehicleCollison (VehicleBlockCollisionEvent e) {
         if (e.getVehicle() instanceof Minecart) {
             if (e.getVehicle().getPassenger() instanceof Player) {
-                Player p = (Player) e.getVehicle().getPassenger();
-                if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(p)) {
-                    CarsMain.setGear(p, 1);
-                    Messager.e1("Your Have Crash, Please Turn Your Car Back Again!");
-                    VehicleMove.CarStoped.add(p);
-                    Timer20T.actionBar.remove(p);
+                if (!e.getBlock().getType().equals(Material.AIR)) {
+                    Player p = (Player) e.getVehicle().getPassenger();
+                    if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(p)) {
+                        CarsMain.setGear(p, 1);
+                        Messager.e1("Your Have Crash, Please Turn Your Car Back Again");
+                        VehicleMove.CarStoped.add(p);
+                        Timer20T.actionBar.remove(p);
+                    }
                 }
             }
         }
