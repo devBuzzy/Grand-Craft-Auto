@@ -18,8 +18,6 @@ import we.Heiden.gca.Cars.CarsEnum;
 import we.Heiden.gca.Configs.PlayerConfig;
 import we.Heiden.gca.Functions.Bag;
 
-import com.aaomidi.hitslain.coins.engine.HSCoinsAPI;
-
 public class Others {
 	
 	public static void setup() {
@@ -167,7 +165,8 @@ public class Others {
 	}
 	
 	public static ItemStack ItemMoney(Player p) {
-		int money = HSCoinsAPI.getPlayer(p).getBalance();
+		//int money = HSCoinsAPI.getPlayer(p).getBalance();
+        int money = 0;
 		return getItem(Material.WHEAT, "&6&lMoney: &d" + money, "Use this to keep ", "track of your money");
 	}
 	public static ItemStack ItemJobs() {return getItem(Material.NETHER_STAR, "&b&lJobs Selector", "Here you can &9&owin", 
