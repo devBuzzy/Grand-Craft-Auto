@@ -12,6 +12,7 @@ import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Cars.CarsMain;
+import we.Heiden.gca.Misc.CMessager;
 import we.Heiden.gca.Misc.Messager;
 
 /**
@@ -44,8 +45,11 @@ public class VehicleExit implements Listener {
 					Messager.e1("Exit again to exit, Turn on your car to cancel");
 					e.setCancelled(true);
 				} else {
-					Messager.e1("Algun dia esto se configurara :3");
-					e.setCancelled(true);
+					Messager.s1("Successfully Exit");
+					CMessager.load(p);
+					CMessager.e1("Your car will go to the garage on 5 minutes");
+					CarsMain.vec.remove(p);
+					p.getInventory().setItem(6, CarsMain.enums.get(p).getKey());
 				}
 			}
 		}

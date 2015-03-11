@@ -62,16 +62,20 @@ public class PlayerInteract implements Listener {
 					}
 				}
 			} else if (CarsMain.enums.containsKey(p) && c.equals(CarsMain.enums.get(p).getKey()) && p.getLocation().getPitch() > 45F) {
-				CarsMain.players.get(p).setVelocity(p.getLocation().getDirection().multiply(0.1));
-				CarsMain.vec.put(p, p.getLocation().getDirection());
-				CarsMain.updateGear(p);
-				p.getInventory().setItem(5, CarsMain.enums.get(p).getKey());
-                VehicleMove.CarStoped.remove(p);
-				if (gup.getAmount() > CarsMain.enums.get(p).getMax()) p.getInventory().setItem(6, Others.GearMax());
-				else p.getInventory().setItem(6, gup);
-				p.updateInventory();
-				VehicleMove.CarStoped.remove(p);
-				VehicleExit.confirm.remove(p);
+				if (!VehicleMove.CarStoped.contains(p)) {
+					CarsMain.players.get(p).setVelocity(p.getLocation().getDirection().multiply(0.1));
+					CarsMain.vec.put(p, p.getLocation().getDirection());
+					CarsMain.updateGear(p);
+					p.getInventory().setItem(5, CarsMain.enums.get(p).getKey());
+					if (gup.getAmount() > CarsMain.enums.get(p).getMax()) p.getInventory().setItem(6, Others.GearMax());
+					else p.getInventory().setItem(6, gup);
+					p.updateInventory();
+					VehicleMove.CarStoped.remove(p);
+					VehicleExit.confirm.remove(p);
+				} else {
+					VehicleMove.CarStoped.add(p);
+					Messager.s1("Car Stoped");
+				}
 			}
 		}
 	}
