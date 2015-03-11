@@ -1,5 +1,8 @@
 package we.Heiden.gca.Events;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
@@ -25,15 +28,23 @@ import we.Heiden.gca.Misc.Messager;
 public class VehicleExit implements Listener {
 	
 	public VehicleExit(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
+
+	public static List<Player> confirm = new ArrayList<Player>();
 	
 	@EventHandler
 	public void onVehicleExit(VehicleExitEvent e) {
 		if (e.getVehicle() instanceof Minecart && e.getVehicle().getPassenger() instanceof Player) {
 			if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(e.getVehicle().getPassenger())) {
-				Minecart vehicle = (Minecart) e.getVehicle();
 				Player p = (Player) e.getVehicle().getPassenger();
 				Messager.load(p);
 				if (!VehicleMove.CarStoped.contains(p)) {
+					Messager.e1("You must stop your car first");
+					e.setCancelled(true);
+				} else if (!confirm.contains(p)) {
+					Messager.e1("Exit again to exit, Turn on your car to cancel");
+					e.setCancelled(true);
+				} else {
+					Messager.e1("Algun dia esto se configurara :3");
 					e.setCancelled(true);
 				}
 			}

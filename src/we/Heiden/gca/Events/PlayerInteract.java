@@ -61,7 +61,7 @@ public class PlayerInteract implements Listener {
 						p.setItemInHand(Others.cars.get(c).getKey());
 					}
 				}
-			} else if (CarsMain.enums.containsKey(p) && c.equals(CarsMain.enums.get(p).getKey())) {
+			} else if (CarsMain.enums.containsKey(p) && c.equals(CarsMain.enums.get(p).getKey()) && p.getLocation().getPitch() > 45F) {
 				CarsMain.players.get(p).setVelocity(p.getLocation().getDirection().multiply(0.1));
 				CarsMain.vec.put(p, p.getLocation().getDirection());
 				CarsMain.updateGear(p);
@@ -71,6 +71,7 @@ public class PlayerInteract implements Listener {
 				else p.getInventory().setItem(6, gup);
 				p.updateInventory();
 				VehicleMove.CarStoped.remove(p);
+				VehicleExit.confirm.remove(p);
 			}
 		}
 	}

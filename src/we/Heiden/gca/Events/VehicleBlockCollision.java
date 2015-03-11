@@ -47,7 +47,7 @@ public class VehicleBlockCollision implements Listener{
                 Player p = (Player) e.getVehicle().getPassenger();
                 if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(p)) {
                     CarsMain.setGear(p, 1);
-                    Messager.e1("Your Have Crash, Please Turn Your Car Back Again!");
+                    Messager.e1("Your Have Crash, Please Turn Your Car Back");
                     VehicleMove.CarStoped.add(p);
                     Timer20T.actionBar.remove(p);
                 }
