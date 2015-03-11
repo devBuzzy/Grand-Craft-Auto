@@ -38,6 +38,7 @@ public class Main extends JavaPlugin {
 		/*new Timer5T().runTaskTimer(this, 20, 5);*/
 		new Timer20T().runTaskTimer(this, 20, 20);
 		Settings.configure();
+		Others.setup();
 		for (Player p : Bukkit.getOnlinePlayers()) SettingsEnum.register(p);
 	}
 	

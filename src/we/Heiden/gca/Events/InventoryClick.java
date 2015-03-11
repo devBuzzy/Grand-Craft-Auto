@@ -41,7 +41,7 @@ public class InventoryClick implements Listener {
 		Player p = (Player) e.getWhoClicked();
 		if (e.getCurrentItem() != null) {
 			ItemStack c = e.getCurrentItem();
-			if (Others.ItemList(p).contains(c)) {
+			if (Others.getItem(p).contains(c)) {
 				e.setCancelled(true);
 				p.updateInventory();
 			} else {
@@ -79,7 +79,7 @@ public class InventoryClick implements Listener {
 		}
 		if (e.getCursor() != null) {
 			ItemStack c = e.getCursor();
-			if (Others.ItemList(p).contains(c)) {
+			if (Others.getItem(p).contains(c)) {
 				e.setCancelled(true);
 				p.updateInventory();
 			}

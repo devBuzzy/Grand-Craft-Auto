@@ -2,6 +2,7 @@ package we.Heiden.gca.Misc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -13,11 +14,43 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import we.Heiden.gca.Cars.CarsEnum;
 import we.Heiden.gca.Configs.PlayerConfig;
 import we.Heiden.gca.Functions.Bag;
 
 public class Others {
+	
+	public static void setup() {
+		setCars();
+		setKeys();
+		setItems();
+	}
 
+	public static void setCars() {for (CarsEnum e : CarsEnum.values()) cars.put(e.getItem(), e);}
+	public static void setKeys() {for (CarsEnum e : CarsEnum.values()) keys.add(e.getItem());}
+	public static void setItems() {
+		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault(), GearMax()));
+		items.addAll(cars.keySet());
+		items.addAll(keys);
+		for (int n = 1; n <= 10; n++) {
+			ItemStack i = GearUp();
+			ItemStack i2 = GearDown();
+			i.setAmount(n);
+			i2.setAmount(n);
+			items.addAll(Arrays.asList(i, i2));
+		}
+	}
+	
+	public static List<ItemStack> getItem(Player p) {
+		List<ItemStack> is = items;
+		/*is.add(ItemMoney(p));*/
+		return is;
+	}
+
+	public static HashMap<ItemStack, CarsEnum> cars = new HashMap<ItemStack, CarsEnum>();
+	public static List<ItemStack> keys = new ArrayList<ItemStack>();
+	public static List<ItemStack> items = new ArrayList<ItemStack>();
+	
 	public static final int SlotPistol = 0;
 	public static final int SlotSettings = 1;
 	public static final int SlotJobs = 4;
@@ -73,10 +106,6 @@ public class Others {
 	}
 	public static ItemStack getItem(Material mat, short data, String name, List<String> lore) {return getItem(mat, 1, data, name ,lore);}
 	public static ItemStack getItem(Material mat, String name, List<String> lore) {return getItem(mat, 1, (short) 0, name ,lore);}
-	
-	
-	public static List<ItemStack> ItemList(Player p) {return Arrays.asList(/*ItemMoney(p),*/ ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault(), GearMax());}
-	
 	
 	public static void items(Player p) {
 		new PlayerConfig(p);

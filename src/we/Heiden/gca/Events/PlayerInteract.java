@@ -1,7 +1,5 @@
 package we.Heiden.gca.Events;
 
-import java.util.HashMap;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -11,7 +9,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import we.Heiden.gca.Cars.CarsEnum;
 import we.Heiden.gca.Cars.CarsMain;
 import we.Heiden.gca.Functions.Bag;
 import we.Heiden.gca.Functions.Settings;
@@ -31,11 +28,7 @@ import we.Heiden.gca.Misc.Others;
  **/
 public class PlayerInteract implements Listener {
 	
-	public static HashMap<ItemStack, CarsEnum> cars = new HashMap<ItemStack, CarsEnum>();
-	
-	public PlayerInteract(Plugin pl) {
-		Bukkit.getPluginManager().registerEvents(this, pl);
-		for (CarsEnum car : CarsEnum.values()) cars.put(car.getItem(), car);}
+	public PlayerInteract(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
@@ -50,22 +43,22 @@ public class PlayerInteract implements Listener {
 			ItemStack gdown = Others.GearDown();
 			if (CarsMain.velocity.containsKey(p)) gdown.setAmount(CarsMain.velocity.get(p)-1);
 			
-			if (Others.ItemList(p).contains(c) || c.equals(gdown) || c.equals(gup)) e.setCancelled(true);
+			if (Others.getItem(p).contains(c)) e.setCancelled(true);
 			
 			if (c.equals(bag)) Bag.open(p);
 			else if (c.equals(settings)) Settings.display(p);
 			else if (c.equals(gup) || c.equals(Others.GearMax())) CarsMain.gearUp(p);
 			else if (c.equals(gdown)) CarsMain.gearDown(p);
-			else if (cars.containsKey(c)) {
+			else if (Others.cars.containsKey(c)) {
 				if (e.getClickedBlock() == null) Messager.e1("You must click a block!");
 				else {
 					Location loc = e.getClickedBlock().getLocation();
 					loc.setY(loc.getY()+1);
 					if (!VehicleMove.rideable(loc)) Messager.e1("You must use it on the street");
 					else {
-						CarsMain.spawnCar(p, cars.get(c), loc);
+						CarsMain.spawnCar(p, Others.cars.get(c), loc);
 						Messager.s1("Car Spawned!");
-						p.setItemInHand(cars.get(c).getKey());
+						p.setItemInHand(Others.cars.get(c).getKey());
 					}
 				}
 			} else if (CarsMain.enums.containsKey(p) && c.equals(CarsMain.enums.get(p).getKey())) {
@@ -77,6 +70,7 @@ public class PlayerInteract implements Listener {
 				if (gup.getAmount() > CarsMain.enums.get(p).getMax()) p.getInventory().setItem(6, Others.GearMax());
 				else p.getInventory().setItem(6, gup);
 				p.updateInventory();
+				VehicleMove.CarStoped.remove(p);
 			}
 		}
 	}

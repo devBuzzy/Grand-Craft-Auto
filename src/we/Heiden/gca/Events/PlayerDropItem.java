@@ -25,8 +25,6 @@ public class PlayerDropItem implements Listener {
 	
 	@EventHandler
 	public void onPlayerItemDrop(PlayerDropItemEvent e) {
-		if (e.getItemDrop() != null) {
-			if (Others.ItemList(e.getPlayer()).contains(e.getItemDrop().getItemStack())) e.setCancelled(true);
-		}
+		if (e.getItemDrop() != null) {if (Others.getItem(e.getPlayer()).contains(e.getItemDrop().getItemStack())) e.setCancelled(true);}
 	}
 }
