@@ -25,5 +25,6 @@ public class EventsHandler {
 		new PlayerCommandPreproccess(pl);
 		new VehicleMove(pl);
 		new PlayerInteractEntity(pl);
+        new VehicleBlockCollision(pl);
 	}
 }
