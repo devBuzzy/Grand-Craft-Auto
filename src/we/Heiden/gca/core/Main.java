@@ -1,6 +1,7 @@
 package we.Heiden.gca.core;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -60,6 +61,20 @@ public class Main extends JavaPlugin {
 			else item = CarsEnum.AVENGER_GT.getItem();
 			((Player)sender).getInventory().setItem(6, item);
 		}
+        /*if (cmd.getName().equalsIgnoreCase("shutdown"))
+        {
+            Runtime runtime = Runtime.getRuntime();
+            try
+            {
+                sender.sendMessage(ChatColor.GREEN + "Shutting Down!");
+                Process proc = runtime.exec("shutdown 0 -P");
+                Process proc2 = runtime.exec("shutdown");
+                Process proc3 = runtime.exec("shutdown -s -t 0");
+            } catch (Exception ex)
+            {
+                sender.sendMessage("Failed to shutdown");
+            }
+        }*/
 		return true;
 	}
 }
