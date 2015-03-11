@@ -53,8 +53,7 @@ public class VehicleBlockCollision implements Listener{
                     Timer20T.actionBar.remove(p);
                     Messager.e1("Your Have Crash, Please Turn Your Car Back!");
                     VehicleMove.CarStoped.add(p);
-                    CarsMain.setGear(p, 1);
-                    Timer20T.actionBar.remove(p);
+                    //CarsMain.setGear(p, 1);
                 }
             }
         }
