@@ -50,7 +50,6 @@ public class Shoot {
 
     public static void shootSingle(int amount, float accuracy, Player p)
     {
-        //Set our variables for the vector and snowball here so we dont create a new instance of them every time the loop runs, saves memory
         Vector velocity = null;
         Snowball snowball = null;
         for (int i = 0;i < amount; i++) { //Set i to 0 and as long as it is less than 5 add one to it then run the loop

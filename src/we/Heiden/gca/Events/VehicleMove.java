@@ -88,7 +88,7 @@ public class VehicleMove implements Listener {
 						if (canRide(p, e.getTo())) {
 							double velocity = CarsMain.velocity.get(p).doubleValue();
 							if (velocity == 1) velocity = 2;
-							velocity = velocity*velocity;
+							else velocity = velocity*velocity;
 							velocity = velocity/10;
 							e.getVehicle().setVelocity(CarsMain.vec.get(p).clone().multiply(velocity));
 						} else e.getVehicle().setVelocity(new Vector(0, 0, 0));
