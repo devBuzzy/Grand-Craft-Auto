@@ -1,10 +1,14 @@
 package we.Heiden.gca.Events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Minecart;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.plugin.Plugin;
+
+import we.Heiden.gca.Cars.CarsMain;
 
 /**
  * ********************************************* <p>
@@ -23,12 +27,12 @@ public class VehicleExit implements Listener {
 	
 	@EventHandler
 	public void onVehicleExit(VehicleExitEvent e) {
-		/*if (e.getVehicle() instanceof Minecart && e.getVehicle().getPassenger() instanceof Player) {
+		if (e.getVehicle() instanceof Minecart && e.getVehicle().getPassenger() instanceof Player) {
 			if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(e.getVehicle().getPassenger())) {
 				Minecart vehicle = (Minecart) e.getVehicle();
 				Player p = (Player) e.getVehicle().getPassenger();
 				
 			}
-		}*/
+		}
 	}
 }
