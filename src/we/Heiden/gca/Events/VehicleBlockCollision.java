@@ -41,19 +41,15 @@ public class VehicleBlockCollision implements Listener{
     public VehicleBlockCollision (Plugin pl) { Bukkit.getPluginManager().registerEvents(this, pl); }
 
     @EventHandler
-    public void VehicleCollison (VehicleBlockCollisionEvent e)
-    {
-        if (e.getVehicle() instanceof Minecart)
-        {
-            if (e.getVehicle().getPassenger() instanceof Player)
-            {
+    public void VehicleCollison (VehicleBlockCollisionEvent e) {
+        if (e.getVehicle() instanceof Minecart) {
+            if (e.getVehicle().getPassenger() instanceof Player) {
                 Player p = (Player) e.getVehicle().getPassenger();
-                if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(p))
-                {
-                    Timer20T.actionBar.remove(p);
-                    Messager.e1("Your Have Crash, Please Turn Your Car Back Again");
+                if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(p)) {
+                    CarsMain.setGear(p, 1);
+                    Messager.e1("Your Have Crash, Please Turn Your Car Back Again!");
                     VehicleMove.CarStoped.add(p);
-                    //CarsMain.setGear(p, 1);
+                    Timer20T.actionBar.remove(p);
                 }
             }
         }
