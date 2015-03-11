@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import we.Heiden.gca.Events.VehicleMove;
 import we.Heiden.gca.Misc.ActionBar;
 import we.Heiden.gca.Misc.Messager;
 import we.Heiden.gca.Misc.Others;
@@ -19,9 +20,9 @@ import we.Heiden.gca.core.Timer20T;
 
 public class CarsMain {
 
-	public static HashMap <Entity, Player> vehicles = new HashMap<Entity, Player>();
-	public static HashMap <Player, Entity> players = new HashMap<Player, Entity>();
-	public static HashMap <Player, CarsEnum> enums = new HashMap<Player, CarsEnum>();
+	public static HashMap<Entity, Player> vehicles = new HashMap<Entity, Player>();
+	public static HashMap<Player, Entity> players = new HashMap<Player, Entity>();
+	public static HashMap<Player, CarsEnum> enums = new HashMap<Player, CarsEnum>();
 	public static HashMap<Player, Integer> velocity = new HashMap<Player, Integer>();
 	public static HashMap<Player, Vector> vec = new HashMap<Player, Vector>();
 
@@ -37,6 +38,7 @@ public class CarsMain {
 		velocity.put(p, 1);
 		players.put(p, vehicle);
 		enums.put(p, car);
+		VehicleMove.CarStoped.add(p);
 	}
 	
 	public static void spawnCar(Player p, CarsEnum car) {
@@ -72,7 +74,6 @@ public class CarsMain {
 	}
 	
 	public static void gearDown(Player p) {
-		Messager.load(p);
 		int gear = velocity.get(p);
 		int min = enums.get(p).getMin();
 		gear--;
@@ -86,6 +87,30 @@ public class CarsMain {
 		if (gear == min) gdown = enums.get(p).getKey();
 		else gdown.setAmount(gear-1);
 		gup.setAmount(gear+1);
+		
+		p.getInventory().setItem(6, gup);
+		p.getInventory().setItem(5, gdown);
+		p.updateInventory();
+	}
+	
+	public static void setGear(Player p, int n) {
+		if (!players.containsKey(p)) return;
+		CarsEnum e = enums.get(p);
+		if (n > e.getMax()) n = e.getMax();
+		else if (n < e.getMin()) n = e.getMin();
+		velocity.put(p, n);
+		updateGear(p);
+		
+		int max = enums.get(p).getMax();
+		int min = enums.get(p).getMin();
+		
+		ItemStack gup = Others.GearUp();
+		ItemStack gdown = Others.GearDown();
+		
+		if (n != max) gup.setAmount(n+1);
+		else gup = Others.GearMax();
+		if (n == min) gdown = enums.get(p).getKey();
+		else gdown.setAmount(n-1);
 		
 		p.getInventory().setItem(6, gup);
 		p.getInventory().setItem(5, gdown);
