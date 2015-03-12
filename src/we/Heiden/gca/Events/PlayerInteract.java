@@ -14,6 +14,7 @@ import we.Heiden.gca.Functions.Bag;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Misc.Messager;
 import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.core.Timer20T;
 
 /**
  * ********************************************* <p>
@@ -58,23 +59,28 @@ public class PlayerInteract implements Listener {
 					else {
 						CarsMain.spawnCar(p, Others.cars.get(c), loc);
 						Messager.s1("Car Spawned!");
-						p.setItemInHand(Others.cars.get(c).getKey());
+						p.getInventory().setItem(6, Others.cars.get(c).getKey());
+						p.getInventory().setItem(5, Others.Garage());
+						p.updateInventory();
 					}
 				}
 			} else if (CarsMain.enums.containsKey(p) && c.equals(CarsMain.enums.get(p).getKey()) && p.getLocation().getPitch() > 45F) {
-				if (!VehicleMove.CarStoped.contains(p)) {
+				if (VehicleMove.CarStoped.contains(p)) {
 					CarsMain.players.get(p).setVelocity(p.getLocation().getDirection().multiply(0.1));
 					CarsMain.vec.put(p, p.getLocation().getDirection());
-					CarsMain.updateGear(p);
+					CarsMain.setGear(p, 1);
+					CarsMain.updateGear(p);/*
 					p.getInventory().setItem(5, CarsMain.enums.get(p).getKey());
 					if (gup.getAmount() > CarsMain.enums.get(p).getMax()) p.getInventory().setItem(6, Others.GearMax());
 					else p.getInventory().setItem(6, gup);
-					p.updateInventory();
+					p.updateInventory();*/
 					VehicleMove.CarStoped.remove(p);
 					VehicleExit.confirm.remove(p);
 				} else {
 					VehicleMove.CarStoped.add(p);
+					CarsMain.setGear(p, 0);
 					Messager.s1("Car Stoped");
+					Timer20T.actionBar.remove(p);
 				}
 			}
 		}

@@ -8,3 +8,6 @@ commands:
     test:
         usage: /<command>
         description: test!
+    setgarage:
+        usage: /<command>
+        description: Set a garage!

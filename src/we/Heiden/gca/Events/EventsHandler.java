@@ -2,6 +2,8 @@ package we.Heiden.gca.Events;
 
 import org.bukkit.plugin.Plugin;
 
+import we.Heiden.gca.Misc.Wand;
+
 /**
  * ********************************************* <p>
  * <b>This has been made by <i>Heiden Team</b>
@@ -27,5 +29,6 @@ public class EventsHandler {
 		new PlayerInteractEntity(pl);
 		new VehicleExit(pl);
         new VehicleBlockCollision(pl);
+        new Wand(pl);
 	}
 }

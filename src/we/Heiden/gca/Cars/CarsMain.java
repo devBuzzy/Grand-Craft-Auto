@@ -96,8 +96,10 @@ public class CarsMain {
 	public static void setGear(Player p, int n) {
 		if (!players.containsKey(p)) return;
 		CarsEnum e = enums.get(p);
-		if (n > e.getMax()) n = e.getMax();
-		else if (n < e.getMin()) n = e.getMin();
+		if (n != 0) {
+			if (n > e.getMax()) n = e.getMax();
+			else if (n < e.getMin()) n = e.getMin();
+		}
 		velocity.put(p, n);
 		updateGear(p);
 		
@@ -107,10 +109,15 @@ public class CarsMain {
 		ItemStack gup = Others.GearUp();
 		ItemStack gdown = Others.GearDown();
 		
-		if (n != max) gup.setAmount(n+1);
-		else gup = Others.GearMax();
-		if (n == min) gdown = enums.get(p).getKey();
-		else gdown.setAmount(n-1);
+		if (n != 0) {
+			if (n != max) gup.setAmount(n+1);
+			else gup = Others.GearMax();
+			if (n == min) gdown = enums.get(p).getKey();
+			else gdown.setAmount(n-1);
+		} else {
+			gup = enums.get(p).getKey();
+			gdown = Others.Garage();
+		}
 		
 		p.getInventory().setItem(6, gup);
 		p.getInventory().setItem(5, gdown);

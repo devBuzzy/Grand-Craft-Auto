@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 public class CMessager {
 
-	private static Player p;
+	private static CommandSender p;
 	
-	public static void load(Player p) {CMessager.p = p;}
+	public static void load(CommandSender p) {CMessager.p = p;}
 	
 	public static void msg(boolean bol, String... str) {
 		if (bol) p.sendMessage("");

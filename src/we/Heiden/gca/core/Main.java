@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import we.Heiden.gca.Cars.CarsEnum;
+import we.Heiden.gca.Commands.CommandsHandler;
 import we.Heiden.gca.Events.EventsHandler;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Misc.Others;
@@ -34,6 +35,7 @@ public class Main extends JavaPlugin {
 		Others.items();
 		Others.load();
 		new EventsHandler(this);
+		new Timer2T().runTaskTimer(this, 20, 2);
 		/*new Timer5T().runTaskTimer(this, 20, 5);*/
 		new Timer20T().runTaskTimer(this, 20, 20);
 		Settings.configure();
@@ -47,6 +49,7 @@ public class Main extends JavaPlugin {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String CommandLabel, String[] args) {
+		new CommandsHandler(sender, cmd, args);
 		if (cmd.getName().equalsIgnoreCase("test") && sender instanceof Player) {
 			int n = 1;
 			if (args.length > 0) try {n = Integer.parseInt(args[0]);

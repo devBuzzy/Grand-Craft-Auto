@@ -29,7 +29,7 @@ public class Others {
 	public static void setCars() {for (CarsEnum e : CarsEnum.values()) cars.put(e.getItem(), e);}
 	public static void setKeys() {for (CarsEnum e : CarsEnum.values()) keys.add(e.getItem());}
 	public static void setItems() {
-		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault(), GearMax()));
+		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault(), GearMax(), Garage(), Wand.wand));
 		items.addAll(cars.keySet());
 		items.addAll(keys);
 		for (int n = 1; n <= 10; n++) {
@@ -181,6 +181,7 @@ public class Others {
 	public static ItemStack GearUp() {return getItem(Material.BANNER, (short) 10, "&a&lGear Up");}
 	public static ItemStack GearDown() {return getItem(Material.BANNER, (short) 1, "&c&lGear Down");}
 	public static ItemStack GearMax() {return getItem(Material.BANNER, "&9&lMax Level Reached");}
+	public static ItemStack Garage() {return getItem(Material.ACACIA_FENCE_GATE, "&7&lGarage", "Click your car", "with this to", "take it to the", "Garage!");}
 	
 	
 	public static ItemStack Pistol01() {return getItem(Material.INK_SACK, (short) 1, "&8&lM1911 &7&o(colt)", "Hey man, you`re on Los Angeles", "I think you will need this...");}
