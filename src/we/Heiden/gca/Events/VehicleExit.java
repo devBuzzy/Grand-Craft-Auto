@@ -12,10 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.plugin.Plugin;
 
-import we.Heiden.gca.Cars.CarsMain;
-import we.Heiden.gca.Misc.CMessager;
-import we.Heiden.gca.Misc.Messager;
-import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Functions.Cars;
+import we.Heiden.gca.Messages.CMessager;
+import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Utils.ItemUtils;
 
 /**
  * ********************************************* <p>
@@ -38,7 +38,7 @@ public class VehicleExit implements Listener {
 	@EventHandler
 	public void onVehicleExit(VehicleExitEvent e) {
 		if (e.getVehicle() instanceof Minecart && e.getVehicle().getPassenger() instanceof Player) {
-			if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(e.getVehicle().getPassenger())) {
+			if (Cars.vehicles.containsKey(e.getVehicle()) && Cars.vehicles.get(e.getVehicle()).equals(e.getVehicle().getPassenger())) {
 				Player p = (Player) e.getVehicle().getPassenger();
 				if (!delay.containsKey(p)) {
 					Messager.load(p);
@@ -53,9 +53,9 @@ public class VehicleExit implements Listener {
 						Messager.s1("Successfully Exit");
 						CMessager.load(p);
 						CMessager.e1("Your car will go to the garage on 5 minutes");
-						CarsMain.vec.remove(p);
-						p.getInventory().setItem(6, CarsMain.enums.get(p).getKey());
-						p.getInventory().setItem(5, Others.Garage());
+						Cars.vec.remove(p);
+						p.getInventory().setItem(6, Cars.enums.get(p).getKey());
+						p.getInventory().setItem(5, ItemUtils.Garage());
 					}
 					delay.put(p, 5);
 				} else e.setCancelled(true);

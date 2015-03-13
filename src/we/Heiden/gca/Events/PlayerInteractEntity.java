@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import we.Heiden.gca.Cars.CarsMain;
-import we.Heiden.gca.Misc.Messager;
+import we.Heiden.gca.Functions.Cars;
+import we.Heiden.gca.Messages.Messager;
 
 /**
  * ********************************************* <p>
@@ -31,8 +31,8 @@ public class PlayerInteractEntity implements Listener {
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent e) {
 		Player p = e.getPlayer();
 		Messager.load(p);
-		if (CarsMain.players.containsKey(p) && CarsMain.players.get(p).equals(e.getRightClicked())) {
-			if (CarsMain.enums.containsKey(p) && p.getItemInHand().equals(CarsMain.enums.get(p).getKey())) {
+		if (Cars.players.containsKey(p) && Cars.players.get(p).equals(e.getRightClicked())) {
+			if (Cars.enums.containsKey(p) && p.getItemInHand().equals(Cars.enums.get(p).getKey())) {
 				e.getRightClicked().setVelocity(new Vector(0, 0, 0));
 				e.getRightClicked().setPassenger(p);
 				Messager.e1("Turn your car");
@@ -41,7 +41,7 @@ public class PlayerInteractEntity implements Listener {
 				Messager.e1("Invalid Key!");
 				e.setCancelled(true);
 			}
-		} else if (e.getRightClicked() instanceof Minecart && CarsMain.vehicles.containsKey(e.getRightClicked())) {
+		} else if (e.getRightClicked() instanceof Minecart && Cars.vehicles.containsKey(e.getRightClicked())) {
 			Messager.e1("This car isn`t yours!");
 			e.setCancelled(true);
 		}

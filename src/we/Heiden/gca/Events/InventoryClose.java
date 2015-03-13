@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Functions.Settings;
-import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Utils.Functions;
 
 /**
  * ********************************************* <p>
@@ -39,7 +39,7 @@ public class InventoryClose implements Listener {
 		if (!e.getInventory().getName().equals(Settings.name())) {
 			players.add(((Player)e.getPlayer()));
 			String invn = e.getInventory().getName();
-			if (Others.contains(Settings.menuNames, invn)) {
+			if (Functions.contains(Settings.menuNames, invn)) {
 				Bukkit.getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
 					public void run() {try {
 						for (Player p : players) {

@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Utils.UtilsMain;
 
 /**
  * ********************************************* <p>
@@ -27,6 +27,6 @@ public class PlayerQuit implements Listener {
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		Others.save(p);
+		UtilsMain.save(p);
 	}
 }

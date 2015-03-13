@@ -7,7 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
-import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Utils.ItemUtils;
+import we.Heiden.gca.Utils.UtilsMain;
 
 /**
  * ********************************************* <p>
@@ -27,7 +28,7 @@ public class PlayerJoin implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		Others.items(p);
-		Others.load(p);
+		ItemUtils.items(p);
+		UtilsMain.load(p);
 	}
 }

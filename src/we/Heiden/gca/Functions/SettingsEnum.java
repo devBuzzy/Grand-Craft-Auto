@@ -1,4 +1,4 @@
-package we.Heiden.gca.Misc;
+package we.Heiden.gca.Functions;
 
 import java.util.ArrayList;
 import java.util.HashMap;

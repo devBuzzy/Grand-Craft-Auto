@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.plugin.Plugin;
 
-import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Utils.ItemUtils;
 
 /**
  * ********************************************* <p>
@@ -25,6 +25,6 @@ public class PlayerDropItem implements Listener {
 	
 	@EventHandler
 	public void onPlayerItemDrop(PlayerDropItemEvent e) {
-		if (e.getItemDrop() != null) {if (Others.getItem(e.getPlayer()).contains(e.getItemDrop().getItemStack())) e.setCancelled(true);}
+		if (e.getItemDrop() != null) {if (ItemUtils.getItem(e.getPlayer()).contains(e.getItemDrop().getItemStack())) e.setCancelled(true);}
 	}
 }

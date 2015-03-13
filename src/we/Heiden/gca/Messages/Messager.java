@@ -1,10 +1,12 @@
-package we.Heiden.gca.Misc;
+package we.Heiden.gca.Messages;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import we.Heiden.gca.Functions.SettingsEnum;
 
 public class Messager {
 

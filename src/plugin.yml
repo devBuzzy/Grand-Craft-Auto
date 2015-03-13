@@ -8,6 +8,16 @@ commands:
     test:
         usage: /<command>
         description: test!
-    setgarage:
+    GarageArea:
         usage: /<command>
-        description: Set a garage!
+        description: Set the garage`s Area!
+        aliases: [garea, ga, garagea, setgaragearea, sga, sgarea, setgarea, setgaragea, sgaragea, setgarea]
+    setGarageEntry:
+        usage: /<command>
+        description: Set some entries to the garage!
+        aliases: [sge, gentry, entry, setgentry, garageentry, setgarage, setgaragee, garagee, sgaragee, sgentry, setge]
+    GarageWarp:
+        usage: /<command>
+        description: Set a Warp!
+        aliases: [sgw, gwarp, setgwarp, garagewarp, setgaragew, garagew, sgaragew, sgwarp, setgw]
+        

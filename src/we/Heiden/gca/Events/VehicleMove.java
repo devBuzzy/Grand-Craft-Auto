@@ -15,7 +15,7 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import we.Heiden.gca.Cars.CarsMain;
+import we.Heiden.gca.Functions.Cars;
 
 /**
  * ********************************************* <p>
@@ -75,7 +75,7 @@ public class VehicleMove implements Listener {
 		
 		Vector vector = new Vector(x, z, y);
 		
-		CarsMain.vec.put(p, vector);
+		Cars.vec.put(p, vector);
 	}
 	
 	@EventHandler
@@ -84,17 +84,17 @@ public class VehicleMove implements Listener {
 			if (e.getVehicle() instanceof Minecart) {
 				if (e.getVehicle().getPassenger() instanceof Player) {
 					Player p = (Player) e.getVehicle().getPassenger();
-					if (CarsMain.vehicles.containsKey(e.getVehicle())) {
+					if (Cars.vehicles.containsKey(e.getVehicle())) {
 						if (canRide(p, e.getTo())) {
-							double velocity = CarsMain.velocity.get(p).doubleValue();
+							double velocity = Cars.velocity.get(p).doubleValue();
 							if (velocity == 1) velocity = 2;
 							else velocity = velocity*velocity;
 							velocity = velocity/10;
-							e.getVehicle().setVelocity(CarsMain.vec.get(p).clone().multiply(velocity));
+							e.getVehicle().setVelocity(Cars.vec.get(p).clone().multiply(velocity));
 						} else e.getVehicle().setVelocity(new Vector(0, 0, 0));
 					}
 				}
-				else if (CarsMain.vehicles.containsKey(e.getVehicle())) e.getVehicle().teleport(e.getFrom());
+				else if (Cars.vehicles.containsKey(e.getVehicle())) e.getVehicle().teleport(e.getFrom());
 			}
 		}
 	}

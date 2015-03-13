@@ -21,8 +21,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.plugin.Plugin;
-import we.Heiden.gca.Cars.CarsMain;
-import we.Heiden.gca.Misc.Messager;
+
+import we.Heiden.gca.Functions.Cars;
+import we.Heiden.gca.Messages.Messager;
 import we.Heiden.gca.core.Timer20T;
 
 /**
@@ -47,8 +48,8 @@ public class VehicleBlockCollision implements Listener{
             if (e.getVehicle().getPassenger() instanceof Player) {
                 if (!e.getBlock().getType().equals(Material.AIR)) {
                     Player p = (Player) e.getVehicle().getPassenger();
-                    if (CarsMain.vehicles.containsKey(e.getVehicle()) && CarsMain.vehicles.get(e.getVehicle()).equals(p)) {
-                        CarsMain.setGear(p, 0);
+                    if (Cars.vehicles.containsKey(e.getVehicle()) && Cars.vehicles.get(e.getVehicle()).equals(p)) {
+                        Cars.setGear(p, 0);
                         Messager.e1("Your Have Crash, Please Turn Your Car Back");
                         VehicleMove.CarStoped.add(p);
                         Timer20T.actionBar.remove(p);

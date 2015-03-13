@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import we.Heiden.gca.Misc.ActionBar;
+import we.Heiden.gca.Messages.ActionBar;
 
 public class Timer20T extends BukkitRunnable {
 

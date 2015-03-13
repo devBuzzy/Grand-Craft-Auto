@@ -8,12 +8,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import we.Heiden.gca.Cars.CarsEnum;
 import we.Heiden.gca.Commands.CommandsHandler;
+import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EventsHandler;
+import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Settings;
-import we.Heiden.gca.Misc.Others;
-import we.Heiden.gca.Misc.SettingsEnum;
+import we.Heiden.gca.Functions.SettingsEnum;
+import we.Heiden.gca.Utils.ItemUtils;
+import we.Heiden.gca.Utils.UtilsMain;
 
 /**
  * ********************************************* <p>
@@ -32,19 +34,20 @@ public class Main extends JavaPlugin {
 	
 	public void onEnable() {
 		pl = this;
-		Others.items();
-		Others.load();
+		ItemUtils.items();
+		UtilsMain.load();
+		new Config();
 		new EventsHandler(this);
 		new Timer2T().runTaskTimer(this, 20, 2);
 		/*new Timer5T().runTaskTimer(this, 20, 5);*/
 		new Timer20T().runTaskTimer(this, 20, 20);
 		Settings.configure();
-		Others.setup();
+		UtilsMain.setup();
 		for (Player p : Bukkit.getOnlinePlayers()) SettingsEnum.register(p);
 	}
 	
 	public void onDisable() {
-		Others.save();
+		UtilsMain.save();
 		pl = null;
 	}
 	

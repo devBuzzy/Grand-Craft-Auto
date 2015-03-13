@@ -2,7 +2,7 @@ package we.Heiden.gca.Events;
 
 import org.bukkit.plugin.Plugin;
 
-import we.Heiden.gca.Misc.Wand;
+import we.Heiden.gca.Functions.Wand;
 
 /**
  * ********************************************* <p>

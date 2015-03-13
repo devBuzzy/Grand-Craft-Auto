@@ -11,8 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Functions.Settings;
-import we.Heiden.gca.Misc.Others;
-import we.Heiden.gca.Misc.SettingsEnum;
+import we.Heiden.gca.Functions.SettingsEnum;
+import we.Heiden.gca.Utils.Functions;
+import we.Heiden.gca.Utils.ItemUtils;
 
 /**
  * ********************************************* <p>
@@ -41,7 +42,7 @@ public class InventoryClick implements Listener {
 		Player p = (Player) e.getWhoClicked();
 		if (e.getCurrentItem() != null) {
 			ItemStack c = e.getCurrentItem();
-			if (Others.getItem(p).contains(c)) {
+			if (ItemUtils.getItem(p).contains(c)) {
 				e.setCancelled(true);
 				p.updateInventory();
 			} else {
@@ -49,7 +50,7 @@ public class InventoryClick implements Listener {
 				if (invn.equals(Settings.name())) {
 					if (e.getInventory().contains(c)) {
 						e.setCancelled(true);
-						if (!c.equals(Others.ItemDefault())) {
+						if (!c.equals(ItemUtils.ItemDefault())) {
 							if (contains(Settings.gsparticles, c)) Settings.menu01(p);
 							else if (Settings.greffectList.contains(c)) Settings.menu02(p);
 							else if (contains(Settings.titles, c)) Settings.menu03(p);
@@ -60,7 +61,7 @@ public class InventoryClick implements Listener {
 							else if (Settings.qualityList.contains(c)) Settings.menu08(p);
 						}
 					}
-				} else if (Others.contains(Settings.menuNames, invn) && e.getInventory().contains(c)) {
+				} else if (Functions.contains(Settings.menuNames, invn) && e.getInventory().contains(c)) {
 					e.setCancelled(true);
 					if (c.hasItemMeta()) for (String s : Settings.menuNames) {
 						if (c.getItemMeta().getDisplayName().startsWith(s)) {
@@ -79,7 +80,7 @@ public class InventoryClick implements Listener {
 		}
 		if (e.getCursor() != null) {
 			ItemStack c = e.getCursor();
-			if (Others.getItem(p).contains(c)) {
+			if (ItemUtils.getItem(p).contains(c)) {
 				e.setCancelled(true);
 				p.updateInventory();
 			}

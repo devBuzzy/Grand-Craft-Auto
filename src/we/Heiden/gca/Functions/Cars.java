@@ -1,4 +1,4 @@
-package we.Heiden.gca.Cars;
+package we.Heiden.gca.Functions;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,12 +13,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import we.Heiden.gca.Events.VehicleMove;
-import we.Heiden.gca.Misc.ActionBar;
-import we.Heiden.gca.Misc.Messager;
-import we.Heiden.gca.Misc.Others;
+import we.Heiden.gca.Messages.ActionBar;
+import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.core.Timer20T;
 
-public class CarsMain {
+public class Cars {
 
 	public static HashMap<Entity, Player> vehicles = new HashMap<Entity, Player>();
 	public static HashMap<Player, Entity> players = new HashMap<Player, Entity>();
@@ -60,11 +60,11 @@ public class CarsMain {
 			velocity.put(p, gear);
 			updateGear(p);
 			
-			ItemStack gup = Others.GearUp();
-			ItemStack gdown = Others.GearDown();
+			ItemStack gup = ItemUtils.GearUp();
+			ItemStack gdown = ItemUtils.GearDown();
 			
 			if (gear != max) gup.setAmount(gear+1);
-			else gup = Others.GearMax();
+			else gup = ItemUtils.GearMax();
 			gdown.setAmount(gear-1);
 			
 			p.getInventory().setItem(6, gup);
@@ -81,8 +81,8 @@ public class CarsMain {
 		velocity.put(p, gear);
 		updateGear(p);
 		
-		ItemStack gup = Others.GearUp();
-		ItemStack gdown = Others.GearDown();
+		ItemStack gup = ItemUtils.GearUp();
+		ItemStack gdown = ItemUtils.GearDown();
 		
 		if (gear == min) gdown = enums.get(p).getKey();
 		else gdown.setAmount(gear-1);
@@ -106,17 +106,17 @@ public class CarsMain {
 		int max = enums.get(p).getMax();
 		int min = enums.get(p).getMin();
 		
-		ItemStack gup = Others.GearUp();
-		ItemStack gdown = Others.GearDown();
+		ItemStack gup = ItemUtils.GearUp();
+		ItemStack gdown = ItemUtils.GearDown();
 		
 		if (n != 0) {
 			if (n != max) gup.setAmount(n+1);
-			else gup = Others.GearMax();
+			else gup = ItemUtils.GearMax();
 			if (n == min) gdown = enums.get(p).getKey();
 			else gdown.setAmount(n-1);
 		} else {
 			gup = enums.get(p).getKey();
-			gdown = Others.Garage();
+			gdown = ItemUtils.Garage();
 		}
 		
 		p.getInventory().setItem(6, gup);

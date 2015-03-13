@@ -1,4 +1,4 @@
-package we.Heiden.gca.Misc;
+package we.Heiden.gca.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,22 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import we.Heiden.gca.Cars.CarsEnum;
 import we.Heiden.gca.Configs.PlayerConfig;
 import we.Heiden.gca.Functions.Bag;
+import we.Heiden.gca.Functions.CarsEnum;
+import we.Heiden.gca.Functions.Wand;
 
-public class Others {
-	
-	public static void setup() {
-		setCars();
-		setKeys();
-		setItems();
-	}
+public class ItemUtils {
 
 	public static void setCars() {for (CarsEnum e : CarsEnum.values()) cars.put(e.getItem(), e);}
 	public static void setKeys() {for (CarsEnum e : CarsEnum.values()) keys.add(e.getItem());}
@@ -59,32 +53,6 @@ public class Others {
 	
 	public static List<Player> hasItems = new ArrayList<Player>();
 	
-	public static boolean contains(Object[] list, Object i) {
-		for (Object o : list) if (o.equals(i)) return true;
-		return false;
-	}
-	
-	public static boolean isInt(Player p, String s, String type, boolean zero, boolean negative, boolean msg) {
-		try {
-			int i = Integer.parseInt(s);
-			if (i == 0 && zero) {
-				if (msg) p.sendMessage("Error: " + type + " can`t be Zero!");
-				return false;
-			} else if (s.startsWith("-") && negative) {
-				if (msg) p.sendMessage("Error: " + type + " can`t be Zero!");
-				return false;
-			}
-		} catch(Exception ex) {
-			if (msg) p.sendMessage("Error: " + type + " can`t be Zero!");
-			return false;
-		}
-		return true;
-	}
-
-	public static boolean isInt(String s) {return isInt(null, s, null, true, true, false);}
-	public static boolean isInt(String s, boolean zero, boolean negative) {return isInt(null, s, null, zero, negative, false);}
-	
-	
 	public static ItemStack getItem(Material mat, int amount, short data, String name, String... lore) {
 		ItemStack i = new ItemStack(mat, amount, data);
 		ItemMeta im = i.getItemMeta();
@@ -109,7 +77,7 @@ public class Others {
 	
 	public static void items(Player p) {
 		new PlayerConfig(p);
-		clear(p);
+		Functions.clear(p);
 		PlayerInventory inv = p.getInventory();
 		int s1 = SlotPistol;
 		int s2 = SlotBag;
@@ -128,41 +96,6 @@ public class Others {
 		if (!Bag.inventories.containsKey(p)) Bag.inventories.put(p, Bukkit.createInventory(null, 36, ChatColor.translateAlternateColorCodes('&', "&a&lPersonal Backpack")));
 	}
 	public static void items() {for (Player p : Bukkit.getOnlinePlayers()) items(p);}
-	public static void save() {for (Player p : Bukkit.getOnlinePlayers()) save(p);}
-	public static void load() {for (Player p : Bukkit.getOnlinePlayers()) load(p);}
-	
-	public static void save(Player p) {
-		PlayerConfig.load(p);
-		Inventory inv = Bag.inventories.get(p);
-		int n = 0;
-		if (inv != null) for (ItemStack i : inv) {
-			PlayerConfig.get().set("Temp.Bag." + n, i);
-			n++;
-		}
-		if (hasItems.contains(p)) PlayerConfig.get().set("Temp.hasItems", "true");
-		PlayerConfig.save();
-	}
-	
-	public static void load(Player p) {
-		PlayerConfig.load(p);
-		if (PlayerConfig.get().contains("Temp.hasItems")) hasItems.add(p);
-		if (PlayerConfig.get().contains("Temp.Bag")) {
-			Inventory inv = Bag.inventories.get(p);
-			for (String s : PlayerConfig.get().getConfigurationSection("Temp.Bag").getKeys(false)) {
-				int slot = Integer.parseInt(s);
-				inv.setItem(slot, PlayerConfig.get().getItemStack("Temp.Bag." + s));
-			}
-			Bag.inventories.put(p, inv);
-		}
-	}
-	
-	public static void clear(Player p) {
-		p.getInventory().clear();
-		p.getInventory().setHelmet(null);
-		p.getInventory().setChestplate(null);
-		p.getInventory().setLeggings(null);
-		p.getInventory().setBoots(null);
-	}
 	
 	public static ItemStack ItemMoney(Player p) {
 		//int money = HSCoinsAPI.getPlayer(p).getBalance();
