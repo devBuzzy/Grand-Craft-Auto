@@ -1,6 +1,7 @@
 package we.Heiden.gca.core;
 
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,8 +13,7 @@ import we.Heiden.gca.Commands.CommandsHandler;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EventsHandler;
 import we.Heiden.gca.Functions.CarsEnum;
-import we.Heiden.gca.Functions.Settings;
-import we.Heiden.gca.Functions.SettingsEnum;
+import we.Heiden.gca.Holograms.HologramUtils;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.Utils.UtilsMain;
 
@@ -41,9 +41,7 @@ public class Main extends JavaPlugin {
 		new Timer2T().runTaskTimer(this, 20, 2);
 		/*new Timer5T().runTaskTimer(this, 20, 5);*/
 		new Timer20T().runTaskTimer(this, 20, 20);
-		Settings.configure();
 		UtilsMain.setup();
-		for (Player p : Bukkit.getOnlinePlayers()) SettingsEnum.register(p);
 	}
 	
 	public void onDisable() {
@@ -52,8 +50,19 @@ public class Main extends JavaPlugin {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String CommandLabel, String[] args) {
-		new CommandsHandler(sender, cmd, args);
 		if (cmd.getName().equalsIgnoreCase("test") && sender instanceof Player) {
+			if (args.length > 1 && args[0].equalsIgnoreCase("hm")) {
+				String s = "";
+				int n = 0;
+				for (String arg : args) {
+					n++;
+					if (n > 1) s += ChatColor.translateAlternateColorCodes('&', arg) + " ";
+				}
+				s = s.substring(0, s.length()-1);
+				Location loc = ((Player)sender).getLocation();
+				HologramUtils.spawnNMSArmorStand(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), s);
+				return true;
+			}
 			int n = 1;
 			if (args.length > 0) try {n = Integer.parseInt(args[0]);
 			} catch(Exception ex) {}
@@ -66,7 +75,7 @@ public class Main extends JavaPlugin {
 			else if (n == 6) item = CarsEnum.CYPHER.getItem();
 			else item = CarsEnum.AVENGER_GT.getItem();
 			((Player)sender).getInventory().setItem(6, item);
-		}
+		} else new CommandsHandler(sender, cmd, args);
         /*if (cmd.getName().equalsIgnoreCase("shutdown"))
         {
             Runtime runtime = Runtime.getRuntime();

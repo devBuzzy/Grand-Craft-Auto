@@ -30,10 +30,9 @@ public class PlayerConfig {
 	public static FileConfiguration get(Player p) {load(p); return player;}
 	
 	public static void load(Player p) {
-		if (!pfile.getName().equals(p.getName() + ".yml")) {
-			pfile = new File(folder.getPath() + File.separator + p.getName().toLowerCase() + ".yml");
-			player = YamlConfiguration.loadConfiguration(pfile);
-		}
+		save();
+		pfile = new File(folder.getPath() + File.separator + p.getName() + ".yml");
+		player = YamlConfiguration.loadConfiguration(pfile);
 	}
 	
 	public static void save() {

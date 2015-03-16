@@ -30,5 +30,6 @@ public class EventsHandler {
 		new VehicleExit(pl);
         new VehicleBlockCollision(pl);
         new Wand(pl);
+        new PlayerMove(pl);
 	}
 }

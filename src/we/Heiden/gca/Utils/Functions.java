@@ -1,5 +1,8 @@
 package we.Heiden.gca.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,6 +18,10 @@ public class Functions {
 	public static boolean contains(Object[] list, Object i) {
 		for (Object o : list) if (o.equals(i)) return true;
 		return false;
+	}
+	
+	public static <T> List<T> newList() {
+		return new ArrayList<T>();
 	}
 	
 	public static boolean isInt(Player p, String s, String type, boolean zero, boolean negative, boolean msg) {
@@ -55,6 +62,7 @@ public class Functions {
 	}
 	
 	public static Location loadLoc(String path, FileConfiguration fc) {
+		if (!fc.contains(path)) return null;
 		World w = Bukkit.getWorld(fc.getString(path + ".world"));
 		double x = fc.getDouble(path + ".x");
 		double y = fc.getDouble(path + ".y");
@@ -114,4 +122,6 @@ public class Functions {
 		if (x > xM || y > yM || z > zM || x < xm || y < ym || z < zm) return false;
 		return true;
 	}
+	
+	public static boolean isOnArea(Location p1, Location p2, Player p) {return isOnArea(p1, p2, p.getLocation());}
 }

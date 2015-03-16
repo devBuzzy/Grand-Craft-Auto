@@ -69,11 +69,7 @@ public class PlayerInteract implements Listener {
 					Cars.players.get(p).setVelocity(p.getLocation().getDirection().multiply(0.1));
 					Cars.vec.put(p, p.getLocation().getDirection());
 					Cars.setGear(p, 1);
-					Cars.updateGear(p);/*
-					p.getInventory().setItem(5, CarsMain.enums.get(p).getKey());
-					if (gup.getAmount() > CarsMain.enums.get(p).getMax()) p.getInventory().setItem(6, Others.GearMax());
-					else p.getInventory().setItem(6, gup);
-					p.updateInventory();*/
+					Cars.updateGear(p);
 					VehicleMove.CarStoped.remove(p);
 					VehicleExit.confirm.remove(p);
 				} else {

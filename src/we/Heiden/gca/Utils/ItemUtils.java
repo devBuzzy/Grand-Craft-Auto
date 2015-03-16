@@ -13,12 +13,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import we.Heiden.gca.Configs.PlayerConfig;
 import we.Heiden.gca.Functions.Bag;
 import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Wand;
 
 public class ItemUtils {
+
+	public static HashMap<ItemStack, CarsEnum> cars = new HashMap<ItemStack, CarsEnum>();
+	public static List<ItemStack> keys = new ArrayList<ItemStack>();
+	public static List<ItemStack> items = new ArrayList<ItemStack>();
+	
+	public static final int SlotPistol = 0;
+	public static final int SlotSettings = 1;
+	public static final int SlotJobs = 4;
+	public static final int SlotBag = 7;
+	public static final int SlotMoney = 8;
 
 	public static void setCars() {for (CarsEnum e : CarsEnum.values()) cars.put(e.getItem(), e);}
 	public static void setKeys() {for (CarsEnum e : CarsEnum.values()) keys.add(e.getItem());}
@@ -40,16 +49,6 @@ public class ItemUtils {
 		/*is.add(ItemMoney(p));*/
 		return is;
 	}
-
-	public static HashMap<ItemStack, CarsEnum> cars = new HashMap<ItemStack, CarsEnum>();
-	public static List<ItemStack> keys = new ArrayList<ItemStack>();
-	public static List<ItemStack> items = new ArrayList<ItemStack>();
-	
-	public static final int SlotPistol = 0;
-	public static final int SlotSettings = 1;
-	public static final int SlotJobs = 4;
-	public static final int SlotBag = 7;
-	public static final int SlotMoney = 8;
 	
 	public static List<Player> hasItems = new ArrayList<Player>();
 	
@@ -76,7 +75,6 @@ public class ItemUtils {
 	public static ItemStack getItem(Material mat, String name, List<String> lore) {return getItem(mat, 1, (short) 0, name ,lore);}
 	
 	public static void items(Player p) {
-		new PlayerConfig(p);
 		Functions.clear(p);
 		PlayerInventory inv = p.getInventory();
 		int s1 = SlotPistol;
