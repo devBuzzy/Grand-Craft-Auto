@@ -1,7 +1,5 @@
 package we.Heiden.gca.core;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,7 +11,7 @@ import we.Heiden.gca.Commands.CommandsHandler;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EventsHandler;
 import we.Heiden.gca.Functions.CarsEnum;
-import we.Heiden.gca.Holograms.HologramUtils;
+import we.Heiden.gca.NPCs.NPCs;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.Utils.UtilsMain;
 
@@ -51,16 +49,25 @@ public class Main extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String CommandLabel, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("test") && sender instanceof Player) {
-			if (args.length > 1 && args[0].equalsIgnoreCase("hm")) {
-				String s = "";
-				int n = 0;
-				for (String arg : args) {
-					n++;
-					if (n > 1) s += ChatColor.translateAlternateColorCodes('&', arg) + " ";
+			if (args.length > 0 && args[0].equalsIgnoreCase("spawn")) {
+				NPCs npc = NPCs.Cars;
+				if (args.length > 1 && !args[1].equalsIgnoreCase("1")) {
+					if (args[1].equalsIgnoreCase("2")) npc = NPCs.Store;
+					else if (args[1].equalsIgnoreCase("3")) npc = NPCs.Homes;
+					else npc = NPCs.Pets;
 				}
-				s = s.substring(0, s.length()-1);
-				Location loc = ((Player)sender).getLocation();
-				HologramUtils.spawnNMSArmorStand(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), s);
+				npc.getNPC().spawn(((Player)sender));
+				return true;
+			} else if (args.length > 0 && args[0].equalsIgnoreCase("despawn")) {
+				NPCs npc = null;
+				if (args.length > 1) {
+					if (args[1].equalsIgnoreCase("1")) npc = NPCs.Cars;
+					else if (args[1].equalsIgnoreCase("2")) npc = NPCs.Store;
+					else if (args[1].equalsIgnoreCase("3")) npc = NPCs.Homes;
+					else npc = NPCs.Pets;
+				}
+				if (npc != null) npc.getNPC().remove();
+				else NPCs.clear();
 				return true;
 			}
 			int n = 1;

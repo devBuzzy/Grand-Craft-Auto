@@ -16,12 +16,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
+import we.Heiden.gca.NPCs.NMSNpc;
+
 public class HologramUtils {
 	
 	private static Method validateEntityMethod;
 	
 	public HologramUtils() throws Exception {
 		registerCustomEntity(NMSEntity.class, "ArmorStand", 30);
+		registerCustomEntity(NMSNpc.class, "Villager", 120);
 		validateEntityMethod = World.class.getDeclaredMethod("a", Entity.class);
 		validateEntityMethod.setAccessible(true);
 	}

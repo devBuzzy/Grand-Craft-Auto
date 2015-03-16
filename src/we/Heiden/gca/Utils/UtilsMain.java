@@ -13,12 +13,14 @@ import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
 import we.Heiden.gca.Holograms.HologramUtils;
+import we.Heiden.gca.NPCs.NPCs;
 import we.Heiden.gca.core.Main;
 
 public class UtilsMain {
 	
 	public static void setup() {
 		try { new HologramUtils(); } catch(Exception ex) { }
+		NPCs.setup();
 		CarsEnum.setup();
 		ItemUtils.setCars();
 		ItemUtils.setKeys();
