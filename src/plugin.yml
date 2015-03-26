@@ -24,4 +24,7 @@ commands:
         usage: /<command>
         description: Set some entries to the garage!
         aliases: [sgl, ge, gexit, setgexit, garageexit, setgarageleave, setgaragel, garagel, sgaragel, sgexit, setgl]
+    Store:
+        usage: /<command>
+        description: Private Command
         

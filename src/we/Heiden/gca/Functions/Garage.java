@@ -12,12 +12,12 @@ import org.bukkit.entity.Player;
 
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Configs.PlayerConfig;
-import we.Heiden.gca.Holograms.HologramUtils;
-import we.Heiden.gca.Holograms.NMSEntity;
 import we.Heiden.gca.Messages.Messager;
 import we.Heiden.gca.Utils.EntityHider;
 import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.core.Main;
+import we.Heiden.hs2.Holograms.HologramUtils;
+import we.Heiden.hs2.Holograms.NMSEntity;
 
 public class Garage {
 
@@ -59,6 +59,8 @@ public class Garage {
 				n++;
 				if (ls.length < n+1) break;
 				Location loc = Functions.loadLoc("Garage.Slots." + ls[n], p);
+				loc.setZ(loc.getZ()+0.5);
+				loc.setX(loc.getX()-0.5);
 				Location loc2 = loc.clone();
 				loc2.setY(loc2.getY()+0.5D);
 				CarsEnum car = CarsEnum.valueOf(s.substring(4).toUpperCase().replace(" ", "_"));

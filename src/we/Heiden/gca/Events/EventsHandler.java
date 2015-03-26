@@ -31,5 +31,6 @@ public class EventsHandler {
         new VehicleBlockCollision(pl);
         new Wand(pl);
         new PlayerMove(pl);
+        new NPCInteract(pl);
 	}
 }

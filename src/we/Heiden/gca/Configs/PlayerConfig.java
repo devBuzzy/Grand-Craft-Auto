@@ -29,10 +29,10 @@ public class PlayerConfig {
 	public static FileConfiguration get() {return player;}
 	public static FileConfiguration get(Player p) {load(p); return player;}
 	
-	public static void load(Player p) {
-		save();
+	public static FileConfiguration load(Player p) {
 		pfile = new File(folder.getPath() + File.separator + p.getName() + ".yml");
 		player = YamlConfiguration.loadConfiguration(pfile);
+		return player;
 	}
 	
 	public static void save() {

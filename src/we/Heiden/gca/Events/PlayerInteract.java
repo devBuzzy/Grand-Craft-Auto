@@ -1,18 +1,26 @@
 package we.Heiden.gca.Events;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import we.Heiden.gca.CustomEvents.NPCInteractEvent;
 import we.Heiden.gca.Functions.Bag;
 import we.Heiden.gca.Functions.Cars;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.NPCs.NMSNpc;
+import we.Heiden.gca.NPCs.NPCs;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.core.Timer20T;
 
@@ -31,10 +39,44 @@ public class PlayerInteract implements Listener {
 	
 	public PlayerInteract(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		Messager.load(p);
+		if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+			List<Block> hsb = p.getLineOfSight(null, 5);
+			NMSNpc target = null;
+			boolean bool = false;
+			for (NMSNpc ent : NPCs.entities) {
+				CraftEntity cent = ent.getBukkitEntity();
+				if (cent.getLocation().getWorld().equals(p.getLocation().getWorld())) {
+					for (Block bl : hsb) {
+						Location loc = cent.getLocation();
+						loc.setY(loc.getY()+1);
+						if (bl.getLocation().getBlock().getLocation().equals(loc.getBlock().getLocation())) {
+							target = ent;
+							bool = true;
+							break;
+						}
+					}
+				}
+				if (bool) break;
+			}
+			if (target != null) {
+				NPCs type = null;
+				boolean bol = false;
+				for (NPCs types : NPCs.values()) {
+					for (NMSNpc entity : NPCs.npcs.get(types).keySet()) if (entity.equals(target)) {
+						type = types;
+						bol = true;
+						break;
+					}
+					if (bol) break;
+				}
+				if (type != null) Bukkit.getPluginManager().callEvent(new NPCInteractEvent(p, we.Heiden.gca.CustomEvents.Action.LEFT_CLICK, target, type));
+			}
+		}
 		if (e.getItem() != null) {
 			ItemStack c = e.getItem();
 			ItemStack bag = ItemUtils.ItemBag();

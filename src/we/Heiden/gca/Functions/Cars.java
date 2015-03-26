@@ -27,8 +27,6 @@ public class Cars {
 	public static HashMap<Player, Vector> vec = new HashMap<Player, Vector>();
 
 	public static void spawnCar(Player p, CarsEnum car, Location loc) {
-		/*int min = car.getMin();
-		int max = car.getMax();*/
 		while(!loc.getBlock().getType().equals(Material.AIR)) loc.setY(loc.getY()+1);
 		loc.setZ(loc.getZ()+0.5D);
 		loc.setX(loc.getX()+0.5D);

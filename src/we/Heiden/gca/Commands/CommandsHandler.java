@@ -18,6 +18,7 @@ public class CommandsHandler {
 			else if (cmd.getName().equalsIgnoreCase("GarageWarp")) GaragewarpCommand.gw(p);
 			else if (cmd.getName().equalsIgnoreCase("GarageExit")) Wand.give(p, "Garage Exit");
 			else if (cmd.getName().equalsIgnoreCase("GarageSlot")) Wand.give(p, "Garage Slot", false);
+			else if (cmd.getName().equalsIgnoreCase("Store")) StoreCommand.store(p, args);
 		} else {
 			CMessager.load(sender);
 			CMessager.e1("This Command is for players");

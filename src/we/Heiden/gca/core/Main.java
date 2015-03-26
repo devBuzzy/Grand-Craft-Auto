@@ -11,7 +11,9 @@ import we.Heiden.gca.Commands.CommandsHandler;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EventsHandler;
 import we.Heiden.gca.Functions.CarsEnum;
+import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
+import we.Heiden.gca.Stores.CarStore;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.Utils.UtilsMain;
 
@@ -32,23 +34,25 @@ public class Main extends JavaPlugin {
 	
 	public void onEnable() {
 		pl = this;
-		ItemUtils.items();
+		UtilsMain.setup();
 		UtilsMain.load();
 		new Config();
 		new EventsHandler(this);
 		new Timer2T().runTaskTimer(this, 20, 2);
-		/*new Timer5T().runTaskTimer(this, 20, 5);*/
+		new Timer5T().runTaskTimer(this, 20, 5);
 		new Timer20T().runTaskTimer(this, 20, 20);
-		UtilsMain.setup();
+		ItemUtils.items();
 	}
 	
 	public void onDisable() {
 		UtilsMain.save();
+		for (NMSNpc e : NPCs.entities) e.killEntityNMS();
 		pl = null;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String CommandLabel, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("test") && sender instanceof Player) {
+			Player p = (Player) sender;
 			if (args.length > 0 && args[0].equalsIgnoreCase("spawn")) {
 				NPCs npc = NPCs.Cars;
 				if (args.length > 1 && !args[1].equalsIgnoreCase("1")) {
@@ -56,8 +60,7 @@ public class Main extends JavaPlugin {
 					else if (args[1].equalsIgnoreCase("3")) npc = NPCs.Homes;
 					else npc = NPCs.Pets;
 				}
-				npc.getNPC().spawn(((Player)sender));
-				return true;
+				npc.getNPC().spawn(p);
 			} else if (args.length > 0 && args[0].equalsIgnoreCase("despawn")) {
 				NPCs npc = null;
 				if (args.length > 1) {
@@ -68,20 +71,22 @@ public class Main extends JavaPlugin {
 				}
 				if (npc != null) npc.getNPC().remove();
 				else NPCs.clear();
-				return true;
+			} else if (args.length > 0 && args[0].equalsIgnoreCase("test")) CarStore.optionsS(p);
+			else if (args.length > 0 && args[0].equalsIgnoreCase("test2")) CarStore.Purchase(p);
+			else {
+				int n = 1;
+				if (args.length > 0) try {n = Integer.parseInt(args[0]);
+				} catch(Exception ex) {}
+				ItemStack item;
+				if (n == 1) item = CarsEnum.ADVENTURE.getItem();
+				else if (n == 2) item = CarsEnum.CRUISER.getItem();
+				else if (n == 3) item = CarsEnum.DERBY.getItem();
+				else if (n == 4) item = CarsEnum.ROYCE.getItem();
+				else if (n == 5) item = CarsEnum.ESCALADE_SPORT.getItem();
+				else if (n == 6) item = CarsEnum.CYPHER.getItem();
+				else item = CarsEnum.AVENGER_GT.getItem();
+				(p).getInventory().setItem(6, item);
 			}
-			int n = 1;
-			if (args.length > 0) try {n = Integer.parseInt(args[0]);
-			} catch(Exception ex) {}
-			ItemStack item;
-			if (n == 1) item = CarsEnum.ADVENTURE.getItem();
-			else if (n == 2) item = CarsEnum.CRUISER.getItem();
-			else if (n == 3) item = CarsEnum.DERBY.getItem();
-			else if (n == 4) item = CarsEnum.ROYCE.getItem();
-			else if (n == 5) item = CarsEnum.ESCALADE_SPORT.getItem();
-			else if (n == 6) item = CarsEnum.CYPHER.getItem();
-			else item = CarsEnum.AVENGER_GT.getItem();
-			((Player)sender).getInventory().setItem(6, item);
 		} else new CommandsHandler(sender, cmd, args);
         /*if (cmd.getName().equalsIgnoreCase("shutdown"))
         {

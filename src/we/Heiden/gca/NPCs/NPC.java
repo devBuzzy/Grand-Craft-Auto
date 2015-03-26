@@ -16,12 +16,13 @@ public abstract class NPC {
 	public NMSNpc spawn(Location loc) { 
 		NMSNpc entity = NMSNpc.spawn(loc, prof, bv, name);
 		NPCs.npcs.get(Enum).put(entity, loc);
+		NPCs.entities.add(entity);
 		return entity;
 	}
 	
 	public NMSNpc spawn(Player p) { return spawn(p.getLocation()); }
 
-	public void remove(NMSNpc entity) { entity.killEntityNMS(); }
+	public void remove(NMSNpc entity) { entity.killEntityNMS(); NPCs.entities.remove(entity);}
 	public void remove() { for (NMSNpc e : NPCs.npcs.get(Enum).keySet()) remove(e); }
 	public Location getLocation(NMSNpc entity) { return NPCs.npcs.get(Enum).get(entity); }
 }

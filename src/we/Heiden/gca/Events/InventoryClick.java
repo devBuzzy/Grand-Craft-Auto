@@ -10,8 +10,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
+import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Stores.CarStore;
 import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Utils.ItemUtils;
 
@@ -29,7 +32,7 @@ import we.Heiden.gca.Utils.ItemUtils;
 public class InventoryClick implements Listener {
 	
 	public InventoryClick(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
-	
+
 	public static HashMap<String, SettingsEnum> TitlesMap = new HashMap<String, SettingsEnum>();
 	
 	public static boolean contains(ItemStack[] list, ItemStack i) {
@@ -45,6 +48,13 @@ public class InventoryClick implements Listener {
 			if (ItemUtils.getItem(p).contains(c)) {
 				e.setCancelled(true);
 				p.updateInventory();
+				if (ItemUtils.yes.containsKey(p)) {
+					boolean bol = true;
+					if (c.equals(ItemUtils.Yes())) ItemUtils.yes.get(p).yes(p);
+					else if (c.equals(ItemUtils.No())) ItemUtils.yes.get(p).no(p);
+					else bol = false;
+					if (bol) ItemUtils.yes.remove(p);
+				}
 			} else {
 				String invn = e.getInventory().getName();
 				if (invn.equals(Settings.name())) {
@@ -74,6 +84,27 @@ public class InventoryClick implements Listener {
 							}
 							break;
 						}
+					}
+				} else if (invn.equals(CarStore.PurchaseN())) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						ItemStack item2 = c.clone();
+						item2.setAmount(1);
+						CarStore.buy(p, CarsEnum.shop2.get(item2));
+					}
+				} else if (invn.equals(CarStore.ManageN())) {
+					if (e.getInventory().contains(c) && !c.equals(ItemUtils.ItemDefault())) {
+						e.setCancelled(true);
+						CarStore.ManageCar(p, c.getAmount()-1);
+					}
+				} else if (CarStore.invn.containsKey(p) && CarStore.invn.get(p).equals(invn)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						if (c.equals(ItemUtils.CarAuth())) {
+							Messager.load(p);
+							Messager.e1("This isn`t avaible yet");
+							p.closeInventory();
+						} else CarStore.confirm2(p);
 					}
 				}
 			}

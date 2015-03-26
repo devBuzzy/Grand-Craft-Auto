@@ -47,7 +47,7 @@ public class VehicleMove implements Listener {
 		loc.setY(loc.getY()-1);
 		Material mat = loc.getBlock().getType();
 		if (mat.equals(Material.STAINED_CLAY) || mat.equals(Material.IRON_BLOCK)) {
-			if (mat.equals(Material.STAINED_CLAY)) {if (loc.getBlock().getData() == 15) return true;
+			if (mat.equals(Material.STAINED_CLAY)) {if (loc.getBlock().getData() == 9 || loc.getBlock().getData() == 4) return true;
 			} else {
 				boolean bol = false;
 				for (int n = 1; n <= 4; n++) {

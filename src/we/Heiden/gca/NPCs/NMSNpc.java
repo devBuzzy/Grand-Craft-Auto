@@ -19,12 +19,11 @@ import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftVillager;
 
-import we.Heiden.gca.Holograms.EntityUtils;
-import we.Heiden.gca.Holograms.HologramUtils;
+import we.Heiden.hs2.Holograms.EntityUtils;
+import we.Heiden.hs2.Holograms.HologramUtils;
 
 @SuppressWarnings("rawtypes")
 public class NMSNpc extends EntityVillager implements EntityUtils {
-
 	private boolean lockTick;
 	
 	public NMSNpc(World world, int profession, int bv) {
