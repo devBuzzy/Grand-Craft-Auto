@@ -80,10 +80,9 @@ public enum CarsEnum {
 	public ItemStack getItem() {return items.get(this);}
 	public ItemStack getShop() {return shop.get(this);}
 	public ItemStack getKey() {
-		ItemStack i = key.clone();
-		ItemMeta im = i.getItemMeta();
+		ItemMeta im = key.getItemMeta();
 		im.setDisplayName(ChatColor.BLUE + name + "'s Key");
-		i.setItemMeta(im);
+		key.setItemMeta(im);
 		return key;}
 	public String getName() {return name;}
 	public String getSName() {

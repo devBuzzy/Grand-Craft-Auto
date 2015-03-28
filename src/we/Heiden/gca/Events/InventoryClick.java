@@ -14,9 +14,14 @@ import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
 import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Pets.Pets;
 import we.Heiden.gca.Stores.CarStore;
+import we.Heiden.gca.Stores.ClerkStore;
+import we.Heiden.gca.Stores.Food;
+import we.Heiden.gca.Stores.PetStore;
 import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Utils.ItemUtils;
+import we.Heiden.gca.Weapons.Weapons;
 
 /**
  * ********************************************* <p>
@@ -105,6 +110,28 @@ public class InventoryClick implements Listener {
 							Messager.e1("This isn`t avaible yet");
 							p.closeInventory();
 						} else CarStore.confirm2(p);
+					}
+				} else if (invn.equalsIgnoreCase(PetStore.ShopN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						if (c.equals(PetStore.wolf)) PetStore.Buy(p, Pets.Wolf);
+						else if (c.equals(PetStore.cat)) PetStore.Buy(p, Pets.Cat);
+					}
+				} else if (invn.equalsIgnoreCase(ClerkStore.displayN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						if (ItemUtils.Weapons().equals(c)) ClerkStore.weapons(p);
+						else if (ItemUtils.Food().equals(c)) ClerkStore.food(p);
+					}
+				} else if (invn.equals(ClerkStore.weaponsN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						ClerkStore.confirm(p, c, Weapons.getPrice(c));
+					}
+				} else if (invn.equals(ClerkStore.foodN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						ClerkStore.confirm(p, c, Food.getPrice(c));
 					}
 				}
 			}

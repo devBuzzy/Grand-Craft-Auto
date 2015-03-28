@@ -13,9 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import we.Heiden.gca.Events.InventoryClick;
+import we.Heiden.gca.Utils.Displayable;
 import we.Heiden.gca.Utils.ItemUtils;
 
-public class Settings {
+public class Settings implements Displayable {
 
 	public static void configure() {
 		List<ItemStack> li = new ArrayList<ItemStack>();
@@ -90,7 +91,7 @@ public class Settings {
 			menu02N() + state(), greffect.getItemMeta().getLore()), SettingsEnum.GUN_RECHARGE_EFFECT);
 	public static Inventory inv3 = extraMenu(null, menu03N(), ItemUtils.getItem(Material.PAPER, menu03N() + state()), SettingsEnum.TITLES);
 	public static Inventory inv4 = extraMenu(null, menu04N(), ItemUtils.getItem(Material.COMPASS, menu04N() + state(), hotbar01.getItemMeta().getLore()), SettingsEnum.HOTBAR);
-	public static Inventory inv5 = extraMenu(Arrays.asList(1,2,3,4,5,7), menu05N(), ItemUtils.getItem(Material.INK_SACK, (short) 3, 
+	public static Inventory inv5 = extraMenu(Arrays.asList(0,1,2,3,5,6,7,8), menu05N(), ItemUtils.getItem(Material.INK_SACK, (short) 3, 
 			menu05N() + state(), gzoom01.getItemMeta().getLore()), SettingsEnum.GUN_ZOOM);
 	public static Inventory inv6 = extraMenu(null, menu06N(), ItemUtils.getItem(Material.MONSTER_EGG, (short) 95, menu06N() + state()), SettingsEnum.PET_VISIBILITY);
 	public static Inventory inv7 = extraMenu(null, menu07N(), ItemUtils.getItem(Material.FIREWORK, 
@@ -98,7 +99,7 @@ public class Settings {
 	public static Inventory inv8 = extraMenu(null, menu08N(), ItemUtils.getItem(Material.WATCH, 
 			menu08N() + state(), quality.getItemMeta().getLore()), SettingsEnum.QUALITY);
 	
-	public static void display(Player p) {
+	public void display(Player p) {
 		Inventory inv = Bukkit.createInventory(null, 18, name());
 		
 		SettingsEnum.setPlayer(p);

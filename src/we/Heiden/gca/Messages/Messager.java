@@ -12,7 +12,7 @@ public class Messager {
 
 	private static Player p;
 	
-	public static void load(Player p) {Messager.p = p;}
+	public static void load(Player p) { Messager.p = p; }
 	
 	public static void msg(boolean bol, String... str) {
 		boolean hb = true; if (str.length > 1) hb = false; else {SettingsEnum.setPlayer(p); if (SettingsEnum.HOTBAR.getValue().equals("Off")) hb = false;}

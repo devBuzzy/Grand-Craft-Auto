@@ -80,6 +80,14 @@ public class Wand implements Listener {
 		Messager.s1("Garage Exit Set");
 	}
 	
+	public static void Airport(Player p) {
+		Functions.saveLoc("AirportArea.p1", p1.get(p), p);
+		Functions.saveLoc("AirportArea.p2", p2.get(p), p);
+		Config.save();
+		Messager.load(p);
+		Messager.s1("Airport Area Set");
+	}
+	
 	public static void gSlot(Player p) {
 		int n = 1;
 		if (Config.get().contains("Garage.Slots")) n = Config.get().getConfigurationSection("Garage.Slots").getKeys(false).size()+1;
@@ -116,6 +124,7 @@ public class Wand implements Listener {
 					if (type.equals("Garage Entry")) gEntry(p);
 					else if (type.equals("Garage Exit")) gExit(p);
 					else if (type.equals("Garage Slot")) gSlot(p);
+					else if (type.equals("Airport")) Airport(p);
 					CMessager.msg("");
 					clear(p);
 				}

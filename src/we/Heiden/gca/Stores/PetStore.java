@@ -4,22 +4,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import we.Heiden.gca.Configs.PlayerConfig;
 import we.Heiden.gca.Messages.JsonMessage;
 import we.Heiden.gca.Messages.JsonMessage.ClickAction;
 import we.Heiden.gca.Messages.JsonMessage.HoverAction;
 import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Messages.Titles;
 import we.Heiden.gca.Pets.Pets;
+import we.Heiden.gca.Utils.Confirmable;
+import we.Heiden.gca.Utils.ItemUtils;
+import we.Heiden.hs2.Messages.Chat;
 import we.Heiden.hs2.SQL.Operations;
 
-public class PetStore implements BasicStore {
+public class PetStore implements BasicStore, Confirmable {
 	
 	public static HashMap<Player, Pets> pets = new HashMap<Player, Pets>();
+	public static ItemStack wolf = ItemUtils.getItem(Material.MONSTER_EGG, (short) 95, "&a&lDoggy Friend", "&bJust a dog", "&6&lCost: &d500 Coins");
+	public static ItemStack cat = ItemUtils.getItem(Material.MONSTER_EGG, (short) 98, "&6&lNian Style", "&d&oMeeew", "&6&lCost: &d750 Coins");
+	public static String ShopN = ChatColor.translateAlternateColorCodes('&', "&a&lPet Store");
+	public static HashMap<Player, Boolean> confirming = new HashMap<Player, Boolean>();
 
 	public String welcome() { return ChatColor.translateAlternateColorCodes('&', "&aPet Clerk &d-> &eWelcome!"); }
 	
@@ -28,59 +39,69 @@ public class PetStore implements BasicStore {
 				JsonMessage.newJson("&6&l============================="), 
 				JsonMessage.newJson()
 					.add("          &9&l*").build()
-					.add("&a&lDoggy Friend")
-						.hoverEvent(HoverAction.Show_Entity, JsonMessage.newEntity("&bJust a Dog", EntityType.WOLF))
-						.clickEvent(ClickAction.Run_Command, "/Store Pet Wolf").build()
-					.add(" &d&l- &f&o500 Coins").build().build(), 
+					.add("&a&lBuy Pets")
+						.hoverEvent(HoverAction.Show_Text, "&bYou will love this")
+						.clickEvent(ClickAction.Run_Command, "/Store Pet").build().build(), 
 				JsonMessage.newJson()
-					.add("          &9&l*").build()
-					.add("&a&lNian Style")
-						.hoverEvent(HoverAction.Show_Entity, JsonMessage.newEntity("&d&oMewTwo", EntityType.OCELOT))
-						.clickEvent(ClickAction.Run_Command, "/Store Pet Cat").build()
-						.add(" &d&l- &f&o750 Coins").build().build(), 
+					.add("          &4&l*").build()
+					.add("&c&oRobbery Mode")
+						.hoverEvent(HoverAction.Show_Text, "&cNot such a nice guy")
+						.clickEvent(ClickAction.Run_Command, "/Store Robbery Pet").build().build(), 
 				JsonMessage.newJson("&6&l============================="));
 	}
 	
-	public static void Buy(Player p, Pets pet, int cost) {
+	public static void Shop(Player p) {
+		Inventory inv = Bukkit.createInventory(null, 9, ShopN);
+		for (int n = 0; n < inv.getSize(); n++) inv.setItem(n, ItemUtils.ItemDefault());
+		inv.setItem(3, wolf);
+		inv.setItem(5, cat);
+		
+		p.openInventory(inv);
+	}
+	
+	public static void Buy(Player p, Pets pet) {
 		FileConfiguration fc = PlayerConfig.load(p);
 		Messager.load(p);
 		if (!fc.contains("Pets")) fc.set("Pets", new ArrayList<String>());
 		List<String> ls = fc.getStringList("Pets");
-		if (ls.contains(pet.getType())) Messager.e1("You already have that pet");
+		if (ls.contains(pet.getType())) { Messager.e1("You already have that pet"); p.closeInventory(); }
 		else {
 			int money = Operations.getMoney(p);
-			if (money < cost) Messager.e1("You can`t afford that");
+			if (money < pet.cost) { Messager.e1("You can`t afford that"); p.closeInventory(); }
 			else {
 				pets.put(p, pet);
-				confirmation(p);
+				confirmation(p, pet);
 			}
 		}
 	}
 	
-	public static void confirmation(Player p) {
-		JsonMessage.sendJson(p, 
-				JsonMessage.newJson("&9&l========== &bAre you sure? &9&l=========="), 
-				JsonMessage.newJson()
-					.add("   &2--> ").build()
-					.add("&a&lYES").clickEvent(ClickAction.Run_Command, "/Store Pet Confirm").build()
-					.add(" &2<--  &4--> ").build()
-					.add("&c&lNO").clickEvent(ClickAction.Run_Command, "/Store Pet Deny").build()
-					.add(" &4<--").build().build(), 
-				JsonMessage.newJson("&9&l==================================="));
+	public static void confirmation(Player p, Pets pet) {
+		ItemUtils.yes.put(p, new PetStore());
+		Inventory inv = Bukkit.createInventory(null, 27, ChatColor.translateAlternateColorCodes('&', "&dBuy a " + pet.getType() + "?"));
+		for (int n = 0; n < inv.getSize(); n++) inv.setItem(n, ItemUtils.ItemDefault());
+		inv.setItem(12, ItemUtils.Yes());
+		inv.setItem(14, ItemUtils.No());
+		
+		p.openInventory(inv);
 	}
 	
-	public static void confirm(Player p) {
+	public void no(Player p) { p.closeInventory(); }
+
+	public void yes(Player p) {
+		confirming.put(p, false);
+		new Chat(p).msg("&a&lName your pet", "  &2&oType a name in chat!", "    &c&oWarning: You can`t change it", "&dColors not supported!");
+	}
+	
+	public static void finish(Player p) {
 		Messager.load(p);
-		if (!pets.containsKey(p)) Messager.e1("You can`t do that again");
-		else {
-			Pets pet = pets.get(p);
-			pets.remove(p);
-			FileConfiguration fc = PlayerConfig.load(p);
-			List<String> ls = fc.getStringList("Pets");
-			ls.add(pet.getType());
-			fc.set("Pets", ls);
-			PlayerConfig.save();
-			Messager.s1("Pet Successfully Bought");
-		}
+		Pets pet = pets.get(p);
+		pets.remove(p);
+		FileConfiguration fc = PlayerConfig.load(p);
+		List<String> ls = fc.getStringList("Pets");
+		ls.add(pet.getType());
+		fc.set("Pets", ls);
+		PlayerConfig.save();
+		Operations.setMoney(p.getUniqueId(), Operations.getMoney(p) - pet.cost);
+		new Titles(p).title("Pet Bought").send();
 	}
 }

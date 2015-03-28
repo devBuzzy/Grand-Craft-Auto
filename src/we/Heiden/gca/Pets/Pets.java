@@ -5,13 +5,14 @@ import org.bukkit.entity.Player;
 
 public enum Pets {
 
-	Wolf("Wolf", new Wolf()),
-	Cat("Cat", new Ocelot());
+	Wolf("Wolf", new Wolf(), 500),
+	Cat("Cat", new Ocelot(), 750);
 	
 	private String type;
 	private Pet pet;
+	public int cost;
 	
-	private Pets(String type, Pet pet) { this.type = type; pet.killEntityNMS(); this.pet = pet; }
+	private Pets(String type, Pet pet, int cost) { this.type = type; pet.killEntityNMS(); this.pet = pet; this.cost = cost; }
 	
 	public String getType() { return type; }
 	

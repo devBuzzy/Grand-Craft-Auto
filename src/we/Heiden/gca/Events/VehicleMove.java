@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
 import we.Heiden.gca.Functions.Cars;
+import we.Heiden.gca.Functions.Garage;
 
 /**
  * ********************************************* <p>
@@ -42,27 +43,10 @@ public class VehicleMove implements Listener {
 	
 	public static boolean canRide(Player p) {return canRide(p, p.getLocation());}
 	
-	@SuppressWarnings("deprecation")
 	public static boolean rideable(Location loc) {
 		loc.setY(loc.getY()-1);
 		Material mat = loc.getBlock().getType();
-		if (mat.equals(Material.STAINED_CLAY) || mat.equals(Material.IRON_BLOCK)) {
-			if (mat.equals(Material.STAINED_CLAY)) {if (loc.getBlock().getData() == 9 || loc.getBlock().getData() == 4) return true;
-			} else {
-				boolean bol = false;
-				for (int n = 1; n <= 4; n++) {
-					Location loc2 = loc.clone();
-					if (n == 1) loc2.setZ(loc2.getZ()-1);
-					else if (n == 2) loc2.setZ(loc2.getZ()+1);
-					else if (n == 3) loc2.setX(loc2.getX()-1);
-					else loc2.setX(loc2.getX()+1);
-					if (loc2.getBlock().getType().equals(Material.STAINED_CLAY) && loc2.getBlock().getData() == 15) bol = true;
-					if (bol) break;
-				}
-				if (bol) return true;
-			}
-		}
-		return false;
+		return mat.equals(Material.STAINED_CLAY) || mat.equals(Material.IRON_BLOCK) || mat.equals(Material.STEP) || mat.equals(Material.AIR);
 	}
 	
 	public static void setYaw(Player p, float yaw1) {
@@ -78,6 +62,8 @@ public class VehicleMove implements Listener {
 		Cars.vec.put(p, vector);
 	}
 	
+	public static List<Player> jump = new ArrayList<Player>();
+	
 	@EventHandler
 	public void onVehicleMove(VehicleMoveEvent e) {
 		if (e.getFrom().getBlock().getLocation() != e.getTo().getBlock().getLocation()) {
@@ -90,11 +76,18 @@ public class VehicleMove implements Listener {
 							if (velocity == 1) velocity = 2;
 							else velocity = velocity*velocity;
 							velocity = velocity/10;
-							e.getVehicle().setVelocity(Cars.vec.get(p).clone().multiply(velocity));
+							Vector vec = Cars.vec.get(p).clone().multiply(velocity);
+							if (jump.contains(p)) {
+								vec.add(new Vector(0, 0.6D, 0));
+								jump.remove(p);
+							}
+							e.getVehicle().setVelocity(vec);
 						} else e.getVehicle().setVelocity(new Vector(0, 0, 0));
 					}
+				} else if (Cars.vehicles.containsKey(e.getVehicle())) e.getVehicle().teleport(e.getFrom());
+				else for (Player p : Garage.exposed.keySet()) {
+					if (Garage.exposed.get(p).contains(e.getVehicle())) e.getVehicle().teleport(e.getFrom());
 				}
-				else if (Cars.vehicles.containsKey(e.getVehicle())) e.getVehicle().teleport(e.getFrom());
 			}
 		}
 	}

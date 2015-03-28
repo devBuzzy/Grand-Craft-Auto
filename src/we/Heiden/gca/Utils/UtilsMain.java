@@ -1,6 +1,7 @@
 package we.Heiden.gca.Utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -8,18 +9,24 @@ import org.bukkit.inventory.ItemStack;
 
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Configs.PlayerConfig;
+import we.Heiden.gca.Events.PlayerMove;
 import we.Heiden.gca.Functions.Bag;
 import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
+import we.Heiden.gca.Functions.Tutorial;
+import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
+import we.Heiden.gca.Weapons.Weapons;
 import we.Heiden.gca.core.Main;
+import we.Heiden.hs2.Holograms.HologramUtils;
 
 public class UtilsMain {
 	
 	public static void bc(String message) { for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(message); }
 	
 	public static void setup() {
+		try { new HologramUtils().registerCustomEntity(NMSNpc.class, "Villager", 120); } catch(Exception ex) { }
 		ItemUtils.setup();
 		NPCs.setup();
 		CarsEnum.setup();
@@ -49,7 +56,16 @@ public class UtilsMain {
 	}
 	
 	public static void load(Player p) {
-		if (PlayerConfig.getFile() == null || !PlayerConfig.getFile().exists()) new PlayerConfig(p);
+		if (PlayerConfig.getFile() == null || !PlayerConfig.getFile().exists()) {
+			new PlayerConfig(p);
+			Location loc = Functions.loadLoc("Airport", p);
+			if (loc != null) {
+				p.teleport(loc);
+				for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) pl.hidePlayer(p);
+				PlayerMove.onAirport.add(p);
+				Tutorial.tuto.put(p, 1);
+			}
+		}
 		PlayerConfig.load(p);
 		if (PlayerConfig.get().contains("Temp.hasItems")) ItemUtils.hasItems.add(p);
 		if (PlayerConfig.get().contains("Temp.Bag")) {
@@ -61,5 +77,6 @@ public class UtilsMain {
 			Bag.inventories.put(p, inv);
 		}
 		SettingsEnum.register(p);
+		Weapons.register(p);
 	}
 }

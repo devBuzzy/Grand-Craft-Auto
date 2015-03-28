@@ -34,18 +34,35 @@ public class ItemUtils {
 		ritems.put("GearDown", getItem(Material.BANNER, (short) 1, "&c&lGear Down"));
 		ritems.put("GearMax", getItem(Material.BANNER, "&9&lMax Level Reached"));
 		ritems.put("Garage", getItem(Material.ACACIA_FENCE_GATE, "&7&lGarage", "Click your car", "with this to", "take it to the", "Garage!"));
-		ritems.put("Pitsol01", getItem(Material.INK_SACK, (short) 1, "&8&lM1911 &7&o(colt)", "Hey man, you`re on Los Angeles", "I think you will need this..."));
+
+		ritems.put("W_M1911", getItem(Material.INK_SACK, (short) 1, "&9&lM1911", "&aCharge: &b0&9/&c20"));
+		ritems.put("W_AK47", getItem(Material.INK_SACK, (short) 10, "&9&lAK47", "&aCharge: &b0&9/&c30"));
+		ritems.put("W_FAMAS", getItem(Material.INK_SACK, (short) 12, "&9&lFAMAS", "&aCharge: &b0&9/&c30"));
+		ritems.put("W_AUG", getItem(Material.INK_SACK, (short) 3, "&9&lAUG", "&aCharge: &b0&9/&c30"));
+		ritems.put("W_KNIFE", getItem(Material.INK_SACK, (short) 8, "&7&l&oKnife"));
+		ritems.put("W_GRENADE", getItem(Material.SNOW_BALL, "&c&lGrenade"));
+		ritems.put("W_SPAS_12", getItem(Material.INK_SACK, "&9&lSPAS12", "&aCharge: &b0&9/&c5"));
+		ritems.put("W_BARRET_50", getItem(Material.INK_SACK, (short) 14, "&9&lBARRETT-50-CAL", "&aCharge: &b0&9/&c10"));
+
+		ritems.put("Bullet", getItem(Material.ARROW, "&a&lBullet"));
+		
+		ritems.put("Food", getItem(Material.COOKED_CHICKEN, "&a&lFood n Heal"));
+		ritems.put("Weapons", getItem(Material.INK_SACK, (short) 1, "&c&lWeapons"));
+		
 		ritems.put("Yes", getItem(Material.STAINED_CLAY, (short) 5, "&a&lConfirm", "&2&oConfirm whatever you", "&2&oare confirmating"));
 		ritems.put("No", getItem(Material.STAINED_CLAY, (short) 14, "&c&lDeny", "&4&oIt`s like confirming,", "&4&obut no."));
 		ritems.put("CarInfo", getItem(Material.PAPER, "&5&lCar Info"));
 		ritems.put("CarAuth", getItem(Material.STAINED_CLAY, (short) 4, "&e&lAuth", "&7With Delay", "", "Your car will be added", "to our Auth List, if", "anyone buys it, you",
 				"will get the money"));
 		ritems.put("CarSell", getItem(Material.STAINED_CLAY, (short) 1, "&6&lSell", "&7Instant", "", "If you &lsell", "your car, you", "will obtain half", "of it`s cost back"));
+		
+		weapons.addAll(Arrays.asList(W_AK47(), W_AUG(), W_BARRET_50(), W_FAMAS(), W_GRENADE(), W_KNIFE(), W_M1911(), W_SPAS_12()));
 	}
 
 	public static HashMap<ItemStack, CarsEnum> cars = new HashMap<ItemStack, CarsEnum>();
 	public static List<ItemStack> keys = new ArrayList<ItemStack>();
 	public static List<ItemStack> items = new ArrayList<ItemStack>();
+	public static List<ItemStack> weapons = new ArrayList<ItemStack>();
 	
 	public static final int SlotPistol = 0;
 	public static final int SlotSettings = 1;
@@ -56,7 +73,7 @@ public class ItemUtils {
 	public static void setCars() {for (CarsEnum e : CarsEnum.values()) cars.put(e.getItem(), e);}
 	public static void setKeys() {for (CarsEnum e : CarsEnum.values()) keys.add(e.getKey());}
 	public static void setItems() {
-		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), Pistol01(), ItemDefault(), GearMax(), Garage(), Wand.wand, Yes(), No(), CarInfo()));
+		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), ItemDefault(), GearMax(), Garage(), Wand.wand, Yes(), No(), CarInfo()));
 		items.addAll(cars.keySet());
 		items.addAll(keys);
 		for (int n = 1; n <= 10; n++) {
@@ -107,7 +124,7 @@ public class ItemUtils {
 		int s4 = SlotMoney;
 		int s5 = SlotSettings;
 
-		if (!inv.contains(Pistol01())) if (inv.getItem(s1) == null) inv.setItem(s1, Pistol01()); else inv.addItem(Pistol01());
+		if (!inv.contains(W_M1911())) if (inv.getItem(s1) == null) inv.setItem(s1, W_M1911()); else inv.addItem(W_M1911());
 		if (!inv.contains(ItemBag())) if (inv.getItem(s2) == null) inv.setItem(s2, ItemBag()); else inv.addItem(ItemBag());
 		if (!inv.contains(ItemJobs())) if (inv.getItem(s3) == null) inv.setItem(s3, ItemJobs()); else inv.addItem(ItemJobs());
 		if (!inv.contains(ItemMoney(p))) if (inv.getItem(s4) == null) inv.setItem(s4, ItemMoney(p)); else inv.addItem(ItemMoney(p));
@@ -140,12 +157,23 @@ public class ItemUtils {
 	public static ItemStack GearMax() { return ritems.get("GearMax"); }
 	public static ItemStack Garage() { return ritems.get("Garage"); }
 	
-	
-	public static ItemStack Pistol01() { return ritems.get("Pistol01"); }
+
+	public static ItemStack W_M1911() { return ritems.get("W_M1911"); }
+	public static ItemStack W_AK47() { return ritems.get("W_AK47"); }
+	public static ItemStack W_FAMAS() { return ritems.get("W_FAMAS"); }
+	public static ItemStack W_AUG() { return ritems.get("W_AUG"); }
+	public static ItemStack W_KNIFE() { return ritems.get("W_KNIFE"); }
+	public static ItemStack W_GRENADE() { return ritems.get("W_GRENADE"); }
+	public static ItemStack W_SPAS_12() { return ritems.get("W_SPAS_12"); }
+	public static ItemStack W_BARRET_50() { return ritems.get("W_BARRET_50"); }
+	public static ItemStack Bullet() { return ritems.get("Bullet"); }
 	
 
 	public static ItemStack Yes() { return ritems.get("Yes"); }
 	public static ItemStack No() { return ritems.get("No"); }
+
+	public static ItemStack Weapons() { return ritems.get("Weapons"); }
+	public static ItemStack Food() { return ritems.get("Food"); }
 
 
 	public static ItemStack CarInfo() { return ritems.get("CarInfo"); }

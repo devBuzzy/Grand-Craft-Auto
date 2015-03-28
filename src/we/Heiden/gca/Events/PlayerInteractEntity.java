@@ -14,9 +14,12 @@ import org.bukkit.util.Vector;
 import we.Heiden.gca.CustomEvents.Action;
 import we.Heiden.gca.CustomEvents.NPCInteractEvent;
 import we.Heiden.gca.Functions.Cars;
+import we.Heiden.gca.Functions.Garage;
 import we.Heiden.gca.Messages.Messager;
 import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
+import we.Heiden.gca.Utils.ItemUtils;
+import we.Heiden.gca.core.Timer20T;
 
 /**
  * ********************************************* <p>
@@ -44,12 +47,20 @@ public class PlayerInteractEntity implements Listener {
 					e.getRightClicked().setPassenger(p);
 					Messager.e1("Turn your car");
 					e.setCancelled(true);
+					Timer20T.toRemove.remove(p);
+				} else if (p.getItemInHand().equals(ItemUtils.Garage())) {
+					Garage.remove(p, e.getRightClicked());
+					Messager.msg("&a&lCar saved on the garage");
+					e.setCancelled(true);
 				} else {
 					Messager.e1("Invalid Key!");
 					e.setCancelled(true);
 				}
 			} else if (Cars.vehicles.containsKey(e.getRightClicked())) {
 				Messager.e1("This car isn`t yours!");
+				e.setCancelled(true);
+			} else if (Garage.exposed.get(p).contains(e.getRightClicked())) {
+				Garage.display(p, e.getRightClicked());
 				e.setCancelled(true);
 			}
 		} else if (((CraftVillager)e.getRightClicked()).getHandle() instanceof NMSNpc && e.getRightClicked().getType().equals(EntityType.VILLAGER)) {

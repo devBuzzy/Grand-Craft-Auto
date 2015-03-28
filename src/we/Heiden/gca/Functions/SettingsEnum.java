@@ -13,7 +13,7 @@ public enum SettingsEnum {
 	GUN_RECHARGE_EFFECT("Med", "High", "Med", "Off"),
 	TITLES("On", "On", "Off"),
 	HOTBAR("On", "On", "Off"),
-	GUN_ZOOM("120%", "200%", "160%", "120%", "80%", "40%", "Off"),
+	GUN_ZOOM("120%", "210%", "180%", "150%", "120%", "90%", "60%", "30%", "Off"),
 	PET_VISIBILITY("On", "On", "Off"),
 	EXTRA_PARTICLES("On", "On", "Off"),
 	QUALITY("Med", "High", "Med", "Low");

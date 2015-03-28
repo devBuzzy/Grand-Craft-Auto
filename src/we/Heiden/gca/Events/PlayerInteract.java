@@ -21,6 +21,7 @@ import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Messages.Messager;
 import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
+import we.Heiden.gca.Stores.Food;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.core.Timer20T;
 
@@ -86,12 +87,28 @@ public class PlayerInteract implements Listener {
 			ItemStack gdown = ItemUtils.GearDown();
 			if (Cars.velocity.containsKey(p)) gdown.setAmount(Cars.velocity.get(p)-1);
 			
-			if (ItemUtils.getItem(p).contains(c)) e.setCancelled(true);
+			if (ItemUtils.getItem(p).contains(c)) {
+				e.setCancelled(true);
+				p.updateInventory();
+			}
 			
 			if (c.equals(bag)) Bag.open(p);
-			else if (c.equals(settings)) Settings.display(p);
+			else if (c.equals(settings)) new Settings().display(p);
 			else if (c.equals(gup) || c.equals(ItemUtils.GearMax())) Cars.gearUp(p);
 			else if (c.equals(gdown)) Cars.gearDown(p);
+			else if (c.equals(Food.stew_m.item)) {
+				e.setCancelled(true);
+				if (p.getHealth() < p.getMaxHealth()) {
+					int amount = c.getAmount();
+					amount --;
+					if (amount > 0) {
+						ItemStack item = c.clone();
+						item.setAmount(amount);
+						p.setItemInHand(item);
+					} else p.setItemInHand(null);
+					p.setHealth(p.getMaxHealth());
+				}
+			}
 			else if (ItemUtils.cars.containsKey(c)) {
 				if (e.getClickedBlock() == null) Messager.e1("You must click a block!");
 				else {

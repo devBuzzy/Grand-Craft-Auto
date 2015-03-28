@@ -3,6 +3,7 @@ package we.Heiden.gca.Events;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Functions.Wand;
+import we.Heiden.gca.Weapons.WeaponHandler;
 
 /**
  * ********************************************* <p>
@@ -32,5 +33,7 @@ public class EventsHandler {
         new Wand(pl);
         new PlayerMove(pl);
         new NPCInteract(pl);
+        new AsyncPlayerChat(pl);
+        new WeaponHandler(pl);
 	}
 }

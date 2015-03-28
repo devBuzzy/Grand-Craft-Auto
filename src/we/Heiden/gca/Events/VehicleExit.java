@@ -1,6 +1,7 @@
 package we.Heiden.gca.Events;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import org.bukkit.plugin.Plugin;
 import we.Heiden.gca.Functions.Cars;
 import we.Heiden.gca.Messages.CMessager;
 import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Utils.ItemUtils;
+import we.Heiden.gca.core.Timer20T;
 
 /**
  * ********************************************* <p>
@@ -56,6 +59,9 @@ public class VehicleExit implements Listener {
 						Cars.vec.remove(p);
 						p.getInventory().setItem(6, Cars.enums.get(p).getKey());
 						p.getInventory().setItem(5, ItemUtils.Garage());
+						List<Object> lo = Functions.newList();
+						lo.addAll(Arrays.asList(e.getVehicle(), 300));
+						Timer20T.toRemove.put(p, lo);
 					}
 					delay.put(p, 5);
 				} else e.setCancelled(true);

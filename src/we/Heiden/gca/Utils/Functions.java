@@ -1,6 +1,9 @@
 package we.Heiden.gca.Utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -9,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Messages.Messager;
 
 public class Functions {
@@ -22,6 +26,21 @@ public class Functions {
 	
 	public static <T> List<T> newList() {
 		return new ArrayList<T>();
+	}
+	
+	public static boolean canJoinRobbery() {
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		String[] time = dateFormat.format(date).split(":");
+		int mins = Integer.parseInt(time[1]);
+		return time[0].equals("20") && mins < 5;
+	}
+	
+	public static void setWarp(Player p, String warp, String path) {
+		Functions.saveLoc(path, p);
+		Config.save();
+		Messager.load(p);
+		Messager.s1(warp + " Warp Set");
 	}
 	
 	public static boolean isInt(Player p, String s, String type, boolean zero, boolean negative, boolean msg) {
@@ -73,12 +92,7 @@ public class Functions {
 	}
 	
 	public static boolean canFc(Player p) {
-		if (fc == null) {
-			Messager.load(p);
-			Messager.e1("Try Again");
-			return false;
-		}
-		return true;
+		return fc != null;
 	}
 	
 	

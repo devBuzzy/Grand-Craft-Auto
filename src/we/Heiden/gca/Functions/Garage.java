@@ -4,28 +4,38 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Configs.PlayerConfig;
 import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Utils.Confirmable;
 import we.Heiden.gca.Utils.EntityHider;
 import we.Heiden.gca.Utils.Functions;
+import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.core.Main;
+import we.Heiden.gca.core.Timer20T;
 import we.Heiden.hs2.Holograms.HologramUtils;
 import we.Heiden.hs2.Holograms.NMSEntity;
 
-public class Garage {
+public class Garage implements Confirmable {
 
 	public static HashMap<Player, Location> onGarage = new HashMap<Player, Location>();
 	public static HashMap<Player, List<Entity>> exposed = new HashMap<Player, List<Entity>>();
 	public static HashMap<Player, List<NMSEntity>> holograms = new HashMap<Player, List<NMSEntity>>();
+	public static HashMap<Entity, CarsEnum> cars = new HashMap<Entity, CarsEnum>();
 
 	public static void enter(Player p) {
+		if (Timer20T.toRemove.containsKey(p)) {
+			remove(p, (Entity) Timer20T.toRemove.get(p).get(0));
+			Timer20T.toRemove.remove(p);
+		}
 		Messager.load(p);
 		Location loc = Functions.loadLoc("Garage.Warp", p);
 		if (loc == null) Messager.e1("Config Error &7(&2Garage.Warp&7)");
@@ -35,6 +45,8 @@ public class Garage {
 			p.teleport(loc);
 			Messager.s1("Welcome to the Garage!");
 		}
+		p.getInventory().setItem(5, ItemUtils.ItemDefault());
+		p.getInventory().setItem(6, ItemUtils.ItemDefault());
 	}
 	
 	public static void exit(Player p) {
@@ -75,10 +87,9 @@ public class Garage {
 				loc.setYaw(yaw);
 				loc.setY(loc.getY()+1D);
 				Minecart vehicle = (Minecart) p.getWorld().spawnEntity(loc, EntityType.MINECART);
-				for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) {
-					hider.hideEntity(pl, vehicle);
-					/*hider.hideEntity(pl, hm.getBukkitEntityNMS());*/
-				}
+				vehicle.getLocation().setDirection(loc.getDirection());
+				for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) hider.hideEntity(pl, vehicle);
+				cars.put(vehicle, car);
 				if (exposed.containsKey(p)) exposed.get(p).add(vehicle);
 				else {
 					List<Entity> ls2 = Functions.newList();
@@ -94,5 +105,39 @@ public class Garage {
 		exposed.remove(p);
 		if (holograms.containsKey(p)) for (NMSEntity e : holograms.get(p)) e.killEntityNMS();
 		holograms.remove(p);
+	}
+	
+	public static void remove(Player p, Entity ent) {
+		Cars.enums.remove(p);
+		Cars.velocity.remove(p);
+		Cars.vec.remove(p);
+		Cars.players.remove(p);
+		Cars.vehicles.remove(ent);
+		ent.remove();
+		p.getInventory().setItem(5, ItemUtils.ItemDefault());
+		p.getInventory().setItem(6, ItemUtils.ItemDefault());
+	}
+	
+	private static HashMap<Player, Entity> car = new HashMap<Player, Entity>();
+	
+	public static void display(Player p, Entity ent) {
+		ItemUtils.yes.put(p, new Garage());
+		car.put(p, ent);
+		Inventory inv = Bukkit.createInventory(null, 27, ChatColor.translateAlternateColorCodes('&', "&a&lUse this car?"));
+		for (int n = 0; n < inv.getSize(); n++) inv.setItem(n, ItemUtils.ItemDefault());
+		inv.setItem(12, ItemUtils.Yes());
+		inv.setItem(14, ItemUtils.No());
+		
+		p.openInventory(inv);
+	}
+	
+	public void no(Player p) { p.closeInventory(); }
+
+	@Override
+	public void yes(Player p) {
+		p.closeInventory();
+		CarsEnum care = cars.get(car.get(p));
+		exit(p);
+		p.getInventory().setItem(6, care.getItem());
 	}
 }
