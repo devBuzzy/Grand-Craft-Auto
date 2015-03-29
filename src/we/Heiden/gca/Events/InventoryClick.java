@@ -122,6 +122,7 @@ public class InventoryClick implements Listener {
 						e.setCancelled(true);
 						if (ItemUtils.Weapons().equals(c)) ClerkStore.weapons(p);
 						else if (ItemUtils.Food().equals(c)) ClerkStore.food(p);
+						else if (c.equals(ItemUtils.JetPack())) ClerkStore.confirm(p, c, 1000);
 					}
 				} else if (invn.equals(ClerkStore.weaponsN)) {
 					if (e.getInventory().contains(c)) {

@@ -9,6 +9,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import we.Heiden.gca.Events.PlayerToggleSneak;
 import we.Heiden.gca.Events.VehicleExit;
 import we.Heiden.gca.Weapons.WeaponHandler;
 import we.Heiden.gca.Weapons.WeaponUtils;
@@ -40,5 +41,14 @@ public class Timer2T extends BukkitRunnable {
 				else shoots.remove(p);
 			}
 		} catch(Exception ex) { }
+		
+		if (!PlayerToggleSneak.jetpack.isEmpty()) 
+			for (Player p : PlayerToggleSneak.jetpack.keySet()) {
+				int time = PlayerToggleSneak.jetpack.get(p);
+				time--;
+				if (time > 0) PlayerToggleSneak.jetpack.put(p, time);
+				else PlayerToggleSneak.jetpack.remove(p);
+				p.getInventory().getChestplate().setDurability((short) (time/3));
+			}
 	}
 }

@@ -30,9 +30,9 @@ public class ItemUtils {
 		ritems.put("ItemSettings", getItem(Material.COMPASS, "&f&lSettings", "Do you have lag?", "or just you don`t like", "   how some things look?", 
 				" I`ve a &fSolution &5&ofor &fYou", "", "&bJust click me"));
 		ritems.put("ItemDefault", getItem(Material.STAINED_GLASS_PANE, (short) 7, "&a"));
-		ritems.put("GearUp", getItem(Material.BANNER, (short) 10, "&a&lGear Up"));
-		ritems.put("GearDown", getItem(Material.BANNER, (short) 1, "&c&lGear Down"));
-		ritems.put("GearMax", getItem(Material.BANNER, "&9&lMax Level Reached"));
+		ritems.put("GearUp", getItem(Material.MAGMA_CREAM, "&a&lGear Up"));
+		ritems.put("GearDown", getItem(Material.BLAZE_POWDER, "&c&lGear Down"));
+		ritems.put("GearMax", getItem(Material.GHAST_TEAR, "&9&lMax Level Reached"));
 		ritems.put("Garage", getItem(Material.ACACIA_FENCE_GATE, "&7&lGarage", "Click your car", "with this to", "take it to the", "Garage!"));
 
 		ritems.put("W_M1911", getItem(Material.INK_SACK, (short) 1, "&9&lM1911", "&aCharge: &b0&9/&c20"));
@@ -48,6 +48,7 @@ public class ItemUtils {
 		
 		ritems.put("Food", getItem(Material.COOKED_CHICKEN, "&a&lFood n Heal"));
 		ritems.put("Weapons", getItem(Material.INK_SACK, (short) 1, "&c&lWeapons"));
+		ritems.put("JetPack", getItem(Material.CHAINMAIL_CHESTPLATE, "&b&lJet&d&lPack", "Fly on the sky", "", "&7&oSneak to fly"));
 		
 		ritems.put("Yes", getItem(Material.STAINED_CLAY, (short) 5, "&a&lConfirm", "&2&oConfirm whatever you", "&2&oare confirmating"));
 		ritems.put("No", getItem(Material.STAINED_CLAY, (short) 14, "&c&lDeny", "&4&oIt`s like confirming,", "&4&obut no."));
@@ -56,7 +57,7 @@ public class ItemUtils {
 				"will get the money"));
 		ritems.put("CarSell", getItem(Material.STAINED_CLAY, (short) 1, "&6&lSell", "&7Instant", "", "If you &lsell", "your car, you", "will obtain half", "of it`s cost back"));
 		
-		weapons.addAll(Arrays.asList(W_AK47(), W_AUG(), W_BARRET_50(), W_FAMAS(), W_GRENADE(), W_KNIFE(), W_M1911(), W_SPAS_12()));
+		weapons.addAll(Arrays.asList(W_AK47(), W_AUG(), W_BARRET_50(), W_FAMAS(), W_GRENADE(), W_KNIFE(), W_M1911(), W_SPAS_12(), JetPack()));
 	}
 
 	public static HashMap<ItemStack, CarsEnum> cars = new HashMap<ItemStack, CarsEnum>();
@@ -174,6 +175,7 @@ public class ItemUtils {
 
 	public static ItemStack Weapons() { return ritems.get("Weapons"); }
 	public static ItemStack Food() { return ritems.get("Food"); }
+	public static ItemStack JetPack() { return ritems.get("JetPack"); }
 
 
 	public static ItemStack CarInfo() { return ritems.get("CarInfo"); }

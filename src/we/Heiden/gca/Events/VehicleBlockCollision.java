@@ -52,7 +52,7 @@ public class VehicleBlockCollision implements Listener{
 							e.getVehicle().setVelocity(Cars.vec.get(p).clone().multiply(velocity));
 						} else {
 							Cars.setGear(p, 0);
-							Messager.e1("Your Have Crash, Please Turn Your Car Back");
+							Messager.e1("&c&lYou've crashed! &eTurn your car back on");
 							e.getVehicle().setVelocity(new Vector(0, 0, 0));
 							VehicleMove.CarStoped.add(p);
 							Timer20T.actionBar.remove(p);

@@ -8,6 +8,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import we.Heiden.gca.Functions.Bag;
 import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.core.Timer20T;
 import we.Heiden.gca.core.Timer2T;
 import we.Heiden.hs2.Messages.ActionBar;
@@ -80,7 +82,7 @@ public class WeaponHandler implements Listener {
 								int charge = wep.getCharge(p);
 								if (charge < wep.bulletsPerShoot) {
 									int left = wep.bulletsPerShoot-charge;
-									Messager.e1("You need " + left + " bullets more");
+									Messager.e1("You need " + left + " more bullet(s)");
 								} else {
 									List<Object> lo = new ArrayList<Object>();
 									lo.addAll(Arrays.asList(wep, wep.bulletsPerShoot));
@@ -92,6 +94,8 @@ public class WeaponHandler implements Listener {
 									im.setLore(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&aCharge: &b" + wep.getCharge(p) + "&9/&c" + wep.shootCapacity)));
 									i.setItemMeta(im);
 									p.setItemInHand(i);
+									
+									p.getWorld().playSound(p.getLocation(), wep.sound, 1, 1);
 									
 									if (wep.getCharge(p) >= wep.bulletsPerShoot) {
 										HashMap<Weapons, Integer> hm;
@@ -127,7 +131,10 @@ public class WeaponHandler implements Listener {
 				e.setCancelled(true);
 				Weapons wep = (Weapons) bullet.get(proj).get(0);
 				bullet.remove(proj);
-				if (e.getEntity() instanceof LivingEntity) ((LivingEntity)e.getEntity()).damage(wep.damage, (Player)proj.getShooter());
+				if (e.getEntity() instanceof LivingEntity) {
+					((LivingEntity)e.getEntity()).damage(wep.damage, (Player)proj.getShooter());
+					Functions.displayEffect(e.getEntity().getLocation(), 9, 0.5F, 10, e.getEntity().getWorld().getPlayers());
+				}
 				proj.remove();
 			}
 		} else if (e.getDamager() instanceof Player) {
@@ -162,6 +169,7 @@ public class WeaponHandler implements Listener {
 						List<Object> lo = new ArrayList<Object>();
 						lo.addAll(Arrays.asList(wep, wep.rechargeDelay));
 						Timer20T.recharging.put(p, lo);
+						p.getWorld().playSound(p.getLocation(), Sound.FIREWORK_TWINKLE, 1, 1);
 					}
 					break;
 				}

@@ -3,6 +3,7 @@ package we.Heiden.gca.Weapons;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,14 +12,14 @@ import we.Heiden.gca.Utils.ItemUtils;
 
 public enum Weapons {
 
-	M1911(ItemUtils.W_M1911(), 5, 20, 0.2F, false, 4.0D, 20, 64, 20, 1, "M1911", 250, 60),
-	AK47(ItemUtils.W_AK47(), 10, 2, 0.5F, true, 0.5D, 40, 320, 30, 1, "AK47", 750, 60),
-	FAMAS(ItemUtils.W_FAMAS(), 5, 20, 0.3F, true, 6.0D, 40, 320, 30, 3, "Famas", 500, 50),
-	AUG(ItemUtils.W_AUG(), 5, 20, 0.15F, true, 6.0D, 40, 320, 30, 1, "A.U.G", 500, 55),
+	M1911(ItemUtils.W_M1911(), 5, 20, 0.2F, false, 4.0D, 20, 64, 20, 1, "M1911", 250, 60, Sound.FIREWORK_BLAST2),
+	AK47(ItemUtils.W_AK47(), 10, 2, 0.5F, true, 0.5D, 40, 320, 30, 1, "AK47", 750, 60, Sound.FIREWORK_BLAST),
+	FAMAS(ItemUtils.W_FAMAS(), 5, 20, 0.3F, true, 6.0D, 40, 320, 30, 3, "Famas", 500, 50, Sound.FIREWORK_LARGE_BLAST),
+	AUG(ItemUtils.W_AUG(), 5, 20, 0.15F, true, 6.0D, 40, 320, 30, 1, "A.U.G", 500, 55, Sound.FIREWORK_LARGE_BLAST2),
 	KNIFE(ItemUtils.W_KNIFE(), 2.0D, 500),
 	GRENADE(ItemUtils.W_GRENADE(), 8.0D, 75),
-	SPAS_12(ItemUtils.W_SPAS_12(), 15, 40, 0.6F, false, 10.0D, 10, 84, 5, 1, "Spas 12", 1000, 45),
-	BARRET_50(ItemUtils.W_BARRET_50(), 15, 40, 0F, true, 16.0D, 150, 100, 10, 1, "Barret 50", 2000, 100);
+	SPAS_12(ItemUtils.W_SPAS_12(), 15, 40, 0.6F, false, 10.0D, 10, 84, 5, 1, "Spas 12", 1000, 45, Sound.FIREWORK_LAUNCH),
+	BARRET_50(ItemUtils.W_BARRET_50(), 15, 40, 0F, true, 16.0D, 150, 100, 10, 1, "Barret 50", 2000, 100, Sound.FIREWORK_TWINKLE2);
 	
 	public ItemStack item;
 	public boolean isFireWeapon;
@@ -34,6 +35,7 @@ public enum Weapons {
 	public ItemStack bullet;
 	public int price;
 	public int ammoPrice;
+	public Sound sound;
 	
 	private static HashMap<Player, HashMap<Weapons, Integer>> charge = new HashMap<Player, HashMap<Weapons, Integer>>();
 
@@ -52,7 +54,7 @@ public enum Weapons {
 	}
 	
 	private Weapons(ItemStack item, int rechargeDelay, int shootDelay, float Accuarcy, boolean zoom, double damage, int maxDistance, 
-			int maxCapacity, int shootCapacity, int bulletsPerShoot, String name, int price, int ammoPrice) {
+			int maxCapacity, int shootCapacity, int bulletsPerShoot, String name, int price, int ammoPrice, Sound sound) {
 		this.item = item;
 		isFireWeapon = true;
 		this.rechargeDelay = rechargeDelay;
@@ -71,6 +73,7 @@ public enum Weapons {
 		this.bullet = bullet;
 		this.price = price;
 		this.ammoPrice = ammoPrice;
+		this.sound = sound;
 	}
 	
 	public int getCharge(Player p) { return charge.get(p).get(this); }

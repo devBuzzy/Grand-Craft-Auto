@@ -42,7 +42,7 @@ public class ClerkStore implements BasicStore, Confirmable, Displayable {
 				JsonMessage.newJson()
 					.add("          &4&l*").build()
 					.add("&c&oRobbery Mode")
-						.hoverEvent(HoverAction.Show_Text, "&cNot such a nice guy")
+						.hoverEvent(HoverAction.Show_Text, "&cRob the store")
 						.clickEvent(ClickAction.Run_Command, "/Store Robbery Clerk").build().build(), 
 				JsonMessage.newJson("&6&l============================="));
 	}
@@ -50,8 +50,9 @@ public class ClerkStore implements BasicStore, Confirmable, Displayable {
 	public void display(Player p) {
 		Inventory inv = Bukkit.createInventory(null, 9, displayN);
 		for (int n = 0; n < inv.getSize(); n++) inv.setItem(n, ItemUtils.ItemDefault());
-		inv.setItem(3, ItemUtils.Food());
-		inv.setItem(5, ItemUtils.Weapons());
+		inv.setItem(2, ItemUtils.Food());
+		inv.setItem(3, ItemUtils.Weapons());
+		inv.setItem(5, ItemUtils.JetPack());
 		
 		p.openInventory(inv);
 	}

@@ -43,7 +43,7 @@ public class Garage implements Confirmable {
 			onGarage.put(p, p.getLocation());
 			expose(p);
 			p.teleport(loc);
-			Messager.s1("Welcome to the Garage!");
+			Messager.s1("Welcome back to your Garage");
 		}
 		p.getInventory().setItem(5, ItemUtils.ItemDefault());
 		p.getInventory().setItem(6, ItemUtils.ItemDefault());
@@ -58,7 +58,7 @@ public class Garage implements Confirmable {
 		p.teleport(loc);
 		hide(p);
 		onGarage.remove(p);
-		Messager.s1("You had quit the garage");
+		Messager.s1("You've left your Garage");
 	}
 	
 	public static void expose(Player p) {

@@ -1,15 +1,21 @@
 package we.Heiden.gca.Utils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.minecraft.server.v1_8_R1.Packet;
+import net.minecraft.server.v1_8_R1.PacketPlayOutWorldParticles;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import we.Heiden.gca.Configs.Config;
@@ -41,6 +47,36 @@ public class Functions {
 		Config.save();
 		Messager.load(p);
 		Messager.s1(warp + " Warp Set");
+	}
+	
+	public static boolean displayEffect(Location loc, int id, float velocity, int amount, List<Player> player) {
+		Player[] pl = {};
+		return displayEffect(loc, id, velocity, amount, player.toArray(pl));
+	}
+	
+	public static boolean displayEffect(Location loc, int id, float velocity, int amount, Player... pl) {
+		try {
+			Constructor<?> packetConstructor = PacketPlayOutWorldParticles.class.getConstructor();
+			Packet packet = (Packet) packetConstructor.newInstance();
+            setValue(packet, "a", id);
+            setValue(packet, "j", 50D);
+            setValue(packet, "b", (float) loc.getX());
+            setValue(packet, "c", (float) loc.getY());
+            setValue(packet, "d", (float) loc.getZ());
+            setValue(packet, "e", 0.2F);
+            setValue(packet, "f", 0.2F);
+            setValue(packet, "g", 0.2F);
+            setValue(packet, "h", velocity);
+            setValue(packet, "i", amount);
+            for (Player p : pl) ((CraftPlayer)p).getHandle().playerConnection.sendPacket(packet);
+			return true;
+		} catch(Exception ex) { return false; }
+	}
+	
+	private static void setValue(Object instance, String fieldName, Object value) throws Exception {
+		Field field = instance.getClass().getDeclaredField(fieldName);
+		field.setAccessible(true);
+		field.set(instance, value);
 	}
 	
 	public static boolean isInt(Player p, String s, String type, boolean zero, boolean negative, boolean msg) {

@@ -35,5 +35,7 @@ public class EventsHandler {
         new NPCInteract(pl);
         new AsyncPlayerChat(pl);
         new WeaponHandler(pl);
+        new PlayerToggleSneak(pl);
+        new PlayerDamage(pl);
 	}
 }
