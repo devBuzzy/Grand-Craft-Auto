@@ -27,4 +27,9 @@ commands:
     Store:
         usage: /<command>
         description: Private Command
-        
+    AirportSpawn:
+        aliases: [as]
+    AirportArea:
+        aliases: [aa]
+    TutoSpawn:
+        aliases: [ts]

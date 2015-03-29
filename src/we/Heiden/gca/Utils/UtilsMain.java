@@ -63,7 +63,7 @@ public class UtilsMain {
 				p.teleport(loc);
 				for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) pl.hidePlayer(p);
 				PlayerMove.onAirport.add(p);
-				Tutorial.tuto.put(p, 1);
+				if (Config.get().contains("Tutorial.1") && Config.get().contains("Tutorial.2") && Config.get().contains("Tutorial.3")) Tutorial.tuto.put(p, 1);
 			}
 		}
 		PlayerConfig.load(p);

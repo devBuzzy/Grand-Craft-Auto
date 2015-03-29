@@ -1,8 +1,11 @@
 package we.Heiden.gca.Weapons;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -33,6 +36,13 @@ public class WeaponUtils {
 			p.removePotionEffect(PotionEffectType.SLOW);
 			p.removePotionEffect(PotionEffectType.NIGHT_VISION);
 		}
+	}
+	
+	public static void explode(Item item) {
+		TNTPrimed tnt =  (TNTPrimed) item.getWorld().spawnEntity(item.getLocation(), EntityType.PRIMED_TNT);
+		tnt.setFuseTicks(1);
+		item.remove();
+		WeaponHandler.tnts.add(tnt);
 	}
 	
     public static Projectile shootSingle(float accuracy, Player p, Class<? extends Projectile> proj) {

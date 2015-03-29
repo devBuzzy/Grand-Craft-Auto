@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,7 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import we.Heiden.gca.Commands.CommandsHandler;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EventsHandler;
+import we.Heiden.gca.Events.PlayerMove;
 import we.Heiden.gca.Functions.CarsEnum;
+import we.Heiden.gca.Functions.Tutorial;
 import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
 import we.Heiden.gca.Stores.CarStore;
@@ -96,6 +99,15 @@ public class Main extends JavaPlugin {
 			else if (args.length > 0 && args[0].equalsIgnoreCase("test2")) CarStore.Purchase(p);
 			else if (args.length > 0 && args[0].equalsIgnoreCase("zoom")) WeaponUtils.zoom(p, true);
 			else if (args.length > 0 && args[0].equalsIgnoreCase("zoom2")) WeaponUtils.zoom(p, false);
+			else if (args.length > 0 && args[0].equalsIgnoreCase("tutorial")) {
+				Location loc = we.Heiden.gca.Utils.Functions.loadLoc("Airport", p);
+				if (loc != null) {
+					p.teleport(loc);
+					for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) pl.hidePlayer(p);
+					PlayerMove.onAirport.add(p);
+					if (Config.get().contains("Tutorial.1") && Config.get().contains("Tutorial.2") && Config.get().contains("Tutorial.3")) Tutorial.tuto.put(p, 1);
+				}
+			}
 			else if (args.length > 1 && args[0].equalsIgnoreCase("ab")) {
 				if (args[1].equalsIgnoreCase("reload")) {
 					Timer20T.reload = 6;

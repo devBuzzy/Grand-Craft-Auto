@@ -7,12 +7,15 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import we.Heiden.gca.Functions.Garage;
+import we.Heiden.gca.Functions.Tutorial;
+import we.Heiden.gca.Weapons.WeaponHandler;
 import we.Heiden.gca.Weapons.WeaponUtils;
 import we.Heiden.gca.Weapons.Weapons;
 import we.Heiden.hs2.Messages.ActionBar;
@@ -81,5 +84,23 @@ public class Timer20T extends BukkitRunnable {
 				Garage.remove(p, ent);
 			}
 		}
+		
+		if (!Tutorial.tuto.isEmpty()) 
+			for (Player p : Tutorial.tuto.keySet()) {
+				int time = Tutorial.tuto.get(p);
+				Tutorial.tutorial(p, time);
+				time++;
+				if (Tutorial.tuto.containsKey(p)) Tutorial.tuto.put(p, time);
+			}
+		if (!WeaponHandler.grenades.isEmpty())
+			for (Item item : WeaponHandler.grenades.keySet()) {
+				int time = WeaponHandler.grenades.get(item);
+				time--;
+				if (time > 0) WeaponHandler.grenades.put(item, time);
+				else {
+					WeaponHandler.grenades.remove(item);
+					WeaponUtils.explode(item);
+				}
+			}
 	}
 }

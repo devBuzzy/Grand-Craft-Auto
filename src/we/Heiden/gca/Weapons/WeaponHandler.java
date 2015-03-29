@@ -8,13 +8,16 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -37,6 +40,8 @@ public class WeaponHandler implements Listener {
 	public static HashMap<Projectile, List<Object>> bullet = new HashMap<Projectile, List<Object>>();
 	public static HashMap<Player, HashMap<Weapons, Integer>> delay = new HashMap<Player, HashMap<Weapons, Integer>>();
 	public static List<Projectile> toRemove = new ArrayList<Projectile>();
+	public static HashMap<Item, Integer> grenades = new HashMap<Item, Integer>();
+	public static List<TNTPrimed> tnts = new ArrayList<TNTPrimed>();
 	
 	@EventHandler
 	public void onWeaponUse(PlayerInteractEvent e) {
@@ -51,6 +56,7 @@ public class WeaponHandler implements Listener {
 				im.setLore(null);
 				wepi.setItemMeta(im);
 				if (c.equals(wepi)) {
+					e.setCancelled(true);
 					Player p = e.getPlayer();
 					if (e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 						if (wep.isFireWeapon) {
@@ -58,6 +64,14 @@ public class WeaponHandler implements Listener {
 									p.getInventory().getHelmet().getType() == Material.PUMPKIN) 
 								WeaponUtils.zoom(p, false);
 							else if (wep.zoom) WeaponUtils.zoom(p, true);
+						} else if (wep.equals(Weapons.GRENADE)) {
+							Item item = p.getWorld().dropItem(p.getEyeLocation(), wep.item);
+							item.setVelocity(p.getLocation().getDirection().multiply(3));
+							grenades.put(item, 3);
+							int amount = p.getItemInHand().getAmount();
+							amount--;
+							if (amount < 1) p.setItemInHand(null);
+							else p.getItemInHand().setAmount(amount);
 						}
 					} else {
 						Messager.load(p);
@@ -97,6 +111,9 @@ public class WeaponHandler implements Listener {
 	}
 	
 	@EventHandler
+	public void onEntityExplode(EntityExplodeEvent e) { e.blockList().clear(); }
+	
+	@EventHandler
 	public void onProjectileHit(ProjectileHitEvent e) {
 		Projectile proj = e.getEntity();
 		if (bullet.containsKey(proj)) toRemove.add(proj);
@@ -113,6 +130,15 @@ public class WeaponHandler implements Listener {
 				if (e.getEntity() instanceof LivingEntity) ((LivingEntity)e.getEntity()).damage(wep.damage, (Player)proj.getShooter());
 				proj.remove();
 			}
+		} else if (e.getDamager() instanceof Player) {
+			Player p = (Player) e.getDamager();
+			if (p.getItemInHand().equals(Weapons.KNIFE.item) && e.getEntity() instanceof LivingEntity) ((LivingEntity)e.getEntity()).damage(2.0D);
+		} else if (e.getDamager() instanceof TNTPrimed) {
+			if (tnts.contains(e.getDamager()) && e.getEntity() instanceof LivingEntity) {
+				((LivingEntity)e.getEntity()).damage(8.0D);
+				e.setCancelled(true);
+				tnts.remove(e.getDamager());
+			}
 		}
 	}
 	
@@ -120,25 +146,27 @@ public class WeaponHandler implements Listener {
 	public void onPlayerDropItem(PlayerDropItemEvent e) {
 		ItemStack c = e.getItemDrop().getItemStack();
 		Player p = e.getPlayer();
-		if (!Timer20T.recharging.containsKey(p))
-		for (Weapons wep : Weapons.values()) {
-			if (c.getItemMeta().getDisplayName().equals(wep.item.getItemMeta().getDisplayName()) && wep.getCharge(p) != wep.shootCapacity) {
-				e.setCancelled(true);
-				int bullets = 0;
-				for (ItemStack i : Bag.inventories.get(p)) if (i != null && i.hasItemMeta() && i.getItemMeta().hasLore() &&
-						i.getItemMeta().getLore().equals(wep.bullet.getItemMeta().getLore())) bullets += i.getAmount();
-				if (bullets < 1) {
-					if (wep.getCharge(p) == 0) {
-						Messager.load(p);
-						Messager.e1("You don`t have any bullet");
+		if (!Timer20T.recharging.containsKey(p)) {
+			for (Weapons wep : Weapons.values()) {
+				if (c.getItemMeta().getDisplayName().equals(wep.item.getItemMeta().getDisplayName()) && wep.getCharge(p) != wep.shootCapacity) {
+					e.setCancelled(true);
+					int bullets = 0;
+					for (ItemStack i : Bag.inventories.get(p)) if (i != null && i.hasItemMeta() && i.getItemMeta().hasLore() &&
+							i.getItemMeta().getLore().equals(wep.bullet.getItemMeta().getLore())) bullets += i.getAmount();
+					if (bullets < 1) {
+						if (wep.getCharge(p) == 0) {
+							Messager.load(p);
+							Messager.e1("You don`t have any bullet");
+						}
+					} else {
+						List<Object> lo = new ArrayList<Object>();
+						lo.addAll(Arrays.asList(wep, wep.rechargeDelay));
+						Timer20T.recharging.put(p, lo);
 					}
-				} else {
-					List<Object> lo = new ArrayList<Object>();
-					lo.addAll(Arrays.asList(wep, wep.rechargeDelay));
-					Timer20T.recharging.put(p, lo);
+					break;
 				}
 			}
-		}
+		} else e.setCancelled(true);
 	}
 	
 	@EventHandler

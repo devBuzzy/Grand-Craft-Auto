@@ -23,6 +23,7 @@ public class CommandsHandler {
 			else if (cmd.getName().equalsIgnoreCase("Store")) StoreCommand.store(p, args);
 			else if (cmd.getName().equalsIgnoreCase("AirportSpawn")) Functions.setWarp(p, "Airport", "Airport");
 			else if (cmd.getName().equalsIgnoreCase("AirportArea")) Wand.give(p, "Airport");
+			else if (cmd.getName().equalsIgnoreCase("TutoSpawn")) TutospawnCommand.ts(p, args);
 		} else new Chat(sender).e("Console not supported");
 	}
 }

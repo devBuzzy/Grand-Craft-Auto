@@ -19,7 +19,7 @@ public class Tutorial {
 	public static void tutorial(Player p, int elapsed) {
 		if (elapsed == 1) {
 			back.put(p, p.getLocation());
-			p.teleport(Functions.loadLoc("Tutorial.2", p));
+			p.teleport(Functions.loadLoc("Tutorial.1", p));
 		} else if (elapsed == 10) p.teleport(Functions.loadLoc("Tutorial.2", p));
 		else if (elapsed == 20) p.teleport(Functions.loadLoc("Tutorial.3", p));
 		if (elapsed < 5 || (elapsed > 9 && elapsed < 15) || (elapsed > 19 && elapsed < 25 || elapsed == 33)) {
