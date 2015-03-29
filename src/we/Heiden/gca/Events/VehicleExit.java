@@ -50,12 +50,12 @@ public class VehicleExit implements Listener {
 						e.setCancelled(true);
 					} else if (!confirm.contains(p)) {
 						confirm.add(p);
-						Messager.e1("Exit again to exit, Turn on your car to cancel");
+						Messager.e1("Press shift again to exit.");
 						e.setCancelled(true);
 					} else {
-						Messager.s1("Successfully Exit");
+						Messager.s1("Successfully exited");
 						CMessager.load(p);
-						CMessager.e1("Your car will go to the garage on 5 minutes");
+						CMessager.e1("Your car will go in your garage in 5 minutes");
 						Cars.vec.remove(p);
 						p.getInventory().setItem(6, Cars.enums.get(p).getKey());
 						p.getInventory().setItem(5, ItemUtils.Garage());

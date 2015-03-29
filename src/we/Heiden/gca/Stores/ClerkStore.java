@@ -42,7 +42,7 @@ public class ClerkStore implements BasicStore, Confirmable, Displayable {
 				JsonMessage.newJson()
 					.add("          &4&l*").build()
 					.add("&c&oRobbery Mode")
-						.hoverEvent(HoverAction.Show_Text, "&cNot such a nice guy")
+						.hoverEvent(HoverAction.Show_Text, "&cRob the store")
 						.clickEvent(ClickAction.Run_Command, "/Store Robbery Clerk").build().build(), 
 				JsonMessage.newJson("&6&l============================="));
 	}

@@ -39,13 +39,13 @@ public class CarStore implements BasicStore, Confirmable {
 				JsonMessage.newJson()
 					.add("          ").build()
 					.add("&a&lManage Owned Cars")
-						.hoverEvent(HoverAction.Show_Item, JsonMessage.newItem("&a&lDifferent from garage", "&bHere you can &lAuth", "&bor sell &lYour &bcars"))
+						.hoverEvent(HoverAction.Show_Item, JsonMessage.newItem("&a&lDifferent from garage", "&bHere you can &lAuction", "&bor sell &lyour &bcars"))
 						.clickEvent(ClickAction.Run_Command, "/Store Cars Manage").build().build(), 
 				JsonMessage.newJson("&e&l============================="), 
 				JsonMessage.newJson()
 					.add("              ").build()
 					.add("&a&lPurchase Car")
-						.hoverEvent(HoverAction.Show_Item, JsonMessage.newItem("&b&oVisit our car shop", "", "&a\"&e&oI swear you will love it&a\""))
+						.hoverEvent(HoverAction.Show_Item, JsonMessage.newItem("&b&oVisit our car shop", "", "&a\"&e&oBrand new cars&a\""))
 							.clickEvent(ClickAction.Run_Command, "/Store Cars Purchase").build().build(), 
 				JsonMessage.newJson("&6&l============================="));
 	}
@@ -79,7 +79,7 @@ public class CarStore implements BasicStore, Confirmable {
 		if (temp01.containsKey(p)) {
 			temp01.get(p).add(p);
 			new Titles(p, "&aPurchased: " + temp01.get(p).getC() + temp01.get(p).getSName() + " &bcar")
-				.subtitle("&d&oIt has been stored in the garage").send();
+				.subtitle("&d&oIt has been stored in your garage").send();
 			temp01.remove(p);
 		} else {
 			PlayerConfig.load(p);

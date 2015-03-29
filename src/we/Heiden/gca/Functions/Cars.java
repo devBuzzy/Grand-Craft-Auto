@@ -46,7 +46,7 @@ public class Cars {
 		spawnCar(p, car, loc);
 	}
 	
-	public static void updateGear(Player p) {Timer20T.actionBar.put(p, Messager.s("Actual Gear: &b&l" + velocity.get(p)).get(0)); ActionBar.sendMessage(p, Timer20T.actionBar.get(p));}
+	public static void updateGear(Player p) {Timer20T.actionBar.put(p, Messager.s("Gear: &b&l" + velocity.get(p)).get(0)); ActionBar.sendMessage(p, Timer20T.actionBar.get(p));}
 	
 	public static void gearUp(Player p) {
 		Messager.load(p);

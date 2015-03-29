@@ -45,12 +45,12 @@ public class PlayerInteractEntity implements Listener {
 				if (Cars.enums.containsKey(p) && p.getItemInHand().equals(Cars.enums.get(p).getKey())) {
 					e.getRightClicked().setVelocity(new Vector(0, 0, 0));
 					e.getRightClicked().setPassenger(p);
-					Messager.e1("Turn your car");
+					Messager.e1("Turn your car on");
 					e.setCancelled(true);
 					Timer20T.toRemove.remove(p);
 				} else if (p.getItemInHand().equals(ItemUtils.Garage())) {
 					Garage.remove(p, e.getRightClicked());
-					Messager.msg("&a&lCar saved on the garage");
+					Messager.msg("&a&lCar saved in your garage");
 					e.setCancelled(true);
 				} else {
 					Messager.e1("Invalid Key!");

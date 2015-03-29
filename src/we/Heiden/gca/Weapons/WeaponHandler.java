@@ -66,7 +66,7 @@ public class WeaponHandler implements Listener {
 								int charge = wep.getCharge(p);
 								if (charge < wep.bulletsPerShoot) {
 									int left = wep.bulletsPerShoot-charge;
-									Messager.e1("You need " + left + " bullets more");
+									Messager.e1("You need " + left + " more bullet(s)");
 								} else {
 									List<Object> lo = new ArrayList<Object>();
 									lo.addAll(Arrays.asList(wep, wep.bulletsPerShoot));

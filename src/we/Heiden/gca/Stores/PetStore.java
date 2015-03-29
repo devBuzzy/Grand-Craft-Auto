@@ -40,12 +40,12 @@ public class PetStore implements BasicStore, Confirmable {
 				JsonMessage.newJson()
 					.add("          &9&l*").build()
 					.add("&a&lBuy Pets")
-						.hoverEvent(HoverAction.Show_Text, "&bYou will love this")
+						.hoverEvent(HoverAction.Show_Text, "&bPurchase an animal")
 						.clickEvent(ClickAction.Run_Command, "/Store Pet").build().build(), 
 				JsonMessage.newJson()
 					.add("          &4&l*").build()
 					.add("&c&oRobbery Mode")
-						.hoverEvent(HoverAction.Show_Text, "&cNot such a nice guy")
+						.hoverEvent(HoverAction.Show_Text, "&cRob the pet store")
 						.clickEvent(ClickAction.Run_Command, "/Store Robbery Pet").build().build(), 
 				JsonMessage.newJson("&6&l============================="));
 	}
@@ -102,6 +102,6 @@ public class PetStore implements BasicStore, Confirmable {
 		fc.set("Pets", ls);
 		PlayerConfig.save();
 		Operations.setMoney(p.getUniqueId(), Operations.getMoney(p) - pet.cost);
-		new Titles(p).title("Pet Bought").send();
+		new Titles(p).title("&a&lSUCCESSFUL &ePet Purchased").send();
 	}
 }
