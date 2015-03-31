@@ -80,7 +80,7 @@ public class VehicleMove implements Listener {
 							if (jump.contains(p)) {
 								vec.add(new Vector(0, 0.6D, 0));
 								jump.remove(p);
-							}
+							} else if (!e.getVehicle().isOnGround()) vec.add(new Vector(0, -1D, 0));
 							e.getVehicle().setVelocity(vec);
 						} else e.getVehicle().setVelocity(new Vector(0, 0, 0));
 					}

@@ -37,5 +37,9 @@ public class EventsHandler {
         new WeaponHandler(pl);
         new PlayerToggleSneak(pl);
         new PlayerDamage(pl);
+        new ProjectileHit(pl);
+        new EntityExplode(pl);
+        new PlayerRespawn(pl);
+        new EntityDeath(pl);
 	}
 }

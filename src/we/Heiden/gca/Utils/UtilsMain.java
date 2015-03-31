@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import we.Heiden.gca.Commands.SetnpcCommand;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Configs.PlayerConfig;
 import we.Heiden.gca.Events.PlayerMove;
@@ -15,8 +16,11 @@ import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
 import we.Heiden.gca.Functions.Tutorial;
+import we.Heiden.gca.NPCs.CustomVillager;
 import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
+import we.Heiden.gca.Pets.Ocelot;
+import we.Heiden.gca.Pets.Wolf;
 import we.Heiden.gca.Weapons.Weapons;
 import we.Heiden.gca.core.Main;
 import we.Heiden.hs2.Holograms.HologramUtils;
@@ -27,6 +31,10 @@ public class UtilsMain {
 	
 	public static void setup() {
 		try { new HologramUtils().registerCustomEntity(NMSNpc.class, "Villager", 120); } catch(Exception ex) { }
+		try { new HologramUtils().registerCustomEntity(CustomVillager.class, "Villager", 120); } catch(Exception ex) { }
+		try { new HologramUtils().registerCustomEntity(Wolf.class, "Wolf", 95); } catch(Exception ex) { }
+		try { new HologramUtils().registerCustomEntity(Ocelot.class, "Ozelot", 98); } catch(Exception ex) { }
+		loadCivilians();
 		ItemUtils.setup();
 		NPCs.setup();
 		CarsEnum.setup();
@@ -38,6 +46,11 @@ public class UtilsMain {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Main.pl, new Runnable() {
 			public void run() {Functions.fc = Config.get();}
 		}, 1);
+	}
+
+	private static void loadCivilians() {
+		if (Config.get().contains("Civilians")) for (String path : Config.get().getConfigurationSection("Civilians").getKeys(false)) 
+			SetnpcCommand.villagers.put(CustomVillager.spawn(Functions.loadLoc("Civilians." + path, Config.get()), "&a&lCivilian"), "Civilians." + path);
 	}
 
 	public static void save() {for (Player p : Bukkit.getOnlinePlayers()) save(p);}

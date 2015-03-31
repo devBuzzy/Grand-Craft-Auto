@@ -29,7 +29,8 @@ public class PlayerDamage implements Listener {
 	public void onPlayerDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
-			if (p.getInventory().getChestplate().equals(ItemUtils.JetPack()) && e.getCause().equals(DamageCause.FALL)) e.setCancelled(true);
+			if (p.getInventory().getChestplate() != null && p.getInventory().getChestplate().equals(ItemUtils.JetPack()) && e.getCause() != null && 
+					e.getCause().equals(DamageCause.FALL)) e.setCancelled(true);
 		}
 	}
 }

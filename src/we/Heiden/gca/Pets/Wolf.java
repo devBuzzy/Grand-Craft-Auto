@@ -19,7 +19,9 @@ import net.minecraft.server.v1_8_R1.World;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import we.Heiden.gca.NPCs.NMSNpc;
@@ -27,8 +29,6 @@ import we.Heiden.gca.NPCs.NMSNpc;
 @SuppressWarnings("rawtypes")
 public class Wolf extends EntityWolf implements Pet {
 
-	private boolean lockTick;
-	
 	public Wolf() {super(((CraftWorld)Bukkit.getWorlds().get(0)).getHandle());}
 	
 	public Wolf(World world, Player owner) {
@@ -41,7 +41,7 @@ public class Wolf extends EntityWolf implements Pet {
         
         this.goalSelector.a(1, new PathfinderGoalFloat(this));
         this.goalSelector.a(3, new PathfinderGoalLeapAtTarget(this, 0.4F));
-        this.goalSelector.a(5, new PathfinderGoalFollowOwner(this, 1.0D, 7.0F, 2.0F));
+		this.goalSelector.a(5, new PathfinderGoalFollowOwner(this, 1D, 8.0F, 1.0F));
         this.goalSelector.a(7, new PathfinderGoalRandomStroll(this, 1.0D));
         this.goalSelector.a(8, new PathfinderGoalBeg(this, 8.0F));
         this.goalSelector.a(9, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
@@ -49,17 +49,15 @@ public class Wolf extends EntityWolf implements Pet {
         
         setTamed(true);
         setOwnerUUID(owner.getUniqueId().toString());
-        setCustomName(ChatColor.translateAlternateColorCodes('&', "&a&l" + owner.getDisplayName() + "`s &b&Pet"));
+        setCustomName(ChatColor.translateAlternateColorCodes('&', "&a&l" + owner.getName() + "`s &bPet"));
         setCustomNameVisible(true);
         setCollarColor(EnumColor.values()[new Random().nextInt(15)]);
         teleportTo(owner.getLocation(), false);
 	}
 	
 	@Override public boolean isInvulnerable(DamageSource source) { return true; }
-	@Override public void s_() { if (!lockTick) super.s_(); }
-	@Override public void setLockTick(boolean lock) { lockTick = lock; }
-	@Override public void die() { setLockTick(false); super.die(); }
-	@Override public void killEntityNMS() { die(); }
+	@Override public void killEntityNMS() { ((LivingEntity)this.getBukkitEntity()).setHealth(0.0D); }
 	
-	public Pet spawn(org.bukkit.World world, Player owner) { return new Wolf(((CraftWorld)world).getHandle(), owner); }
+	public Pet spawn(Player owner) { return new Wolf(((CraftWorld)owner.getWorld()).getHandle(), owner); }
+	public Location getLocation() { return new Location(this.getBukkitEntity().getWorld(), this.locX, this.locY, this.locZ); }
 }

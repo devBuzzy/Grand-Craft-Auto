@@ -40,8 +40,8 @@ public class ItemUtils {
 		ritems.put("W_FAMAS", getItem(Material.INK_SACK, (short) 12, "&9&lFAMAS", "&aCharge: &b0&9/&c30"));
 		ritems.put("W_AUG", getItem(Material.INK_SACK, (short) 3, "&9&lAUG", "&aCharge: &b0&9/&c30"));
 		ritems.put("W_KNIFE", getItem(Material.INK_SACK, (short) 8, "&7&l&oKnife"));
-		ritems.put("W_GRENADE", getItem(Material.SNOW_BALL, "&c&lGrenade"));
-		ritems.put("W_SPAS_12", getItem(Material.INK_SACK, "&9&lSPAS12", "&aCharge: &b0&9/&c5"));
+		ritems.put("W_GRENADE", getItem(Material.APPLE, "&c&lGrenade"));
+		ritems.put("W_SPAS_12", getItem(Material.INK_SACK, (short) 6, "&9&lSPAS12", "&aCharge: &b0&9/&c5"));
 		ritems.put("W_BARRET_50", getItem(Material.INK_SACK, (short) 14, "&9&lBARRETT-50-CAL", "&aCharge: &b0&9/&c10"));
 
 		ritems.put("Bullet", getItem(Material.ARROW, "&a&lBullet"));
@@ -49,15 +49,20 @@ public class ItemUtils {
 		ritems.put("Food", getItem(Material.COOKED_CHICKEN, "&a&lFood n Heal"));
 		ritems.put("Weapons", getItem(Material.INK_SACK, (short) 1, "&c&lWeapons"));
 		ritems.put("JetPack", getItem(Material.CHAINMAIL_CHESTPLATE, "&b&lJet&d&lPack", "Fly on the sky", "", "&7&oSneak to fly"));
+		ritems.put("PaintGun", getItem(Material.IRON_SPADE, "&1Paint&4Ball &9Gun", "&fColor your life", "", "&c&o5 coins per shoot"));
+		
+		ritems.put("Wolf", getItem(Material.MONSTER_EGG, (short) 95, "&6Call your &7Dog"));
+		ritems.put("Cat", getItem(Material.MONSTER_EGG, (short) 98, "&6Call your &eCat"));
 		
 		ritems.put("Yes", getItem(Material.STAINED_CLAY, (short) 5, "&a&lConfirm", "&2&oConfirm whatever you", "&2&oare confirmating"));
 		ritems.put("No", getItem(Material.STAINED_CLAY, (short) 14, "&c&lDeny", "&4&oIt`s like confirming,", "&4&obut no."));
+		
 		ritems.put("CarInfo", getItem(Material.PAPER, "&5&lCar Info"));
 		ritems.put("CarAuth", getItem(Material.STAINED_CLAY, (short) 4, "&e&lAuth", "&7With Delay", "", "Your car will be added", "to our Auth List, if", "anyone buys it, you",
 				"will get the money"));
 		ritems.put("CarSell", getItem(Material.STAINED_CLAY, (short) 1, "&6&lSell", "&7Instant", "", "If you &lsell", "your car, you", "will obtain half", "of it`s cost back"));
 		
-		weapons.addAll(Arrays.asList(W_AK47(), W_AUG(), W_BARRET_50(), W_FAMAS(), W_GRENADE(), W_KNIFE(), W_M1911(), W_SPAS_12(), JetPack()));
+		weapons.addAll(Arrays.asList(W_AK47(), W_AUG(), W_BARRET_50(), W_FAMAS(), W_GRENADE(), W_KNIFE(), W_M1911(), W_SPAS_12(), JetPack(), PaintGun()));
 	}
 
 	public static HashMap<ItemStack, CarsEnum> cars = new HashMap<ItemStack, CarsEnum>();
@@ -74,7 +79,7 @@ public class ItemUtils {
 	public static void setCars() {for (CarsEnum e : CarsEnum.values()) cars.put(e.getItem(), e);}
 	public static void setKeys() {for (CarsEnum e : CarsEnum.values()) keys.add(e.getKey());}
 	public static void setItems() {
-		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), ItemDefault(), GearMax(), Garage(), Wand.wand, Yes(), No(), CarInfo()));
+		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), ItemDefault(), GearMax(), Garage(), Wand.wand, Yes(), No(), CarInfo(), Wolf(), Cat()));
 		items.addAll(cars.keySet());
 		items.addAll(keys);
 		for (int n = 1; n <= 10; n++) {
@@ -172,10 +177,14 @@ public class ItemUtils {
 
 	public static ItemStack Yes() { return ritems.get("Yes"); }
 	public static ItemStack No() { return ritems.get("No"); }
+	
+	public static ItemStack Wolf() { return ritems.get("Wolf"); }
+	public static ItemStack Cat() { return ritems.get("Cat"); }
 
 	public static ItemStack Weapons() { return ritems.get("Weapons"); }
 	public static ItemStack Food() { return ritems.get("Food"); }
 	public static ItemStack JetPack() { return ritems.get("JetPack"); }
+	public static ItemStack PaintGun() { return ritems.get("PaintGun"); }
 
 
 	public static ItemStack CarInfo() { return ritems.get("CarInfo"); }

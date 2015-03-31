@@ -14,6 +14,7 @@ import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
 import we.Heiden.gca.Messages.Messager;
+import we.Heiden.gca.Pets.Pet;
 import we.Heiden.gca.Pets.Pets;
 import we.Heiden.gca.Stores.CarStore;
 import we.Heiden.gca.Stores.ClerkStore;
@@ -39,6 +40,8 @@ public class InventoryClick implements Listener {
 	public InventoryClick(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
 
 	public static HashMap<String, SettingsEnum> TitlesMap = new HashMap<String, SettingsEnum>();
+	public static HashMap<Player, Pet> pet = new HashMap<Player, Pet>();
+	public static HashMap<Player, Pets> petEnum = new HashMap<Player, Pets>();
 	
 	public static boolean contains(ItemStack[] list, ItemStack i) {
 		for (ItemStack is : list) if (is.equals(i)) return true;
@@ -53,12 +56,27 @@ public class InventoryClick implements Listener {
 			if (ItemUtils.getItem(p).contains(c)) {
 				e.setCancelled(true);
 				p.updateInventory();
-				if (ItemUtils.yes.containsKey(p)) {
+				if (ItemUtils.yes.containsKey(p) && c.equals(ItemUtils.Yes()) || c.equals(ItemUtils.No())) {
 					boolean bol = true;
 					if (c.equals(ItemUtils.Yes())) ItemUtils.yes.get(p).yes(p);
 					else if (c.equals(ItemUtils.No())) ItemUtils.yes.get(p).no(p);
 					else bol = false;
 					if (bol) ItemUtils.yes.remove(p);
+				} else if (c.equals(ItemUtils.Wolf()) || c.equals(ItemUtils.Cat())) {
+					p.closeInventory();
+					Pets pets;
+					if (c.equals(ItemUtils.Wolf())) pets = Pets.Wolf;
+					else pets = Pets.Cat;
+					if (!pet.containsKey(p) || !petEnum.get(p).equals(pets)) {
+						if (pet.containsKey(p)) pet.get(p).killEntityNMS();
+						Pet petEntity = pets.spawn(p);
+						pet.put(p, petEntity);
+						petEnum.put(p, pets);
+					} else {
+						pet.get(p).killEntityNMS();
+						pet.remove(p);
+						petEnum.remove(p);
+					}
 				}
 			} else {
 				String invn = e.getInventory().getName();
@@ -123,6 +141,7 @@ public class InventoryClick implements Listener {
 						if (ItemUtils.Weapons().equals(c)) ClerkStore.weapons(p);
 						else if (ItemUtils.Food().equals(c)) ClerkStore.food(p);
 						else if (c.equals(ItemUtils.JetPack())) ClerkStore.confirm(p, c, 1000);
+						else if (c.equals(ItemUtils.PaintGun())) ClerkStore.confirm(p, c, 250);
 					}
 				} else if (invn.equals(ClerkStore.weaponsN)) {
 					if (e.getInventory().contains(c)) {

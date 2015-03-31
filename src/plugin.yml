@@ -6,30 +6,26 @@ author: Heiden Team
 
 commands:
     test:
-        usage: /<command>
-        description: test!
     GarageSlot:
-        usage: /<command>
-        description: Set a car`s slot on the garage!
         aliases: [gslot, gs, garages, setgarageslot, sgs, sgslot, setgslot, setgarages, sgarages, setgslot]
     setGarageEntry:
-        usage: /<command>
-        description: Set some entries to the garage!
         aliases: [sge, gentry, entry, setgentry, garageentry, setgarage, setgaragee, garagee, sgaragee, sgentry, setge]
     GarageWarp:
-        usage: /<command>
-        description: Set a Warp!
         aliases: [sgw, gwarp, setgwarp, garagewarp, setgaragew, garagew, sgaragew, sgwarp, setgw]
     GarageExit:
-        usage: /<command>
-        description: Set some entries to the garage!
         aliases: [sgl, ge, gexit, setgexit, garageexit, setgarageleave, setgaragel, garagel, sgaragel, sgexit, setgl]
     Store:
-        usage: /<command>
-        description: Private Command
     AirportSpawn:
         aliases: [as]
     AirportArea:
         aliases: [aa]
     TutoSpawn:
         aliases: [ts]
+    setHospital:
+        aliases: [sh]
+    HospitalWarp:
+        aliases: [hw]
+    setRespawn:
+        aliases: [sr, hr]
+    setNpc:
+        aliases: [sn]

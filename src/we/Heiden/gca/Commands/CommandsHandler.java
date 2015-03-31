@@ -24,6 +24,10 @@ public class CommandsHandler {
 			else if (cmd.getName().equalsIgnoreCase("AirportSpawn")) Functions.setWarp(p, "Airport", "Airport");
 			else if (cmd.getName().equalsIgnoreCase("AirportArea")) Wand.give(p, "Airport");
 			else if (cmd.getName().equalsIgnoreCase("TutoSpawn")) TutospawnCommand.ts(p, args);
+			else if (cmd.getName().equalsIgnoreCase("setHospital")) Wand.give(p, "Hospital");
+			else if (cmd.getName().equalsIgnoreCase("HospitalWarp")) Functions.setWarp(p, "Hospital", "Hospital.Warp");
+			else if (cmd.getName().equalsIgnoreCase("setRespawn")) Functions.setWarp(p, "Respawn", "Hospital.Respawn");
+			else if (cmd.getName().equalsIgnoreCase("setNpc")) SetnpcCommand.setNpc(p, args);
 		} else new Chat(sender).e("Console not supported");
 	}
 }

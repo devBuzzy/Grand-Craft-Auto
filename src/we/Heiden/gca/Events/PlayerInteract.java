@@ -1,12 +1,17 @@
 package we.Heiden.gca.Events;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -22,8 +27,10 @@ import we.Heiden.gca.Messages.Messager;
 import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
 import we.Heiden.gca.Stores.Food;
+import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.core.Timer20T;
+import we.Heiden.hs2.SQL.Operations;
 
 /**
  * ********************************************* <p>
@@ -39,6 +46,9 @@ import we.Heiden.gca.core.Timer20T;
 public class PlayerInteract implements Listener {
 	
 	public PlayerInteract(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
+
+	public static List<Entity> balls = new ArrayList<Entity>();
+	public static HashMap<Player, List<Integer>> ballDelay = new HashMap<Player, List<Integer>>();
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -108,8 +118,21 @@ public class PlayerInteract implements Listener {
 					} else p.setItemInHand(null);
 					p.setHealth(p.getMaxHealth());
 				}
-			}
-			else if (ItemUtils.cars.containsKey(c)) {
+			} else if (c.equals(ItemUtils.PaintGun())) {
+				e.setCancelled(true);
+				int money = Operations.getMoney(p);
+				Messager.load(p);
+				if (money < 5) Messager.e1("You need " + ((int)5-money) + " coins more");
+				else if (ballDelay.containsKey(p)) Messager.e1("This is still recharging");
+				else {
+					Entity ball = p.launchProjectile(Snowball.class, p.getLocation().getDirection().multiply(3));
+					balls.add(ball);
+					List<Integer> li = Functions.newList();
+					li.addAll(Arrays.asList(48, p.getInventory().getHeldItemSlot()));
+					ballDelay.put(p, li);
+					Operations.setMoney(p.getUniqueId(), money-5);
+				}
+			} else if (ItemUtils.cars.containsKey(c)) {
 				if (e.getClickedBlock() == null) Messager.e1("You must click a block!");
 				else {
 					Location loc = e.getClickedBlock().getLocation();

@@ -63,7 +63,7 @@ public class PlayerInteractEntity implements Listener {
 				Garage.display(p, e.getRightClicked());
 				e.setCancelled(true);
 			}
-		} else if (((CraftVillager)e.getRightClicked()).getHandle() instanceof NMSNpc && e.getRightClicked().getType().equals(EntityType.VILLAGER)) {
+		} else if (e.getRightClicked().getType().equals(EntityType.VILLAGER) && ((CraftVillager)e.getRightClicked()).getHandle() instanceof NMSNpc) {
 			NMSNpc target = (NMSNpc) ((CraftVillager)e.getRightClicked()).getHandle();
 			NPCs type = null;
 			boolean bol = false;

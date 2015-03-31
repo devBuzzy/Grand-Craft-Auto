@@ -34,7 +34,7 @@ public class PlayerToggleSneak implements Listener {
 	@EventHandler
 	public void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
 		Player p = e.getPlayer();
-		if (p.getInventory().getChestplate().equals(ItemUtils.JetPack()) && p.getLocation().getY() < 120) {
+		if (p.getInventory().getChestplate() != null && p.getInventory().getChestplate().equals(ItemUtils.JetPack()) && p.getLocation().getY() < 120) {
 			p.setVelocity(p.getLocation().getDirection().add(new Vector(0, 1, 0)));
 			Location loc = p.getLocation().clone();
 			loc.setY(loc.getY()-1);

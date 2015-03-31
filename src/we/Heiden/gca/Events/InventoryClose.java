@@ -3,6 +3,7 @@ package we.Heiden.gca.Events;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Stores.ClerkStore;
 import we.Heiden.gca.Utils.Displayable;
 import we.Heiden.gca.Utils.Functions;
+import we.Heiden.gca.Utils.ItemUtils;
 
 /**
  * ********************************************* <p>
@@ -42,6 +44,10 @@ public class InventoryClose implements Listener {
 			String invn = e.getInventory().getName();
 			if (Functions.contains(Settings.menuNames, invn)) openInv(p, new Settings());
 			else if ((invn.equals(ClerkStore.foodN) || invn.equals(ClerkStore.weaponsN)) && !ClerkStore.temp01.containsKey(p)) openInv(p, new ClerkStore());
+			else if (invn.equals(ChatColor.translateAlternateColorCodes('&', "&a&lPersonal Backpack"))) {
+				p.getInventory().setItem(15, ItemUtils.ItemDefault());
+				p.getInventory().setItem(16, ItemUtils.ItemDefault());
+			}
 		}
 	}
 

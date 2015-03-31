@@ -1,7 +1,9 @@
 package we.Heiden.gca.Functions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,6 +27,7 @@ public class Cars {
 	public static HashMap<Player, CarsEnum> enums = new HashMap<Player, CarsEnum>();
 	public static HashMap<Player, Integer> velocity = new HashMap<Player, Integer>();
 	public static HashMap<Player, Vector> vec = new HashMap<Player, Vector>();
+	public static List<Player> temp = new ArrayList<Player>();
 
 	public static void spawnCar(Player p, CarsEnum car, Location loc) {
 		while(!loc.getBlock().getType().equals(Material.AIR)) loc.setY(loc.getY()+1);

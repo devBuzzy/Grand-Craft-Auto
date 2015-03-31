@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -13,8 +15,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import we.Heiden.gca.Commands.SetnpcCommand;
+import we.Heiden.gca.Configs.Config;
+import we.Heiden.gca.Events.EntityExplode;
 import we.Heiden.gca.Functions.Garage;
 import we.Heiden.gca.Functions.Tutorial;
+import we.Heiden.gca.NPCs.CustomVillager;
+import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Weapons.WeaponHandler;
 import we.Heiden.gca.Weapons.WeaponUtils;
 import we.Heiden.gca.Weapons.Weapons;
@@ -27,6 +34,7 @@ public class Timer20T extends BukkitRunnable {
 	public static HashMap<Player, List<Object>> toRemove = new HashMap<Player, List<Object>>();
 	public static int reload = 0;
 	
+	@SuppressWarnings("deprecation")
 	public void run() {
 		if (!actionBar.isEmpty()) for (Player p : actionBar.keySet()) new ActionBar(p).msg(actionBar.get(p));
 		if (!recharging.isEmpty()) try {
@@ -100,6 +108,32 @@ public class Timer20T extends BukkitRunnable {
 				else {
 					WeaponHandler.grenades.remove(item);
 					WeaponUtils.explode(item);
+				}
+			}
+		if (!EntityExplode.restore.isEmpty())
+			for (Entity e : EntityExplode.restore.keySet()) {
+				int time = EntityExplode.restore.get(e);
+				time--;
+				if (time > 0) EntityExplode.restore.put(e, time);
+				else {
+					if (Config.get().contains("Temp." + e.getUniqueId())) for (String s : Config.get().getConfigurationSection("Temp." + e.getUniqueId()).getKeys(false)) {
+						Location loc = Functions.loadLoc("Temp." + e.getUniqueId() + "." + s + ".Location", Config.get());
+						loc.getBlock().setType(Material.matchMaterial(Config.get().getString("Temp." + e.getUniqueId() + "." + s + ".Type")));
+						loc.getBlock().setData((byte) Config.get().getInt("Temp." + e.getUniqueId() + "." + s + ".Data"));
+					}
+					Config.get().set("Temp." + e.getUniqueId(), null);
+					Config.save();
+					EntityExplode.restore.remove(e);
+				}
+			}
+		if (!SetnpcCommand.respawn.isEmpty())
+			for (String path : SetnpcCommand.respawn.keySet()) {
+				int time = SetnpcCommand.respawn.get(path);
+				time--;
+				if (time > 0) SetnpcCommand.respawn.put(path, time);
+				else {
+					SetnpcCommand.villagers.put(CustomVillager.spawn(Functions.loadLoc(path, Config.get()), "&a&lCivilian"), path);
+					SetnpcCommand.respawn.remove(path);
 				}
 			}
 	}

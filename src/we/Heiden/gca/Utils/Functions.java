@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.minecraft.server.v1_8_R1.NBTTagCompound;
+import net.minecraft.server.v1_8_R1.NBTTagList;
 import net.minecraft.server.v1_8_R1.Packet;
 import net.minecraft.server.v1_8_R1.PacketPlayOutWorldParticles;
 
@@ -16,7 +18,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Messages.Messager;
@@ -32,6 +36,16 @@ public class Functions {
 	
 	public static <T> List<T> newList() {
 		return new ArrayList<T>();
+	}
+	
+	public static ItemStack addGlow(ItemStack item) {
+		net.minecraft.server.v1_8_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+		NBTTagCompound tag = new NBTTagCompound();
+		if (!nmsStack.hasTag()) nmsStack.setTag(tag);
+		else tag = nmsStack.getTag();
+		tag.set("ench", new NBTTagList());
+		nmsStack.setTag(tag);
+		return CraftItemStack.asCraftMirror(nmsStack);
 	}
 	
 	public static boolean canJoinRobbery() {
@@ -132,7 +146,7 @@ public class Functions {
 	}
 	
 	
-	public static void saveLoc(String path, Location loc, Player p) {if (canFc(p)) saveLoc(path, loc, fc);}
+	public static void saveLoc(String path, Location loc, Player p) {if (p == null || canFc(p)) saveLoc(path, loc, fc);}
 	public static void saveLoc(String path, Player p) {if (canFc(p)) saveLoc(path, p.getLocation(), fc);}
 	public static void saveLoc(String path, Player p, FileConfiguration fc) {saveLoc(path, p.getLocation(), fc);}
 	public static Location loadLoc(String path, Player p) {if (canFc(p)) return loadLoc(path, fc); else return null;}

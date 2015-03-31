@@ -40,7 +40,7 @@ public class WeaponUtils {
 	
 	public static void explode(Item item) {
 		TNTPrimed tnt =  (TNTPrimed) item.getWorld().spawnEntity(item.getLocation(), EntityType.PRIMED_TNT);
-		tnt.setFuseTicks(1);
+		tnt.setFuseTicks(-1);
 		item.remove();
 		WeaponHandler.tnts.add(tnt);
 	}

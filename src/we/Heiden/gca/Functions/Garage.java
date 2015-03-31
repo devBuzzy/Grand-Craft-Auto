@@ -83,11 +83,7 @@ public class Garage implements Confirmable {
 					holograms2.add(hm);
 					holograms.put(p, holograms2);
 				}
-				float yaw = (float) Config.get().getDouble("Garage.Slots." + ls[n] + ".Rotation");
-				loc.setYaw(yaw);
-				loc.setY(loc.getY()+1D);
 				Minecart vehicle = (Minecart) p.getWorld().spawnEntity(loc, EntityType.MINECART);
-				vehicle.getLocation().setDirection(loc.getDirection());
 				for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) hider.hideEntity(pl, vehicle);
 				cars.put(vehicle, car);
 				if (exposed.containsKey(p)) exposed.get(p).add(vehicle);
@@ -113,6 +109,7 @@ public class Garage implements Confirmable {
 		Cars.vec.remove(p);
 		Cars.players.remove(p);
 		Cars.vehicles.remove(ent);
+		Cars.temp.remove(p);
 		ent.remove();
 		p.getInventory().setItem(5, ItemUtils.ItemDefault());
 		p.getInventory().setItem(6, ItemUtils.ItemDefault());

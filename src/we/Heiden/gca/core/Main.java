@@ -5,26 +5,34 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import we.Heiden.gca.Commands.CommandsHandler;
+import we.Heiden.gca.Commands.SetnpcCommand;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EventsHandler;
 import we.Heiden.gca.Events.PlayerMove;
 import we.Heiden.gca.Functions.CarsEnum;
 import we.Heiden.gca.Functions.Tutorial;
+import we.Heiden.gca.NPCs.CustomVillager;
 import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
+import we.Heiden.gca.Pets.Ocelot;
+import we.Heiden.gca.Pets.Wolf;
 import we.Heiden.gca.Stores.CarStore;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.Utils.UtilsMain;
 import we.Heiden.gca.Weapons.WeaponUtils;
 import we.Heiden.gca.Weapons.Weapons;
+import we.Heiden.hs2.Holograms.NMSEntity;
 import we.Heiden.hs2.Messages.ActionBar;
 import we.Heiden.hs2.Messages.Chat;
 import we.Heiden.hs2.Utils.Functions;
@@ -55,11 +63,21 @@ public class Main extends JavaPlugin {
 		new Timer2T().runTaskTimer(this, 20, 2);
 		new Timer5T().runTaskTimer(this, 20, 5);
 		new Timer20T().runTaskTimer(this, 20, 20);
+		for (World w : Bukkit.getWorlds()) {
+			for (Entity e: w.getEntities()) {
+				if (e instanceof NMSNpc) ((NMSNpc)e).killEntityNMS();
+				else if (e instanceof Wolf) ((Wolf)e).killEntityNMS();
+				else if (e instanceof Ocelot) ((Ocelot)e).killEntityNMS();
+				else if (e instanceof NMSEntity) ((NMSEntity)e).killEntityNMS();
+				else if (e instanceof LivingEntity && !(e instanceof Player)) ((LivingEntity)e).setHealth(0.0D);
+			}
+		}
 	}
 	
 	public void onDisable() {
 		UtilsMain.save();
 		for (NMSNpc e : NPCs.entities) e.killEntityNMS();
+		for (CustomVillager e : SetnpcCommand.villagers.keySet()) e.killEntityNMS();
 		pl = null;
 	}
 	

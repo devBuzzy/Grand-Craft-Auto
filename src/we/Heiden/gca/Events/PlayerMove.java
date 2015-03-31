@@ -17,9 +17,11 @@ import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Functions.Bag;
+import we.Heiden.gca.Functions.Cars;
 import we.Heiden.gca.Functions.Garage;
 import we.Heiden.gca.Functions.Tutorial;
 import we.Heiden.gca.Utils.Functions;
+import we.Heiden.gca.Utils.ItemUtils;
 
 /**
  * ********************************************* <p>
@@ -38,6 +40,7 @@ public class PlayerMove implements Listener {
 	public static List<Player> left = new ArrayList<Player>();
 	public static HashMap<Player, List<Location>> area = new HashMap<Player, List<Location>>();
 	public static List<Player> onAirport = new ArrayList<Player>();
+	public static List<Player> onHospital = new ArrayList<Player>();
 	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
@@ -49,14 +52,37 @@ public class PlayerMove implements Listener {
 		} else {
 			for (Entity ent : p.getWorld().getEntitiesByClasses(Item.class)) {
 				Item enti = (Item) ent;
-				if (enti.getLocation().distance(e.getTo()) < 0.5) {
+				if (enti.getLocation().distance(e.getTo()) < 0.5D) {
 					Bag.inventories.get(p).addItem(enti.getItemStack());
 					if (Bag.inventories.get(p).contains(enti.getItemStack())) ent.remove();
 				}
 			}
 			if (e.getFrom().getBlock().getLocation() != e.getTo().getBlock().getLocation()) {
-				if (Functions.isOnArea(Functions.loadLoc("AirportArea.p1", p), Functions.loadLoc("AirportArea.p2", p), e.getTo()) && onAirport.contains(p))
+				if (onHospital.contains(p) && Functions.isOnArea(Functions.loadLoc("Hospital.Area.p1", p), Functions.loadLoc("Hospital.Area.p2", p), p)) {
+					Location loc = Functions.loadLoc("Hospital.Warp", p);
+					if (loc != null) p.teleport(loc);
+					else p.teleport(p.getWorld().getSpawnLocation());
+					onHospital.remove(p);
+				} else if (Functions.isOnArea(Functions.loadLoc("AirportArea.p1", p), Functions.loadLoc("AirportArea.p2", p), e.getTo()) && onAirport.contains(p)) {
 					for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) pl.showPlayer(p);
+					onAirport.remove(p);
+				}
+				if (Cars.players.containsKey(p)) {
+					boolean bol = Cars.temp.contains(p);
+					if (!bol) {
+						if (e.getTo().distance(Cars.players.get(p).getLocation()) > 20) {
+							Cars.temp.add(p);
+							p.getInventory().setItem(5, ItemUtils.ItemDefault());
+							p.getInventory().setItem(6, ItemUtils.ItemDefault());
+							p.updateInventory();
+						}
+					} else if (e.getTo().distance(Cars.players.get(p).getLocation()) <= 20) {
+						Cars.temp.remove(p);
+						p.getInventory().setItem(5, ItemUtils.Garage());
+						p.getInventory().setItem(6, Cars.enums.get(p).getKey());
+						p.updateInventory();
+					}
+				}
 				/*Garage*/
 				if (!Garage.onGarage.containsKey(p)) {
 					if (left.contains(p)) {

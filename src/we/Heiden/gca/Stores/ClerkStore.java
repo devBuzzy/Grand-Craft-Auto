@@ -53,6 +53,7 @@ public class ClerkStore implements BasicStore, Confirmable, Displayable {
 		inv.setItem(2, ItemUtils.Food());
 		inv.setItem(3, ItemUtils.Weapons());
 		inv.setItem(5, ItemUtils.JetPack());
+		inv.setItem(6, ItemUtils.PaintGun());
 		
 		p.openInventory(inv);
 	}

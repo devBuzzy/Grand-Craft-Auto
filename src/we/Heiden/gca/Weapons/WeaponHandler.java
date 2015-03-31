@@ -18,7 +18,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -115,9 +114,6 @@ public class WeaponHandler implements Listener {
 	}
 	
 	@EventHandler
-	public void onEntityExplode(EntityExplodeEvent e) { e.blockList().clear(); }
-	
-	@EventHandler
 	public void onProjectileHit(ProjectileHitEvent e) {
 		Projectile proj = e.getEntity();
 		if (bullet.containsKey(proj)) toRemove.add(proj);
@@ -153,6 +149,7 @@ public class WeaponHandler implements Listener {
 	public void onPlayerDropItem(PlayerDropItemEvent e) {
 		ItemStack c = e.getItemDrop().getItemStack();
 		Player p = e.getPlayer();
+		if (p.getOpenInventory() == null)
 		if (!Timer20T.recharging.containsKey(p)) {
 			for (Weapons wep : Weapons.values()) {
 				if (c.getItemMeta().getDisplayName().equals(wep.item.getItemMeta().getDisplayName()) && wep.getCharge(p) != wep.shootCapacity) {
@@ -174,7 +171,7 @@ public class WeaponHandler implements Listener {
 					break;
 				}
 			}
-		} else e.setCancelled(true);
+		} e.setCancelled(true);
 	}
 	
 	@EventHandler

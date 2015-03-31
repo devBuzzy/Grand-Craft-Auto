@@ -62,40 +62,18 @@ public class Wand implements Listener {
 		p2.remove(p);
 	}
 	
-	private static void gEntry(Player p) {
+	private static void withList(Player p, String path, String type) {
 		int n = 1;
-		if (Config.get().contains("Garage.Entries")) n = Config.get().getConfigurationSection("Garage.Entries").getKeys(false).size()+1;
-		Functions.saveLoc("Garage.Entries." + n + ".p1", p1.get(p), p);
-		Functions.saveLoc("Garage.Entries." + n + ".p2", p2.get(p), p);
-		Config.save();
-		Messager.load(p);
-		Messager.s1("Garage Entry &dNº" + n + " &6set");
+		if (Config.get().contains(path)) n = Config.get().getConfigurationSection(path).getKeys(false).size()+1;
+		saveLoc2p(p, path + "." + n, type.replace("%n%", n + ""));
 	}
 	
-	public static void gExit(Player p) {
-		Functions.saveLoc("Garage.Exit.p1", p1.get(p), p);
-		Functions.saveLoc("Garage.Exit.p2", p2.get(p), p);
+	public static void saveLoc2p(Player p, String type, String path) {
+		Functions.saveLoc(path + ".p1", p1.get(p), p);
+		Functions.saveLoc(path + ".p2", p2.get(p), p);
 		Config.save();
 		Messager.load(p);
-		Messager.s1("Garage Exit Set");
-	}
-	
-	public static void Airport(Player p) {
-		Functions.saveLoc("AirportArea.p1", p1.get(p), p);
-		Functions.saveLoc("AirportArea.p2", p2.get(p), p);
-		Config.save();
-		Messager.load(p);
-		Messager.s1("Airport Area Set");
-	}
-	
-	public static void gSlot(Player p) {
-		int n = 1;
-		if (Config.get().contains("Garage.Slots")) n = Config.get().getConfigurationSection("Garage.Slots").getKeys(false).size()+1;
-		Functions.saveLoc("Garage.Slots." + n, p1.get(p), p);
-		Config.get().set("Garage.Slots." + n + ".Rotation", 90F);
-		Config.save();
-		Messager.load(p);
-		Messager.s1("Garage Slot &dNº" + n + " &6set");
+		Messager.s1(type + " Set");
 	}
 	
 	@EventHandler
@@ -121,10 +99,11 @@ public class Wand implements Listener {
 					String type;
 					if (selecting.containsKey(p)) type = selecting.get(p);
 					else type = selecting2.get(p);
-					if (type.equals("Garage Entry")) gEntry(p);
-					else if (type.equals("Garage Exit")) gExit(p);
-					else if (type.equals("Garage Slot")) gSlot(p);
-					else if (type.equals("Airport")) Airport(p);
+					if (type.equals("Garage Entry")) withList(p, "Garage.Entries", "Garage Entry &d%n%&6");
+					else if (type.equals("Garage Exit")) saveLoc2p(p, "Garage Exit", "Garage.Exit");
+					else if (type.equals("Garage Slot")) withList(p, "Garage.Slots", "Garage Slot &d%n%&6");
+					else if (type.equals("Airport")) saveLoc2p(p, "Airport Area", "AirportArea");
+					else if (type.equals("Hospital")) saveLoc2p(p, "Hospital Area", "Hospital.Area");
 					CMessager.msg("");
 					clear(p);
 				}
