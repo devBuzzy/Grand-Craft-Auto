@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import we.Heiden.gca.Functions.Bag;
+import we.Heiden.gca.Functions.Food;
 import we.Heiden.gca.Messages.JsonMessage;
 import we.Heiden.gca.Messages.Messager;
 import we.Heiden.gca.Messages.JsonMessage.ClickAction;
@@ -115,10 +116,8 @@ public class ClerkStore implements BasicStore, Confirmable, Displayable {
 		p.openInventory(inv);
 	}
 
-	@Override
 	public void no(Player p) { display(p); }
 
-	@Override
 	public void yes(Player p) {
 		Bag.inventories.get(p).addItem((ItemStack) temp01.get(p).get(0));
 		Operations.setMoney(p.getUniqueId(), Operations.getMoney(p)-(int) temp01.get(p).get(1));

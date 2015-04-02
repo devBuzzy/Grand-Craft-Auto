@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.NPCs.CustomVillager;
+import we.Heiden.gca.Utils.Functions;
 import we.Heiden.hs2.Messages.Chat;
-import we.Heiden.hs2.Utils.Functions;
 
 public class SetnpcCommand {
 
@@ -22,7 +22,8 @@ public class SetnpcCommand {
 			if (Config.get().contains("Civilians")) size = Config.get().getConfigurationSection("Civilians").getKeys(false).size()+1;
 			if (size >= 30) c.msg(Chat.e2("Max Civilian Amount Reached"), "&9&lTry removing them from config");
 			else {
-				Functions.saveloc("Civilians." + size, p.getLocation());
+				Functions.saveLoc("Civilians." + size, p);
+				Config.save();
 				villagers.put(CustomVillager.spawn(p.getLocation(), "&a&lCivilian"), "Civilians." + size);
 				c.s("Civilian Set");
 			}

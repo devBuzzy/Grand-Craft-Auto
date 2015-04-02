@@ -92,7 +92,8 @@ public class Wand implements Listener {
 						n = 1;
 						p1.put(p, loc);
 					} else p2.put(p, loc);
-					CMessager.msg("&d&l>> &7" + selecting.get(p) + ": &dPoint &b" + n + " &dSet! &8&l(&a" + loc.getBlockX()+"&7, &a"+loc.getBlockY()+"&7, &a"+loc.getBlockZ()+"&8&l)");
+					CMessager.msg("&d&l>> &7" + selecting.get(p) + ": &dPoint &b" + n + " &dSet! &8&l(&a" + loc.getBlockX()
+							+ "&7, &a" + loc.getBlockY() + "&7, &a" + loc.getBlockZ() + "&8&l)");
 				} else p1.put(p, loc);
 				if (p1.containsKey(p) && p2.containsKey(p) || selecting2.containsKey(p)) {
 					CMessager.s1("Selector Finished");
@@ -104,6 +105,10 @@ public class Wand implements Listener {
 					else if (type.equals("Garage Slot")) withList(p, "Garage.Slots", "Garage Slot &d%n%&6");
 					else if (type.equals("Airport")) saveLoc2p(p, "Airport Area", "AirportArea");
 					else if (type.equals("Hospital")) saveLoc2p(p, "Hospital Area", "Hospital.Area");
+					else for (Houses house : Houses.values()) {
+						if (type.startsWith(house.toString())) { type = type.replace(house.toString(), ""); saveLoc2p(p, house.name + "&6&l" + type, house.path + "." + type); }
+						
+					}
 					CMessager.msg("");
 					clear(p);
 				}

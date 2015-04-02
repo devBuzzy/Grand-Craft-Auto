@@ -28,6 +28,8 @@ public class CommandsHandler {
 			else if (cmd.getName().equalsIgnoreCase("HospitalWarp")) Functions.setWarp(p, "Hospital", "Hospital.Warp");
 			else if (cmd.getName().equalsIgnoreCase("setRespawn")) Functions.setWarp(p, "Respawn", "Hospital.Respawn");
 			else if (cmd.getName().equalsIgnoreCase("setNpc")) SetnpcCommand.setNpc(p, args);
+			else if (cmd.getName().equalsIgnoreCase("setHome")) SethomeCommand.setHome(p, args);
+			else if (cmd.getName().equalsIgnoreCase("Home")) HomeCommand.home(p, args);
 		} else new Chat(sender).e("Console not supported");
 	}
 }

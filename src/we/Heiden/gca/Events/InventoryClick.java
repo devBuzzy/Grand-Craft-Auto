@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Functions.CarsEnum;
+import we.Heiden.gca.Functions.Food;
+import we.Heiden.gca.Functions.Houses;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
 import we.Heiden.gca.Messages.Messager;
@@ -18,7 +20,7 @@ import we.Heiden.gca.Pets.Pet;
 import we.Heiden.gca.Pets.Pets;
 import we.Heiden.gca.Stores.CarStore;
 import we.Heiden.gca.Stores.ClerkStore;
-import we.Heiden.gca.Stores.Food;
+import we.Heiden.gca.Stores.HomeStore;
 import we.Heiden.gca.Stores.PetStore;
 import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Utils.ItemUtils;
@@ -152,6 +154,16 @@ public class InventoryClick implements Listener {
 					if (e.getInventory().contains(c)) {
 						e.setCancelled(true);
 						ClerkStore.confirm(p, c, Food.getPrice(c));
+					}
+				} else if (invn.equals(HomeStore.PurchaseN())) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						HomeStore.confirm(p, Houses.matchItem(c));
+					}
+				} else if (invn.equals(HomeStore.ManageN())) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						HomeStore.confirm2(p, Houses.matchSell(c));
 					}
 				}
 			}

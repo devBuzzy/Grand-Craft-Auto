@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import we.Heiden.gca.Commands.SetnpcCommand;
+import we.Heiden.gca.Commands.TradeCommand;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EntityExplode;
 import we.Heiden.gca.Functions.Garage;
@@ -26,6 +27,7 @@ import we.Heiden.gca.Weapons.WeaponHandler;
 import we.Heiden.gca.Weapons.WeaponUtils;
 import we.Heiden.gca.Weapons.Weapons;
 import we.Heiden.hs2.Messages.ActionBar;
+import we.Heiden.hs2.Messages.Chat;
 
 public class Timer20T extends BukkitRunnable {
 
@@ -134,6 +136,19 @@ public class Timer20T extends BukkitRunnable {
 				else {
 					SetnpcCommand.villagers.put(CustomVillager.spawn(Functions.loadLoc(path, Config.get()), "&a&lCivilian"), path);
 					SetnpcCommand.respawn.remove(path);
+				}
+			}
+		if (!TradeCommand.remover.isEmpty())
+			for (Player target : TradeCommand.remover.keySet()) {
+				int time = TradeCommand.remover.get(target);
+				time--;
+				if (time > 0) TradeCommand.remover.put(target, time);
+				else {
+					TradeCommand.remover.remove(target);
+					Player p = TradeCommand.pending.get(target);
+					TradeCommand.pending.remove(target);
+					new Chat(p).e("Your trade Invitation has been cancelled");
+					TradeCommand.cooldown.put(p, 15);
 				}
 			}
 	}

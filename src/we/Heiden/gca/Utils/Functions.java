@@ -48,6 +48,8 @@ public class Functions {
 		return CraftItemStack.asCraftMirror(nmsStack);
 	}
 	
+	public static Player hide(Player p) { for (Player pl : Bukkit.getOnlinePlayers()) pl.hidePlayer(pl); return p; }
+	
 	public static boolean canJoinRobbery() {
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();

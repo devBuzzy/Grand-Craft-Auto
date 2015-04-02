@@ -34,7 +34,6 @@ public class UtilsMain {
 		try { new HologramUtils().registerCustomEntity(CustomVillager.class, "Villager", 120); } catch(Exception ex) { }
 		try { new HologramUtils().registerCustomEntity(Wolf.class, "Wolf", 95); } catch(Exception ex) { }
 		try { new HologramUtils().registerCustomEntity(Ocelot.class, "Ozelot", 98); } catch(Exception ex) { }
-		loadCivilians();
 		ItemUtils.setup();
 		NPCs.setup();
 		CarsEnum.setup();
@@ -48,7 +47,7 @@ public class UtilsMain {
 		}, 1);
 	}
 
-	private static void loadCivilians() {
+	public static void loadCivilians() {
 		if (Config.get().contains("Civilians")) for (String path : Config.get().getConfigurationSection("Civilians").getKeys(false)) 
 			SetnpcCommand.villagers.put(CustomVillager.spawn(Functions.loadLoc("Civilians." + path, Config.get()), "&a&lCivilian"), "Civilians." + path);
 	}

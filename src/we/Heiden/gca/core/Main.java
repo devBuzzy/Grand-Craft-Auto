@@ -54,10 +54,10 @@ public class Main extends JavaPlugin {
 	
 	public void onEnable() {
 		pl = this;
+		new Config();
 		UtilsMain.setup();
 		ItemUtils.items();
 		UtilsMain.load();
-		new Config();
 		new EventsHandler(this);
 		new Timer1T().runTaskTimer(this, 20, 1);
 		new Timer2T().runTaskTimer(this, 20, 2);
@@ -72,13 +72,14 @@ public class Main extends JavaPlugin {
 				else if (e instanceof LivingEntity && !(e instanceof Player)) ((LivingEntity)e).setHealth(0.0D);
 			}
 		}
+		UtilsMain.loadCivilians();
 	}
 	
 	public void onDisable() {
+		for (Player p : Bukkit.getOnlinePlayers()) for (Player pl : Bukkit.getOnlinePlayers()) if (!p.canSee(pl)) p.showPlayer(pl);
 		UtilsMain.save();
 		for (NMSNpc e : NPCs.entities) e.killEntityNMS();
 		for (CustomVillager e : SetnpcCommand.villagers.keySet()) e.killEntityNMS();
-		pl = null;
 	}
 	
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String CommandLabel, String[] args) {

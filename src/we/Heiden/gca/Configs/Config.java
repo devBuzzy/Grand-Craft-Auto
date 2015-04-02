@@ -7,11 +7,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import we.Heiden.gca.core.Main;
-
 public class Config {
 
-	static File folder = new File("plugins" + File.separator + Main.pl.getName() + File.separator);
+	static File folder = new File("plugins" + File.separator + "GrandCraftAuto" + File.separator);
 	static File cfile = new File(folder.getPath() + File.separator + "config.yml");
 	static FileConfiguration fc;
 	

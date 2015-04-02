@@ -1,4 +1,4 @@
-package we.Heiden.gca.Stores;
+package we.Heiden.gca.Functions;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -29,3 +29,7 @@ commands:
         aliases: [sr, hr]
     setNpc:
         aliases: [sn]
+    setHome:
+        aliases: [shome, seth]
+    Home:
+        aliases: [h]
