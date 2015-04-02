@@ -1,5 +1,6 @@
 package we.Heiden.gca.core;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -16,6 +17,7 @@ import we.Heiden.hs2.Messages.ActionBar;
 public class Timer5T extends BukkitRunnable {
 
 	public void run() {
+		for (Player p : Bukkit.getOnlinePlayers()) p.updateInventory();
 		if (!InventoryClick.pet.isEmpty())
 			for (Player p : InventoryClick.pet.keySet()) {
 				p.updateInventory();

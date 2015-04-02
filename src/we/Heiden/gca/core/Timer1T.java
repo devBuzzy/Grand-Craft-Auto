@@ -2,8 +2,11 @@ package we.Heiden.gca.core;
 
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import we.Heiden.gca.Commands.TradeCommand;
+import we.Heiden.gca.Functions.Trade;
 import we.Heiden.gca.Weapons.WeaponHandler;
 import we.Heiden.gca.Weapons.Weapons;
 import we.Heiden.hs2.Messages.ActionBar;
@@ -46,5 +49,16 @@ public class Timer1T extends BukkitRunnable {
 				proj.remove();
 			}
 		}
+		
+		if (!Trade.update.isEmpty())
+			for (Player p : Trade.update.keySet()) {
+				int slot = Trade.update.get(p);
+				Player other = TradeCommand.pending.get(p);
+				ItemStack item = p.getOpenInventory().getItem(slot);
+				if (slot == 0) slot = 3;
+				other.getOpenInventory().setItem(slot+5, item);
+				other.updateInventory();
+				Trade.update.remove(p);
+			}
 	}
 }

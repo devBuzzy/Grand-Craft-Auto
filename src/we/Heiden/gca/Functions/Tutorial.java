@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import we.Heiden.gca.Utils.Functions;
@@ -18,10 +21,17 @@ public class Tutorial {
 	
 	public static void tutorial(Player p, int elapsed) {
 		if (elapsed == 1) {
+			p.setGameMode(GameMode.ADVENTURE);
 			back.put(p, p.getLocation());
 			p.teleport(Functions.loadLoc("Tutorial.1", p));
-		} else if (elapsed == 10) p.teleport(Functions.loadLoc("Tutorial.2", p));
-		else if (elapsed == 20) p.teleport(Functions.loadLoc("Tutorial.3", p));
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+		} else if (elapsed == 10) {
+			p.teleport(Functions.loadLoc("Tutorial.2", p));
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+		} else if (elapsed == 20) {
+			p.teleport(Functions.loadLoc("Tutorial.3", p));
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+		}
 		if (elapsed < 5 || (elapsed > 9 && elapsed < 15) || (elapsed > 19 && elapsed < 25 || elapsed == 33)) {
 			List<String> msg;
 			if (elapsed < 5) msg = tuto01(elapsed);
@@ -31,10 +41,12 @@ public class Tutorial {
 			
 			for (int n = 1; n <= 10-msg.size(); n++) p.sendMessage("");
 			new Chat(p).msg(msg);
+			p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, new Random().nextInt(2)+1);
 			if (elapsed == 33) {
 				tuto.remove(p);
 				p.teleport(back.get(p));
 				back.remove(p);
+				p.setGameMode(GameMode.SURVIVAL);
 			}
 		}
 	}

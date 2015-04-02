@@ -1,6 +1,9 @@
 package we.Heiden.gca.Events;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,6 +18,7 @@ import we.Heiden.gca.Functions.Food;
 import we.Heiden.gca.Functions.Houses;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.SettingsEnum;
+import we.Heiden.gca.Functions.Trade;
 import we.Heiden.gca.Messages.Messager;
 import we.Heiden.gca.Pets.Pet;
 import we.Heiden.gca.Pets.Pets;
@@ -165,6 +169,26 @@ public class InventoryClick implements Listener {
 						e.setCancelled(true);
 						HomeStore.confirm2(p, Houses.matchSell(c));
 					}
+				} else if (invn.equals(Trade.displayN())) {
+					if (e.getInventory().contains(c)) {
+						List<Integer> forbidSlots = new ArrayList<Integer>();
+						forbidSlots.addAll(Arrays.asList(4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 31, 32, 33, 34, 35, 40, 41, 42, 43, 44, 49, 50, 51, 52, 53));
+						if (forbidSlots.contains(e.getSlot())) e.setCancelled(true);
+						else if (c.equals(Trade.submited) || c.equals(Trade.unsubmited)) e.setCancelled(true);
+						else if (e.getSlot() == 3) { Trade.submit(p); e.setCancelled(true); }
+						else Trade.update.put(p, e.getSlot());
+					} else if (e.getClickedInventory().equals(e.getInventory())) Trade.update.put(p, e.getSlot());
+						/*else if (e.getAction().equals(InventoryAction.PICKUP_ALL) || e.getAction().equals(InventoryAction.PICKUP_HALF) || 
+								e.getAction().equals(InventoryAction.PICKUP_ONE)) {
+							if (c.equals(Trade.submited) || c.equals(Trade.unsubmited)) e.setCancelled(true);
+							else if (e.getSlot() == 3) { Trade.submit(p); e.setCancelled(true); }
+							else Trade.update.put(p, e.getSlot());
+						} else if (e.getAction().equals(InventoryAction.PLACE_ALL) || e.getAction().equals(InventoryAction.PLACE_ONE) ||
+								e.getAction().equals(InventoryAction.PLACE_SOME)) {
+							if (c.equals(Trade.submited) || c.equals(Trade.unsubmited) || e.getSlot() == 3) e.setCancelled(true);
+							else Trade.update.put(p, e.getSlot());
+						} else e.setCancelled(true);
+					}*/
 				}
 			}
 		}

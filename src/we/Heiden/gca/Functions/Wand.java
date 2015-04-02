@@ -65,12 +65,12 @@ public class Wand implements Listener {
 	private static void withList(Player p, String path, String type) {
 		int n = 1;
 		if (Config.get().contains(path)) n = Config.get().getConfigurationSection(path).getKeys(false).size()+1;
-		saveLoc2p(p, path + "." + n, type.replace("%n%", n + ""));
+		saveLoc2p(p, type.replace("%n%", n + ""), path + "." + n);
 	}
 	
 	public static void saveLoc2p(Player p, String type, String path) {
-		Functions.saveLoc(path + ".p1", p1.get(p), p);
-		Functions.saveLoc(path + ".p2", p2.get(p), p);
+		if (p1.containsKey(p)) Functions.saveLoc(path + ".p1", p1.get(p), p);
+		if (p2.containsKey(p)) Functions.saveLoc(path + ".p2", p2.get(p), p);
 		Config.save();
 		Messager.load(p);
 		Messager.s1(type + " Set");

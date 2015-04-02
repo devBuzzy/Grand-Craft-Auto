@@ -15,12 +15,14 @@ public class CommandsHandler {
 	public CommandsHandler(CommandSender sender, Command cmd, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			if (!Perms.hasPermission(sender, "admin")) p.sendMessage(Messager.e("You Can`t do that").get(0));
+			if (cmd.getName().equalsIgnoreCase("Home")) HomeCommand.home(p, args);
+			else if (cmd.getName().equalsIgnoreCase("Trade")) TradeCommand.trade(p, args);
+			else if (cmd.getName().equalsIgnoreCase("Store")) StoreCommand.store(p, args);
+			else if (!Perms.hasPermission(sender, "admin")) p.sendMessage(Messager.e("You Can`t do that").get(0));
 			else if (cmd.getName().equalsIgnoreCase("setGarageEntry")) Wand.give(p, "Garage Entry");
 			else if (cmd.getName().equalsIgnoreCase("GarageWarp")) GaragewarpCommand.gw(p);
 			else if (cmd.getName().equalsIgnoreCase("GarageExit")) Wand.give(p, "Garage Exit");
 			else if (cmd.getName().equalsIgnoreCase("GarageSlot")) Wand.give(p, "Garage Slot", false);
-			else if (cmd.getName().equalsIgnoreCase("Store")) StoreCommand.store(p, args);
 			else if (cmd.getName().equalsIgnoreCase("AirportSpawn")) Functions.setWarp(p, "Airport", "Airport");
 			else if (cmd.getName().equalsIgnoreCase("AirportArea")) Wand.give(p, "Airport");
 			else if (cmd.getName().equalsIgnoreCase("TutoSpawn")) TutospawnCommand.ts(p, args);
@@ -29,7 +31,6 @@ public class CommandsHandler {
 			else if (cmd.getName().equalsIgnoreCase("setRespawn")) Functions.setWarp(p, "Respawn", "Hospital.Respawn");
 			else if (cmd.getName().equalsIgnoreCase("setNpc")) SetnpcCommand.setNpc(p, args);
 			else if (cmd.getName().equalsIgnoreCase("setHome")) SethomeCommand.setHome(p, args);
-			else if (cmd.getName().equalsIgnoreCase("Home")) HomeCommand.home(p, args);
 		} else new Chat(sender).e("Console not supported");
 	}
 }

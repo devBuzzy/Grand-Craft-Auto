@@ -15,7 +15,7 @@ import we.Heiden.gca.Stores.PetStore;
 
 public enum NPCs {
 
-	Store(0, 0, "&a&lClerk", new ClerkStore()),
+	Store(1, 0, "&a&lClerk", new ClerkStore()),
 	Cars(3, 2, "&a&lDealership Owner", new CarStore()),
 	Homes(4, 0, "&a&lHome Agent", new HomeStore()),
 	Pets(2, 0, "&a&lPet Clerk", new PetStore()),
@@ -39,4 +39,12 @@ public enum NPCs {
 	}
 	
 	public BasicStore getStore() { return store; }
+	
+	public static NPCs match(String name) {
+		if (name.equalsIgnoreCase("car")) return NPCs.Cars;
+		else if (name.equalsIgnoreCase("homes")) return NPCs.Homes;
+		else if (name.equalsIgnoreCase("pet")) return NPCs.Pets;
+		else if (name.equalsIgnoreCase("bank")) return NPCs.Bank;
+		else return NPCs.Store;
+	}
 }

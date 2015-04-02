@@ -25,7 +25,7 @@ public class ItemUtils {
 	private static HashMap<String, ItemStack> ritems = new HashMap<String, ItemStack>();
 	
 	public static void setup() {
-		ritems.put("ItemJobs", getItem(Material.NETHER_STAR, "&b&lJobs Selector", "Here you can &9&owin", "   some &9&omoney&5&o!", " &5Hint: &9&oIt`s good to have money"));
+		ritems.put("ItemJobs", getItem(Material.NETHER_STAR, "&7&lCellPhone", "Use this to call", "your &aFriends", " &c&oUnder Construction"));
 		ritems.put("ItemBag", getItem(Material.CHEST, "&a&lBackPack", "Store your items to", "   carry them with you", " &7Nope, you can`t use", "   &7your inventory"));
 		ritems.put("ItemSettings", getItem(Material.COMPASS, "&f&lSettings", "Do you have lag?", "or just you don`t like", "   how some things look?", 
 				" I`ve a &fSolution &5&ofor &fYou", "", "&bJust click me"));
@@ -120,7 +120,7 @@ public class ItemUtils {
 	}
 	public static ItemStack getItem(Material mat, short data, String name, List<String> lore) {return getItem(mat, 1, data, name ,lore);}
 	public static ItemStack getItem(Material mat, String name, List<String> lore) {return getItem(mat, 1, (short) 0, name ,lore);}
-	
+
 	public static void items(Player p) {
 		Functions.clear(p);
 		PlayerInventory inv = p.getInventory();
@@ -135,12 +135,12 @@ public class ItemUtils {
 		if (!inv.contains(ItemJobs())) if (inv.getItem(s3) == null) inv.setItem(s3, ItemJobs()); else inv.addItem(ItemJobs());
 		if (!inv.contains(ItemMoney(p))) if (inv.getItem(s4) == null) inv.setItem(s4, ItemMoney(p)); else inv.addItem(ItemMoney(p));
 		if (!inv.contains(ItemSettings())) if (inv.getItem(s5) == null) inv.setItem(s5, ItemSettings()); else inv.addItem(ItemSettings());
-		
+
 		for (int n = 0; n < inv.getSize(); n++) if (inv.getItem(n) == null) inv.setItem(n, ItemDefault());
 		hasItems.add(p);
 		if (!Bag.inventories.containsKey(p)) Bag.inventories.put(p, Bukkit.createInventory(null, 36, ChatColor.translateAlternateColorCodes('&', "&a&lPersonal Backpack")));
 	}
-	public static void items() {for (Player p : Bukkit.getOnlinePlayers()) items(p);}
+	public static void items() { for (Player p : Bukkit.getOnlinePlayers()) items(p); }
 
 	/** <li>Gun shot particles
 	 * <li>Gun Recharge Effect

@@ -35,12 +35,14 @@ public class UtilsMain {
 		try { new HologramUtils().registerCustomEntity(Wolf.class, "Wolf", 95); } catch(Exception ex) { }
 		try { new HologramUtils().registerCustomEntity(Ocelot.class, "Ozelot", 98); } catch(Exception ex) { }
 		ItemUtils.setup();
-		NPCs.setup();
+		ItemUtils.setItems();
 		CarsEnum.setup();
 		ItemUtils.setCars();
 		ItemUtils.setKeys();
-		ItemUtils.setItems();
+		NPCs.setup();
 		Settings.configure();
+		loadCivilians();
+		loadNpcs();
 		for (Player p : Bukkit.getOnlinePlayers()) SettingsEnum.register(p);
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Main.pl, new Runnable() {
 			public void run() {Functions.fc = Config.get();}
@@ -52,6 +54,17 @@ public class UtilsMain {
 			SetnpcCommand.villagers.put(CustomVillager.spawn(Functions.loadLoc("Civilians." + path, Config.get()), "&a&lCivilian"), "Civilians." + path);
 	}
 
+	public static void loadNpcs() {
+		if (Config.get().contains("NPCs")) {
+			for (String npc : Config.get().getConfigurationSection("NPCs").getKeys(false)) {
+				for (String npcN : Config.get().getConfigurationSection("NPCs." + npc).getKeys(false)) {
+					Location loc = Functions.loadLoc("NPCs." + npc + "." + npcN, Config.get());
+					if (loc != null) NPCs.match(npc).getNPC().spawn(loc);
+				}
+			}
+		}
+	}
+
 	public static void save() {for (Player p : Bukkit.getOnlinePlayers()) save(p);}
 	public static void load() {for (Player p : Bukkit.getOnlinePlayers()) load(p);}
 	
@@ -61,8 +74,9 @@ public class UtilsMain {
 		int n = 0;
 		if (inv != null) for (ItemStack i : inv) {
 			if (i != null && i.getType() != Material.AIR) PlayerConfig.get().set("Temp.Bag." + n, i);
+			else PlayerConfig.get().set("Temp.Bag." + n, null);
 			n++;
-		}
+		} else PlayerConfig.get().set("Temp.Bag", null);
 		if (ItemUtils.hasItems.contains(p)) PlayerConfig.get().set("Temp.hasItems", "true");
 		PlayerConfig.save();
 	}

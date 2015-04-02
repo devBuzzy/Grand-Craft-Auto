@@ -20,6 +20,7 @@ import we.Heiden.gca.Commands.TradeCommand;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EntityExplode;
 import we.Heiden.gca.Functions.Garage;
+import we.Heiden.gca.Functions.Trade;
 import we.Heiden.gca.Functions.Tutorial;
 import we.Heiden.gca.NPCs.CustomVillager;
 import we.Heiden.gca.Utils.Functions;
@@ -148,8 +149,27 @@ public class Timer20T extends BukkitRunnable {
 					Player p = TradeCommand.pending.get(target);
 					TradeCommand.pending.remove(target);
 					new Chat(p).e("Your trade Invitation has been cancelled");
+					TradeCommand.denied.remove(p);
 					TradeCommand.cooldown.put(p, 15);
 				}
+			}
+		if (!TradeCommand.delay.isEmpty())
+			for (Player target : TradeCommand.delay.keySet()) {
+				int time = TradeCommand.delay.get(target);
+				time--;
+				if (time > 0) TradeCommand.delay.put(target, time);
+				else {
+					TradeCommand.delay.remove(target);
+					Trade.display(target);
+					Trade.display(TradeCommand.pending.get(target));
+				}
+			}
+		if (!TradeCommand.cooldown.isEmpty())
+			for (Player target : TradeCommand.cooldown.keySet()) {
+				int time = TradeCommand.cooldown.get(target);
+				time--;
+				if (time > 0) TradeCommand.cooldown.put(target, time);
+				else TradeCommand.cooldown.remove(target);
 			}
 	}
 }

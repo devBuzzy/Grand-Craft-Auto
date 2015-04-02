@@ -171,7 +171,7 @@ public class WeaponHandler implements Listener {
 					break;
 				}
 			}
-		} e.setCancelled(true);
+		} else e.setCancelled(true);
 	}
 	
 	@EventHandler

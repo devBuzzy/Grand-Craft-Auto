@@ -32,7 +32,7 @@ public class PlayerDropItem implements Listener {
 		if (e.getItemDrop() != null) if (ItemUtils.getItem(e.getPlayer()).contains(c) || ItemUtils.weapons.contains(c) ||
 				(c.getType() == ItemUtils.Bullet().getType() && c.getItemMeta().getDisplayName().equals(ItemUtils.Bullet().getItemMeta().getDisplayName()))) {
 			Player p = e.getPlayer();
-			if (p.getOpenInventory() == null || !p.getOpenInventory().equals(Bag.inventories.get(p)) || !Bag.inventories.get(p).contains(c)) e.setCancelled(true);
+			if (p.getOpenInventory() == null || !p.getOpenInventory().getTitle().equals(Bag.inventories.get(p).getTitle())) { e.setCancelled(true); p.updateInventory(); }
 		}
 	}
 }

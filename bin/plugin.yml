@@ -33,3 +33,5 @@ commands:
         aliases: [shome, seth]
     Home:
         aliases: [h]
+    Trade:
+        aliases: [t]
