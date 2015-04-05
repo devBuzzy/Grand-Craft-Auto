@@ -1,13 +1,17 @@
 package we.Heiden.gca.core;
 
-import org.bukkit.Bukkit;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import we.Heiden.gca.Events.InventoryClick;
 import we.Heiden.gca.Events.PlayerInteract;
+import we.Heiden.gca.Functions.CellPhone;
 import we.Heiden.gca.Pets.Pet;
 import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.Weapons.WeaponHandler;
@@ -16,8 +20,30 @@ import we.Heiden.hs2.Messages.ActionBar;
 
 public class Timer5T extends BukkitRunnable {
 
+	public static List<Player> toUpdate = new ArrayList<Player>();
+	private Integer[] rings = {18, 17, 14, 13, 10, 9, 6, 5, 2, 1};
+	
 	public void run() {
-		for (Player p : Bukkit.getOnlinePlayers()) p.updateInventory();
+		if (!CellPhone.calling2.isEmpty())
+			for (Player p : CellPhone.calling2.keySet()) {
+				int time = CellPhone.calling2.get(p);
+				time--;
+				if (rings.toString().contains(" " + time + ", ")) {
+					p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 1);
+					CellPhone.calling.get(p).playSound(CellPhone.calling.get(p).getLocation(), Sound.ORB_PICKUP, 1, 1);
+				}
+				if (time > 0) CellPhone.calling2.put(p, time);
+				else {
+					CellPhone.calling2.remove(p);
+					CellPhone.calling.remove(CellPhone.calling.get(p));
+					CellPhone.calling.remove(p);
+				}
+			}
+		if (!toUpdate.isEmpty())
+			for (Player p : toUpdate) {
+				p.updateInventory();
+				toUpdate.remove(p);
+			}
 		if (!InventoryClick.pet.isEmpty())
 			for (Player p : InventoryClick.pet.keySet()) {
 				p.updateInventory();

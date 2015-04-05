@@ -10,11 +10,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Commands.StoreCommand;
+import we.Heiden.gca.Functions.Tutorial;
 import we.Heiden.gca.Stores.BankStore;
 import we.Heiden.gca.Stores.PetStore;
 import we.Heiden.hs2.Messages.Chat;
 import we.Heiden.hs2.Utils.Functions;
-import we.Heiden.gca.Functions.Tutorial;
 
 /**
  * ********************************************* <p>

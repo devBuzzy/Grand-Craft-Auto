@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Functions.CarsEnum;
+import we.Heiden.gca.Functions.CellPhone;
 import we.Heiden.gca.Functions.Food;
 import we.Heiden.gca.Functions.Houses;
 import we.Heiden.gca.Functions.Settings;
@@ -177,18 +178,19 @@ public class InventoryClick implements Listener {
 						else if (c.equals(Trade.submited) || c.equals(Trade.unsubmited)) e.setCancelled(true);
 						else if (e.getSlot() == 3) { Trade.submit(p); e.setCancelled(true); }
 						else Trade.update.put(p, e.getSlot());
-					} else if (e.getClickedInventory().equals(e.getInventory())) Trade.update.put(p, e.getSlot());
-						/*else if (e.getAction().equals(InventoryAction.PICKUP_ALL) || e.getAction().equals(InventoryAction.PICKUP_HALF) || 
-								e.getAction().equals(InventoryAction.PICKUP_ONE)) {
-							if (c.equals(Trade.submited) || c.equals(Trade.unsubmited)) e.setCancelled(true);
-							else if (e.getSlot() == 3) { Trade.submit(p); e.setCancelled(true); }
-							else Trade.update.put(p, e.getSlot());
-						} else if (e.getAction().equals(InventoryAction.PLACE_ALL) || e.getAction().equals(InventoryAction.PLACE_ONE) ||
-								e.getAction().equals(InventoryAction.PLACE_SOME)) {
-							if (c.equals(Trade.submited) || c.equals(Trade.unsubmited) || e.getSlot() == 3) e.setCancelled(true);
-							else Trade.update.put(p, e.getSlot());
-						} else e.setCancelled(true);
-					}*/
+					}
+				} else if (invn.equals(CellPhone.agendN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						if (c.equals(ItemUtils.Next())) CellPhone.next(p);
+						else if (c.equals(ItemUtils.Previous())) CellPhone.previous(p);
+						else CellPhone.select(p, e.getSlot());
+					}
+				} else if (invn.startsWith(CellPhone.contactN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						if (c.equals(CellPhone.call)) CellPhone.call(p);
+					}
 				}
 			}
 		}

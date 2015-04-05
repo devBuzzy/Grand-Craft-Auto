@@ -56,6 +56,9 @@ public class ItemUtils {
 		
 		ritems.put("Yes", getItem(Material.STAINED_CLAY, (short) 5, "&a&lConfirm", "&2&oConfirm whatever you", "&2&oare confirmating"));
 		ritems.put("No", getItem(Material.STAINED_CLAY, (short) 14, "&c&lDeny", "&4&oIt`s like confirming,", "&4&obut no."));
+
+		ritems.put("Next", getItem(Material.GLOWSTONE_DUST, "&6&oNext Page"));
+		ritems.put("Previous", getItem(Material.REDSTONE, "&6&oPrevious Page"));
 		
 		ritems.put("CarInfo", getItem(Material.PAPER, "&5&lCar Info"));
 		ritems.put("CarAuth", getItem(Material.STAINED_CLAY, (short) 4, "&e&lAuth", "&7With Delay", "", "Your car will be added", "to our Auth List, if", "anyone buys it, you",
@@ -79,7 +82,7 @@ public class ItemUtils {
 	public static void setCars() {for (CarsEnum e : CarsEnum.values()) cars.put(e.getItem(), e);}
 	public static void setKeys() {for (CarsEnum e : CarsEnum.values()) keys.add(e.getKey());}
 	public static void setItems() {
-		items.addAll(Arrays.asList(ItemJobs(), ItemBag(), ItemSettings(), ItemDefault(), GearMax(), Garage(), Wand.wand, Yes(), No(), CarInfo(), Wolf(), Cat()));
+		items.addAll(Arrays.asList(ItemPhone(), ItemBag(), ItemSettings(), ItemDefault(), GearMax(), Garage(), Wand.wand, Yes(), No(), CarInfo(), Wolf(), Cat()));
 		items.addAll(cars.keySet());
 		items.addAll(keys);
 		for (int n = 1; n <= 10; n++) {
@@ -132,7 +135,7 @@ public class ItemUtils {
 
 		if (!inv.contains(W_M1911())) if (inv.getItem(s1) == null) inv.setItem(s1, W_M1911()); else inv.addItem(W_M1911());
 		if (!inv.contains(ItemBag())) if (inv.getItem(s2) == null) inv.setItem(s2, ItemBag()); else inv.addItem(ItemBag());
-		if (!inv.contains(ItemJobs())) if (inv.getItem(s3) == null) inv.setItem(s3, ItemJobs()); else inv.addItem(ItemJobs());
+		if (!inv.contains(ItemPhone())) if (inv.getItem(s3) == null) inv.setItem(s3, ItemPhone()); else inv.addItem(ItemPhone());
 		if (!inv.contains(ItemMoney(p))) if (inv.getItem(s4) == null) inv.setItem(s4, ItemMoney(p)); else inv.addItem(ItemMoney(p));
 		if (!inv.contains(ItemSettings())) if (inv.getItem(s5) == null) inv.setItem(s5, ItemSettings()); else inv.addItem(ItemSettings());
 
@@ -154,7 +157,7 @@ public class ItemUtils {
 		int money = Operations.getMoney(p);
 		return getItem(Material.WHEAT, "&6&lMoney: &d" + money, "Use this to keep ", "track of your money");
 	}
-	public static ItemStack ItemJobs() { return ritems.get("ItemJobs"); }
+	public static ItemStack ItemPhone() { return ritems.get("ItemJobs"); }
 	public static ItemStack ItemBag() { return ritems.get("ItemBag"); }
 	public static ItemStack ItemDefault() { return ritems.get("ItemDefault"); }
 	
@@ -177,6 +180,9 @@ public class ItemUtils {
 
 	public static ItemStack Yes() { return ritems.get("Yes"); }
 	public static ItemStack No() { return ritems.get("No"); }
+	
+	public static ItemStack Next() { return ritems.get("Next"); }
+	public static ItemStack Previous() { return ritems.get("Previous"); }
 	
 	public static ItemStack Wolf() { return ritems.get("Wolf"); }
 	public static ItemStack Cat() { return ritems.get("Cat"); }

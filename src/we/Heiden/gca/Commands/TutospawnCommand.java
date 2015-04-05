@@ -11,6 +11,7 @@ public class TutospawnCommand {
 	public static void ts(Player p, String[] args) {
 		int warp = 1;
 		if (args.length > 0 && Functions.isInt(args[0])) warp = Integer.parseInt(args[0]);
+		if (warp > 5) warp = 5;
 		Functions.saveLoc("Tutorial." + warp, p);
 		Config.save();
 		new Chat(p).msg("&a&lTutorial Spawn " + warp + " set");

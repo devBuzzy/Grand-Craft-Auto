@@ -22,6 +22,7 @@ import org.bukkit.plugin.Plugin;
 import we.Heiden.gca.CustomEvents.NPCInteractEvent;
 import we.Heiden.gca.Functions.Bag;
 import we.Heiden.gca.Functions.Cars;
+import we.Heiden.gca.Functions.CellPhone;
 import we.Heiden.gca.Functions.Food;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Messages.Messager;
@@ -106,6 +107,7 @@ public class PlayerInteract implements Listener {
 			else if (c.equals(settings)) new Settings().display(p);
 			else if (c.equals(gup) || c.equals(ItemUtils.GearMax())) Cars.gearUp(p);
 			else if (c.equals(gdown)) Cars.gearDown(p);
+			else if (c.equals(ItemUtils.ItemPhone())) CellPhone.agend(p, 1);
 			else if (c.equals(Food.stew_m.item)) {
 				e.setCancelled(true);
 				if (p.getHealth() < p.getMaxHealth()) {

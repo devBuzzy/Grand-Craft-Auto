@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/we/Heiden/gca/Commands/StoreCommand.java=UTF-8
 encoding//src/we/Heiden/gca/Commands/TradeCommand.java=UTF-8
 encoding//src/we/Heiden/gca/Events/AsyncPlayerChat.java=UTF-8
+encoding//src/we/Heiden/gca/Functions/CellPhone.java=UTF-8
 encoding//src/we/Heiden/gca/Functions/Houses.java=UTF-8
 encoding//src/we/Heiden/gca/Stores/BankStore.java=UTF-8
 encoding//src/we/Heiden/gca/Stores/HomeStore.java=UTF-8

@@ -59,7 +59,12 @@ public class UtilsMain {
 			for (String npc : Config.get().getConfigurationSection("NPCs").getKeys(false)) {
 				for (String npcN : Config.get().getConfigurationSection("NPCs." + npc).getKeys(false)) {
 					Location loc = Functions.loadLoc("NPCs." + npc + "." + npcN, Config.get());
-					if (loc != null) NPCs.match(npc).getNPC().spawn(loc);
+					if (loc != null) {
+						NPCs npcs = NPCs.match(npc);
+						NMSNpc entity = npcs.getNPC().spawn(loc);
+						NPCs.entities.add(entity);
+						NPCs.npcs.get(npcs).put(entity, loc);
+					}
 				}
 			}
 		}
@@ -89,7 +94,8 @@ public class UtilsMain {
 				p.teleport(loc);
 				for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) pl.hidePlayer(p);
 				PlayerMove.onAirport.add(p);
-				if (Config.get().contains("Tutorial.1") && Config.get().contains("Tutorial.2") && Config.get().contains("Tutorial.3")) Tutorial.tuto.put(p, 1);
+				if (Config.get().contains("Tutorial.1") && Config.get().contains("Tutorial.2") && Config.get().contains("Tutorial.3") && 
+						Config.get().contains("Tutorial.4") && Config.get().contains("Tutorial.5")) Tutorial.tuto.put(p, 1);
 			}
 		}
 		PlayerConfig.load(p);

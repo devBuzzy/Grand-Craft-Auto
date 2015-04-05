@@ -67,8 +67,8 @@ public class PlayerInteractEntity implements Listener {
 			NMSNpc target = (NMSNpc) ((CraftVillager)e.getRightClicked()).getHandle();
 			NPCs type = null;
 			boolean bol = false;
-			for (NPCs types : NPCs.values()) {
-				for (NMSNpc entity : NPCs.npcs.get(types).keySet()) if (entity.equals(target)) {
+			for (NPCs types : NPCs.npcs.keySet()) {
+				for (NMSNpc entity : NPCs.npcs.get(types).keySet()) if (entity != null && entity.equals(target)) {
 					type = types;
 					bol = true;
 					break;

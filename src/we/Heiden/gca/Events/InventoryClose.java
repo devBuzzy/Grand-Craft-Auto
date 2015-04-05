@@ -11,12 +11,14 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Commands.TradeCommand;
+import we.Heiden.gca.Functions.CellPhone;
 import we.Heiden.gca.Functions.Settings;
 import we.Heiden.gca.Functions.Trade;
 import we.Heiden.gca.Stores.ClerkStore;
 import we.Heiden.gca.Utils.Displayable;
 import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Utils.ItemUtils;
+import we.Heiden.gca.core.Timer5T;
 
 /**
  * ********************************************* <p>
@@ -49,9 +51,10 @@ public class InventoryClose implements Listener {
 			else if (invn.equals(ChatColor.translateAlternateColorCodes('&', "&a&lPersonal Backpack"))) {
 				p.getInventory().setItem(15, ItemUtils.ItemDefault());
 				p.getInventory().setItem(16, ItemUtils.ItemDefault());
+				Timer5T.toUpdate.add(p);
 			} else if (invn.equals(Trade.displayN())) {
 				if (!TradeCommand.finished.containsKey(p)) Trade.cancel(p);
-			}
+			} else if (invn.startsWith(CellPhone.contactN)) openInv(p, new CellPhone());
 		}
 	}
 

@@ -63,7 +63,7 @@ public class Main extends JavaPlugin {
 			if (p.getOpenInventory() != null) p.closeInventory();
 		}
 		UtilsMain.save();
-		for (NMSNpc e : NPCs.entities) e.killEntityNMS();
+		for (NPCs npcs : NPCs.npcs.keySet()) for (NMSNpc npc : NPCs.npcs.get(npcs).keySet()) if (npc != null) npc.killEntityNMS();
 		for (CustomVillager e : SetnpcCommand.villagers.keySet()) e.killEntityNMS();
 		for (World w : Bukkit.getWorlds()) {
 			for (Entity e: w.getEntities()) {
@@ -90,7 +90,8 @@ public class Main extends JavaPlugin {
 				p.teleport(loc);
 				for (Player pl : Bukkit.getOnlinePlayers()) if (pl != p) pl.hidePlayer(p);
 				PlayerMove.onAirport.add(p);
-				if (Config.get().contains("Tutorial.1") && Config.get().contains("Tutorial.2") && Config.get().contains("Tutorial.3")) Tutorial.tuto.put(p, 1);
+				if (Config.get().contains("Tutorial.1") && Config.get().contains("Tutorial.2") && Config.get().contains("Tutorial.3")
+						&& Config.get().contains("Tutorial.4") && Config.get().contains("Tutorial.5")) Tutorial.tuto.put(p, 1);
 			}
 		} else new CommandsHandler(sender, cmd, args);
 		return true;
