@@ -61,19 +61,21 @@ public class PlayerInteract implements Listener {
 			NMSNpc target = null;
 			boolean bool = false;
 			for (NMSNpc ent : NPCs.entities) {
-				CraftEntity cent = ent.getBukkitEntity();
-				if (cent.getLocation().getWorld().equals(p.getLocation().getWorld())) {
-					for (Block bl : hsb) {
-						Location loc = cent.getLocation();
-						loc.setY(loc.getY()+1);
-						if (bl.getLocation().getBlock().getLocation().equals(loc.getBlock().getLocation())) {
-							target = ent;
-							bool = true;
-							break;
+				if (ent != null) {
+					CraftEntity cent = ent.getBukkitEntity();
+					if (cent.getLocation().getWorld().equals(p.getLocation().getWorld())) {
+						for (Block bl : hsb) {
+							Location loc = cent.getLocation();
+							loc.setY(loc.getY()+1);
+							if (bl.getLocation().getBlock().getLocation().equals(loc.getBlock().getLocation())) {
+								target = ent;
+								bool = true;
+								break;
+							}
 						}
 					}
+					if (bool) break;
 				}
-				if (bool) break;
 			}
 			if (target != null) {
 				NPCs type = null;

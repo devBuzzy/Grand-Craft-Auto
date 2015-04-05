@@ -40,10 +40,13 @@ public class Timer5T extends BukkitRunnable {
 				}
 			}
 		if (!toUpdate.isEmpty())
-			for (Player p : toUpdate) {
-				p.updateInventory();
-				toUpdate.remove(p);
-			}
+			try {
+				for (Player p : toUpdate) {
+					p.updateInventory();
+					toUpdate.remove(p);
+				}
+			} catch(Exception ex) { }
+			
 		if (!InventoryClick.pet.isEmpty())
 			for (Player p : InventoryClick.pet.keySet()) {
 				p.updateInventory();
