@@ -40,11 +40,10 @@ public class EntityExplode implements Listener {
 	@EventHandler
 	public void onEntityExplode(EntityExplodeEvent e) {
 		if (tnts.contains(e.getEntity())) {
-			tnts.remove(e.getEntity());
 			int n = 0;
 			for (Block b : e.blockList()) {
 				n++;
-				Config.get().set("Temp." + e.getEntity().getUniqueId() + "." + n + ".Type", b.getType());
+				Config.get().set("Temp." + e.getEntity().getUniqueId() + "." + n + ".Type", b.getType().toString());
 				Config.get().set("Temp." + e.getEntity().getUniqueId() + "." + n + ".Data", b.getData());
 				Functions.saveLoc("Temp." + e.getEntity().getUniqueId() + "." + n + ".Location", b.getLocation(), Config.get());
 			}
@@ -55,6 +54,7 @@ public class EntityExplode implements Listener {
 				b.setType(Material.STAINED_CLAY);
 				b.setData((byte) rand);
 			}
+			tnts.remove(e.getEntity());
 		}
 		e.blockList().clear();
 	}

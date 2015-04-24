@@ -15,48 +15,55 @@ public class Timer1T extends BukkitRunnable {
 
 	public void run() {
 		if (!WeaponHandler.delay.isEmpty())
-		try {
-			for (Player p : WeaponHandler.delay.keySet()) {
-				for (Weapons wep : WeaponHandler.delay.get(p).keySet()) {
-					int time = WeaponHandler.delay.get(p).get(wep);
-					time--;
-					if (time > 0) {
-						WeaponHandler.delay.get(p).put(wep, time);
-						double percentage = ((double) wep.shootDelay-time) / ((double) wep.shootDelay) * 100D;
-						String charge = "&a&l";
-						boolean bol = true;
-						for (int n = 1; n <= 20; n++) {
-							if (percentage < n*5 && bol) {
-								charge += "&c&l";
-								bol = false;
+			try {
+				for (Player p : WeaponHandler.delay.keySet()) {
+					for (Weapons wep : WeaponHandler.delay.get(p).keySet()) {
+						int time = WeaponHandler.delay.get(p).get(wep);
+						time--;
+						if (time > 0) {
+							WeaponHandler.delay.get(p).put(wep, time);
+							double percentage = ((double) wep.shootDelay - time)
+									/ ((double) wep.shootDelay) * 100D;
+							String charge = "&a&l";
+							boolean bol = true;
+							for (int n = 1; n <= 20; n++) {
+								if (percentage < n * 5 && bol) {
+									charge += "&c&l";
+									bol = false;
+								}
+								charge += "•";
 							}
-							charge += "•";
-						}
-						new ActionBar(p).msg("&bDelay &d►►" + charge + "&d◄◄");
-					} else WeaponHandler.delay.get(p).remove(wep);
+							new ActionBar(p).msg("&bDelay &d►►" + charge
+									+ "&d◄◄");
+						} else
+							WeaponHandler.delay.get(p).remove(wep);
+					}
+					if (WeaponHandler.delay.get(p).isEmpty()) {
+						WeaponHandler.delay.remove(p);
+						new ActionBar(p).msg("&6&lCharged");
+					}
 				}
-				if (WeaponHandler.delay.get(p).isEmpty()) {
-					WeaponHandler.delay.remove(p);
-					new ActionBar(p).msg("&6&lCharged");
-				}
+			} catch (Exception ex) {
 			}
-		} catch(Exception ex) { }
-		
+
 		if (!WeaponHandler.toRemove.isEmpty()) {
-			for (Projectile proj : WeaponHandler.toRemove) {
-				WeaponHandler.bullet.remove(proj);
-				WeaponHandler.toRemove.remove(proj);
-				proj.remove();
-			}
+			try {
+				for (Projectile proj : WeaponHandler.toRemove) {
+					WeaponHandler.bullet.remove(proj);
+					WeaponHandler.toRemove.remove(proj);
+					proj.remove();
+				}
+			} catch(Exception ex) { }
 		}
-		
+
 		if (!Trade.update.isEmpty())
 			for (Player p : Trade.update.keySet()) {
 				int slot = Trade.update.get(p);
 				Player other = TradeCommand.pending.get(p);
 				ItemStack item = p.getOpenInventory().getItem(slot);
-				if (slot == 0) slot = 3;
-				other.getOpenInventory().setItem(slot+5, item);
+				if (slot == 0)
+					slot = 3;
+				other.getOpenInventory().setItem(slot + 5, item);
 				other.updateInventory();
 				Trade.update.remove(p);
 			}

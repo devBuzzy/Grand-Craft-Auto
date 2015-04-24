@@ -3,6 +3,7 @@ package we.Heiden.gca.Events;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.Plugin;
 
 import we.Heiden.gca.Commands.StoreCommand;
+import we.Heiden.gca.Functions.CellPhone;
 import we.Heiden.gca.Functions.Tutorial;
 import we.Heiden.gca.Stores.BankStore;
 import we.Heiden.gca.Stores.PetStore;
@@ -56,6 +58,24 @@ public class AsyncPlayerChat implements Listener {
 				if (StoreCommand.bank.get(p).equals("Deposit")) BankStore.deposit(p, Integer.parseInt(msg));
 				else BankStore.withdraw(p, Integer.parseInt(msg));
 				StoreCommand.bank.remove(p);
+			}
+		} else if (CellPhone.onCall.containsKey(p)) {
+			e.getRecipients().clear();
+			e.getRecipients().add(CellPhone.onCall.get(p));
+			e.setFormat(ChatColor.translateAlternateColorCodes('&', "&7&lCall &r") + e.getFormat());
+		} else if (CellPhone.msg.containsKey(p)) {
+			e.setCancelled(true);
+			if (msg.equalsIgnoreCase(".send")) {
+				if (CellPhone.msg.get(p).isEmpty()) new Chat(p).e("You can`t send empty messages");
+				else CellPhone.sendMessage(p);
+			} else if (msg.equalsIgnoreCase(".exit")) {
+				CellPhone.msg.remove(p);
+				new Chat(p).s("Left");
+			} else {
+				String message = CellPhone.msg.get(p);
+				message += msg;
+				CellPhone.msg.put(p, message);
+				new Chat(p).msg("&a&oCurrent Message: " + message);
 			}
 		}
 		if (!e.isCancelled()) for (Player pl : Tutorial.tuto.keySet()) e.getRecipients().remove(pl);

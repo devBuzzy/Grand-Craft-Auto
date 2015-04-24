@@ -25,8 +25,9 @@ public enum NPCs {
 	public static HashMap<NPCs, HashMap<NMSNpc, Location>> npcs = new HashMap<NPCs, HashMap<NMSNpc, Location>>();
 	public static List<NMSNpc> entities = new ArrayList<NMSNpc>();
 	private BasicStore store;
+	public String name;
 	
-	private NPCs(int prof, int bv, String name, BasicStore store) { object = new NPC(this, prof, bv, name) { }; this.store = store; }
+	private NPCs(int prof, int bv, String name, BasicStore store) { object = new NPC(this, prof, bv, name) { }; this.store = store; this.name = name; }
 	
 	public NPC getNPC() { return object; }
 	

@@ -144,36 +144,36 @@ public class WeaponHandler implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent e) {
 		ItemStack c = e.getItemDrop().getItemStack();
 		Player p = e.getPlayer();
-		if (p.getOpenInventory() == null)
-		if (!Timer20T.recharging.containsKey(p)) {
-			for (Weapons wep : Weapons.values()) {
-				if (c.getItemMeta().getDisplayName().equals(wep.item.getItemMeta().getDisplayName()) && wep.getCharge(p) != wep.shootCapacity) {
-					e.setCancelled(true);
-					int bullets = 0;
-					for (ItemStack i : Bag.inventories.get(p)) if (i != null && i.hasItemMeta() && i.getItemMeta().hasLore() &&
-							i.getItemMeta().getLore().equals(wep.bullet.getItemMeta().getLore())) bullets += i.getAmount();
-					if (bullets < 1) {
-						if (wep.getCharge(p) == 0) {
-							Messager.load(p);
-							Messager.e1("You don`t have any bullet");
+		if (p.getOpenInventory() == null || (p.getOpenInventory().getTopInventory() != null && !p.getOpenInventory().getTopInventory().equals(Bag.inventories.get(p))))
+			if (!Timer20T.recharging.containsKey(p)) {
+				for (Weapons wep : Weapons.values()) {
+					if (c.getItemMeta().getDisplayName().equals(wep.item.getItemMeta().getDisplayName()) && wep.getCharge(p) != wep.shootCapacity) {
+						e.setCancelled(true);
+						int bullets = 0;
+						for (ItemStack i : Bag.inventories.get(p)) if (i != null && i.hasItemMeta() && i.getItemMeta().hasLore() &&
+								i.getItemMeta().getLore().equals(wep.bullet.getItemMeta().getLore())) bullets += i.getAmount();
+						if (bullets < 1) {
+							if (wep.getCharge(p) == 0) {
+								Messager.load(p);
+								Messager.e1("You don`t have any bullet");
+							}
+						} else {
+							List<Object> lo = new ArrayList<Object>();
+							lo.addAll(Arrays.asList(wep, wep.rechargeDelay));
+							Timer20T.recharging.put(p, lo);
+							p.getWorld().playSound(p.getLocation(), Sound.FIREWORK_TWINKLE, 1, 1);
 						}
-					} else {
-						List<Object> lo = new ArrayList<Object>();
-						lo.addAll(Arrays.asList(wep, wep.rechargeDelay));
-						Timer20T.recharging.put(p, lo);
-						p.getWorld().playSound(p.getLocation(), Sound.FIREWORK_TWINKLE, 1, 1);
+						break;
 					}
-					break;
 				}
-			}
-		} else e.setCancelled(true);
+			} else e.setCancelled(true);
 	}
-	
+
 	@EventHandler
 	public void onPlayerItemHeld(PlayerItemHeldEvent e) {
 		Player p = e.getPlayer();

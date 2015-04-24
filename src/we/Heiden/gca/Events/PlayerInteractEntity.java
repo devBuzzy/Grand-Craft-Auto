@@ -22,27 +22,34 @@ import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.core.Timer20T;
 
 /**
- * ********************************************* <p>
+ * *********************************************
+ * <p>
  * <b>This has been made by <i>Heiden Team</b>
  * <ul>
  * <li>Don't claim this class as your own
  * <li>Don't remove this disclaimer
  * </ul>
- *         <b>All rights reserved <p>
- *           Heiden Team 2015 <p></b>
- * ********************************************* 
+ * <b>All rights reserved
+ * <p>
+ * Heiden Team 2015
+ * <p>
+ * </b> *********************************************
  **/
 public class PlayerInteractEntity implements Listener {
-	
-	public PlayerInteractEntity(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
-	
+
+	public PlayerInteractEntity(Plugin pl) {
+		Bukkit.getPluginManager().registerEvents(this, pl);
+	}
+
 	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent e) {
 		Player p = e.getPlayer();
 		Messager.load(p);
 		if (e.getRightClicked() instanceof Minecart) {
-			if (Cars.players.containsKey(p) && Cars.players.get(p).equals(e.getRightClicked())) {
-				if (Cars.enums.containsKey(p) && p.getItemInHand().equals(Cars.enums.get(p).getKey())) {
+			if (Cars.players.containsKey(p)
+					&& Cars.players.get(p).equals(e.getRightClicked())) {
+				if (Cars.enums.containsKey(p)
+						&& p.getItemInHand().equals(Cars.enums.get(p).getKey())) {
 					e.getRightClicked().setVelocity(new Vector(0, 0, 0));
 					e.getRightClicked().setPassenger(p);
 					Messager.e1("Turn your car on");
@@ -63,22 +70,28 @@ public class PlayerInteractEntity implements Listener {
 				Garage.display(p, e.getRightClicked());
 				e.setCancelled(true);
 			}
-		} else if (e.getRightClicked().getType().equals(EntityType.VILLAGER) && ((CraftVillager)e.getRightClicked()).getHandle() instanceof NMSNpc) {
-			NMSNpc target = (NMSNpc) ((CraftVillager)e.getRightClicked()).getHandle();
+		} else if (e.getRightClicked().getType().equals(EntityType.VILLAGER)
+				&& ((CraftVillager) e.getRightClicked()).getHandle() instanceof NMSNpc) {
+			NMSNpc target = (NMSNpc) ((CraftVillager) e.getRightClicked())
+					.getHandle();
 			NPCs type = null;
 			boolean bol = false;
 			for (NPCs types : NPCs.npcs.keySet()) {
-				for (NMSNpc entity : NPCs.npcs.get(types).keySet()) if (entity != null && entity.equals(target)) {
-					type = types;
-					bol = true;
+				for (NMSNpc entity : NPCs.npcs.get(types).keySet())
+					if (entity != null && entity.equals(target)) {
+						type = types;
+						bol = true;
+						break;
+					}
+				if (bol)
 					break;
-				}
-				if (bol) break;
 			}
 			if (type != null) {
-				NPCInteractEvent event = new NPCInteractEvent(p, Action.RIGHT_CLICK, target, type);
+				NPCInteractEvent event = new NPCInteractEvent(p,
+						Action.RIGHT_CLICK, target, type);
 				Bukkit.getPluginManager().callEvent(event);
-				if (event.isCancelled()) e.setCancelled(true);
+				if (event.isCancelled())
+					e.setCancelled(true);
 			}
 		}
 	}

@@ -19,10 +19,14 @@ import we.Heiden.gca.Commands.SetnpcCommand;
 import we.Heiden.gca.Commands.TradeCommand;
 import we.Heiden.gca.Configs.Config;
 import we.Heiden.gca.Events.EntityExplode;
+import we.Heiden.gca.Functions.CellPhone;
 import we.Heiden.gca.Functions.Garage;
+import we.Heiden.gca.Functions.Polices;
+import we.Heiden.gca.Functions.RobberyMode;
 import we.Heiden.gca.Functions.Trade;
 import we.Heiden.gca.Functions.Tutorial;
 import we.Heiden.gca.NPCs.CustomVillager;
+import we.Heiden.gca.NPCs.PolicesNMS;
 import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Weapons.WeaponHandler;
 import we.Heiden.gca.Weapons.WeaponUtils;
@@ -39,6 +43,47 @@ public class Timer20T extends BukkitRunnable {
 	
 	@SuppressWarnings("deprecation")
 	public void run() {
+		if (!RobberyMode.robbery.isEmpty())
+			for (Player p : RobberyMode.robbery.keySet())
+				if (!Polices.players.containsKey(p)) RobberyMode.robbery.remove(p);
+				else {
+					boolean safe = true;
+					for (PolicesNMS police : Polices.players.get(p)) if (police.getBukkitEntity().getLocation().distance(p.getLocation()) < 50) { safe = false; break; }
+					if (safe) RobberyMode.success(p);
+				}
+		
+		if (!Polices.polices.isEmpty())
+			for (PolicesNMS police : Polices.polices.keySet()) {
+				Player p = Polices.polices.get(police);
+				if (police.getBukkitEntity().getLocation().distance(p.getLocation()) > 30 && (RobberyMode.robbery.containsKey(p) && 
+						RobberyMode.robbery.get(p).distance(p.getLocation()) < 200)) Polices.teleportBack(police, 15);
+			}
+		
+		if (!RobberyMode.PoliceDelay.isEmpty()) 
+			for (Player p : RobberyMode.PoliceDelay.keySet()) {
+				int time = RobberyMode.PoliceDelay.get(p);
+				time--;
+				if (time > 0) RobberyMode.PoliceDelay.put(p, time);
+				else {
+					RobberyMode.PoliceDelay.remove(p);
+					Polices.spawn(p, 5, 15);
+				}
+			}
+		if (!CellPhone.callOwner.isEmpty()) {
+			for (Player p : CellPhone.callOwner) {
+				double bank = Functions.getBankMoney(p);
+				if (bank > 0.3) Functions.setBankMoney(p, bank-0.3D);
+				else {
+					Player target = CellPhone.onCall.get(p);
+					CellPhone.onCall.remove(p);
+					CellPhone.onCall.remove(target);
+					CellPhone.callOwner.remove(p);
+					new Chat(p).e("You ran out of credit");
+					new Chat(target).e(p.getName() + " ran out of credit");
+				}
+			}
+		}
+		
 		if (!actionBar.isEmpty()) for (Player p : actionBar.keySet()) new ActionBar(p).msg(actionBar.get(p));
 		if (!recharging.isEmpty()) try {
 			for (Player p : recharging.keySet()) {

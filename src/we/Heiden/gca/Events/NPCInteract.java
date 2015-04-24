@@ -6,7 +6,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import we.Heiden.gca.Commands.StoreCommand;
 import we.Heiden.gca.CustomEvents.NPCInteractEvent;
+import we.Heiden.gca.Functions.CellPhone;
+import we.Heiden.hs2.Messages.Chat;
 
 /**
  * ********************************************* <p>
@@ -26,7 +29,12 @@ public class NPCInteract implements Listener {
 	@EventHandler
 	public void onNPCInteract(NPCInteractEvent e) {
 		Player p = e.getPlayer();
-		e.getType().getStore().options(p);
+		if (CellPhone.calling.containsKey(p) || CellPhone.onCall.containsKey(p)) new Chat(p).e("You are on a call");
+		else if (CellPhone.msg.containsKey(p)) new Chat(p).e("You are writting a message");
+		else {
+			e.getType().getStore().options(p);
+			StoreCommand.npc.put(p, e.getTarget());
+		}
 		e.setCancelled(true);
 	}
 }

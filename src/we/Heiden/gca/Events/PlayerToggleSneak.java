@@ -15,34 +15,44 @@ import we.Heiden.gca.Utils.Functions;
 import we.Heiden.gca.Utils.ItemUtils;
 
 /**
- * ********************************************* <p>
+ * *********************************************
+ * <p>
  * <b>This has been made by <i>Heiden Team</b>
  * <ul>
  * <li>Don't claim this class as your own
  * <li>Don't remove this disclaimer
  * </ul>
- *         <b>All rights reserved <p>
- *           Heiden Team 2015 <p></b>
- * ********************************************* 
+ * <b>All rights reserved
+ * <p>
+ * Heiden Team 2015
+ * <p>
+ * </b> *********************************************
  **/
 public class PlayerToggleSneak implements Listener {
-	
-	public PlayerToggleSneak(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
-	
+
+	public PlayerToggleSneak(Plugin pl) {
+		Bukkit.getPluginManager().registerEvents(this, pl);
+	}
+
 	public static HashMap<Player, Integer> jetpack = new HashMap<Player, Integer>();
-	
+
 	@EventHandler
 	public void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
 		Player p = e.getPlayer();
-		if (p.getInventory().getChestplate() != null && p.getInventory().getChestplate().equals(ItemUtils.JetPack()) && p.getLocation().getY() < 120) {
-			p.setVelocity(p.getLocation().getDirection().add(new Vector(0, 1, 0)));
+		if (p.getInventory().getChestplate() != null
+				&& p.getInventory().getChestplate().equals(ItemUtils.JetPack())
+				&& p.getLocation().getY() < 120) {
+			p.setVelocity(p.getLocation().getDirection()
+					.add(new Vector(0, 1, 0)));
 			Location loc = p.getLocation().clone();
-			loc.setY(loc.getY()-1);
+			loc.setY(loc.getY() - 1);
 			Functions.displayEffect(loc, 29, 0, 10, p.getWorld().getPlayers());
-			if (!jetpack.containsKey(p)) jetpack.put(p, 1);
+			if (!jetpack.containsKey(p))
+				jetpack.put(p, 1);
 			int time = jetpack.get(p);
-			short durability = (short) (time/3);
-			if (durability > p.getInventory().getChestplate().getType().getMaxDurability()) {
+			short durability = (short) (time / 3);
+			if (durability > p.getInventory().getChestplate().getType()
+					.getMaxDurability()) {
 				p.getInventory().setChestplate(null);
 				jetpack.remove(p);
 			} else {

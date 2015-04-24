@@ -1,6 +1,7 @@
 package we.Heiden.gca.Events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,10 +30,13 @@ public class PlayerDropItem implements Listener {
 	@EventHandler
 	public void onPlayerItemDrop(PlayerDropItemEvent e) {
 		ItemStack c = e.getItemDrop().getItemStack();
+		Player p = e.getPlayer();
+		if (c.getType().equals(Material.INK_SACK) && (p.getOpenInventory() == null || !p.getOpenInventory().getTitle().equals(Bag.inventories.get(p).getTitle()))) {
+			e.setCancelled(true);
+		}
 		if (e.getItemDrop() != null) if (ItemUtils.getItem(e.getPlayer()).contains(c) || ItemUtils.weapons.contains(c) ||
 				(c.getType() == ItemUtils.Bullet().getType() && c.getItemMeta().getDisplayName().equals(ItemUtils.Bullet().getItemMeta().getDisplayName()))) {
-			Player p = e.getPlayer();
-			if (p.getOpenInventory() == null || !p.getOpenInventory().getTitle().equals(Bag.inventories.get(p).getTitle())) { e.setCancelled(true); p.updateInventory(); }
+			if (p.getOpenInventory() == null || !p.getOpenInventory().getTitle().equals(Bag.inventories.get(p).getTitle())) e.setCancelled(true);
 		}
 	}
 }

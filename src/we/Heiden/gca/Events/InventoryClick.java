@@ -190,6 +190,21 @@ public class InventoryClick implements Listener {
 					if (e.getInventory().contains(c)) {
 						e.setCancelled(true);
 						if (c.equals(CellPhone.call)) CellPhone.call(p);
+						else if (c.equals(CellPhone.message)) CellPhone.message(p);
+						else if (c.equals(CellPhone.inbox)) CellPhone.inbox(p, 1);
+						else if (c.equals(CellPhone.outbox)) CellPhone.outbox(p, 1);
+					}
+				} else if (invn.equals(CellPhone.inboxN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						if (c.equals(ItemUtils.Next())) CellPhone.nextInbox(p);
+						else if (c.equals(ItemUtils.Previous())) CellPhone.previousInbox(p);
+					}
+				} else if (invn.equals(CellPhone.outboxN)) {
+					if (e.getInventory().contains(c)) {
+						e.setCancelled(true);
+						if (c.equals(ItemUtils.Next())) CellPhone.nextOutbox(p);
+						else if (c.equals(ItemUtils.Previous())) CellPhone.previousOutbox(p);
 					}
 				}
 			}

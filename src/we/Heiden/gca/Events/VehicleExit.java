@@ -21,27 +21,35 @@ import we.Heiden.gca.Utils.ItemUtils;
 import we.Heiden.gca.core.Timer20T;
 
 /**
- * ********************************************* <p>
+ * *********************************************
+ * <p>
  * <b>This has been made by <i>Heiden Team</b>
  * <ul>
  * <li>Don't claim this class as your own
  * <li>Don't remove this disclaimer
  * </ul>
- *         <b>All rights reserved <p>
- *           Heiden Team 2015 <p></b>
- * ********************************************* 
+ * <b>All rights reserved
+ * <p>
+ * Heiden Team 2015
+ * <p>
+ * </b> *********************************************
  **/
 public class VehicleExit implements Listener {
-	
-	public VehicleExit(Plugin pl) {Bukkit.getPluginManager().registerEvents(this, pl);}
+
+	public VehicleExit(Plugin pl) {
+		Bukkit.getPluginManager().registerEvents(this, pl);
+	}
 
 	public static List<Player> confirm = new ArrayList<Player>();
 	public static HashMap<Player, Integer> delay = new HashMap<Player, Integer>();
-	
+
 	@EventHandler
 	public void onVehicleExit(VehicleExitEvent e) {
-		if (e.getVehicle() instanceof Minecart && e.getVehicle().getPassenger() instanceof Player) {
-			if (Cars.vehicles.containsKey(e.getVehicle()) && Cars.vehicles.get(e.getVehicle()).equals(e.getVehicle().getPassenger())) {
+		if (e.getVehicle() instanceof Minecart
+				&& e.getVehicle().getPassenger() instanceof Player) {
+			if (Cars.vehicles.containsKey(e.getVehicle())
+					&& Cars.vehicles.get(e.getVehicle()).equals(
+							e.getVehicle().getPassenger())) {
 				Player p = (Player) e.getVehicle().getPassenger();
 				if (!delay.containsKey(p)) {
 					Messager.load(p);
@@ -55,7 +63,8 @@ public class VehicleExit implements Listener {
 					} else {
 						Messager.s1("Successfully exited");
 						CMessager.load(p);
-						CMessager.e1("Your car will go in your garage in 5 minutes");
+						CMessager
+								.e1("Your car will go in your garage in 5 minutes");
 						Cars.vec.remove(p);
 						p.getInventory().setItem(6, Cars.enums.get(p).getKey());
 						p.getInventory().setItem(5, ItemUtils.Garage());
@@ -64,7 +73,8 @@ public class VehicleExit implements Listener {
 						Timer20T.toRemove.put(p, lo);
 					}
 					delay.put(p, 5);
-				} else e.setCancelled(true);
+				} else
+					e.setCancelled(true);
 			}
 		}
 	}

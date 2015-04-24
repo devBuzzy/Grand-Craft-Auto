@@ -19,6 +19,7 @@ import we.Heiden.gca.Functions.Tutorial;
 import we.Heiden.gca.NPCs.CustomVillager;
 import we.Heiden.gca.NPCs.NMSNpc;
 import we.Heiden.gca.NPCs.NPCs;
+import we.Heiden.gca.NPCs.PolicesNMS;
 import we.Heiden.gca.Pets.Ocelot;
 import we.Heiden.gca.Pets.Wolf;
 import we.Heiden.gca.Weapons.Weapons;
@@ -34,6 +35,7 @@ public class UtilsMain {
 		try { new HologramUtils().registerCustomEntity(CustomVillager.class, "Villager", 120); } catch(Exception ex) { }
 		try { new HologramUtils().registerCustomEntity(Wolf.class, "Wolf", 95); } catch(Exception ex) { }
 		try { new HologramUtils().registerCustomEntity(Ocelot.class, "Ozelot", 98); } catch(Exception ex) { }
+		try { new HologramUtils().registerCustomEntity(PolicesNMS.class, "Zombie", 54); } catch(Exception ex) { ex.printStackTrace(); }
 		ItemUtils.setup();
 		ItemUtils.setItems();
 		CarsEnum.setup();
@@ -89,6 +91,7 @@ public class UtilsMain {
 	public static void load(Player p) {
 		if (PlayerConfig.getFile() == null || !PlayerConfig.getFile().exists()) {
 			new PlayerConfig(p);
+			ItemUtils.items(p);
 			Location loc = Functions.loadLoc("Airport", p);
 			if (loc != null) {
 				p.teleport(loc);

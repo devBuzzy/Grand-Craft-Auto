@@ -9,21 +9,46 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Config {
 
-	static File folder = new File("plugins" + File.separator + "GrandCraftAuto" + File.separator);
-	static File cfile = new File(folder.getPath() + File.separator + "config.yml");
+	static File folder = new File("plugins" + File.separator + "GrandCraftAuto"
+			+ File.separator);
+	static File cfile = new File(folder.getPath() + File.separator
+			+ "config.yml");
 	static FileConfiguration fc;
-	
+
 	public Config() {
-		if (!folder.exists()) folder.mkdirs();
-		if (!cfile.exists()) try {cfile.createNewFile();
-		} catch(Exception ex) {Bukkit.broadcastMessage(ChatColor.RED + "Error when creating " + cfile.getName() + "!");}
+		if (!folder.exists())
+			folder.mkdirs();
+		if (!cfile.exists())
+			try {
+				cfile.createNewFile();
+			} catch (Exception ex) {
+				Bukkit.broadcastMessage(ChatColor.RED + "Error when creating "
+						+ cfile.getName() + "!");
+			}
 		fc = YamlConfiguration.loadConfiguration(cfile);
 	}
-	
-	public static FileConfiguration get() {return fc;}
-	
+
+	public static FileConfiguration get() {
+		return fc;
+	}
+
 	public static void save() {
-		try {fc.save(cfile);
-		} catch(Exception ex) {Bukkit.broadcastMessage(ChatColor.RED + "Error when saving " + cfile.getName() + "!");}
+		try {
+			fc.save(cfile);
+		} catch (Exception ex) {
+			Bukkit.broadcastMessage(ChatColor.RED + "Error when saving "
+					+ cfile.getName() + "!");
+		}
+	}
+
+	public void defaults() {
+		check("Polices Name", "&c&kI &1&lPolice &c&kI");
+		if (!fc.equals(YamlConfiguration.loadConfiguration(cfile)))
+			save();
+	}
+
+	private void check(String path, Object value) {
+		if (!fc.contains(path))
+			fc.set(path, value);
 	}
 }

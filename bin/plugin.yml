@@ -5,7 +5,7 @@ description: Do you wanna play GTA? You can do it now on Minecraft!
 author: Heiden Team
 
 commands:
-    test:
+    items:
     GarageSlot:
         aliases: [gslot, gs, garages, setgarageslot, sgs, sgslot, setgslot, setgarages, sgarages, setgslot]
     setGarageEntry:
@@ -35,3 +35,5 @@ commands:
         aliases: [h]
     Trade:
         aliases: [t]
+    Contact:
+        aliases: [agenda]
